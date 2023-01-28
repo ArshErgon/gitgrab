@@ -20,7 +20,7 @@ struct User {
     updated_at: String,
 }
 
-// it solves the None part of the panic when I will do the .unwrap for Option<String>
+// it solves the None part of the panic when I will do the .unwrap() for Option<String>
 impl User {
     fn new(
         login: String,
