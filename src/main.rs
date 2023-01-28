@@ -1,3 +1,4 @@
+// use clap::{arg, Command};
 mod get_full_view;
 mod github_logo_ascii;
 mod profile_header;
