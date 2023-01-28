@@ -3,7 +3,6 @@ use std::collections::HashMap;
 use colored::{Color, Colorize};
 
 fn print_logo(data_map: HashMap<String, &str>) {
-
     let msg = format!(
         r"             
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                           
@@ -25,27 +24,40 @@ fn print_logo(data_map: HashMap<String, &str>) {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀{cre}: {created}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⠿⠿⠀⠀⠀⠀⠀⠀⠀⠸⠿⠿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀{up}: {updated}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-    ",                      
+    ",
         username_top = data_map.get("username").unwrap().bright_cyan().bold(),
-        name = "Name".red().bold(), username = data_map.get("name").unwrap(),
-        comp = "Company".red().bold(), company = data_map.get("company").unwrap(),
-        loc = "Location".red().bold(), location = data_map.get("location").unwrap(),
-        bl = "Blog".red().bold(), blog = data_map.get("blog").unwrap(),
-        st = "Star".red().bold(), star = data_map.get("star").unwrap(),
-        fk = "Fork".red().bold(), fork = data_map.get("fork").unwrap(),
-        lg = "Top lang".red().bold(), top_lang = data_map.get("top_lang").unwrap(),
-        rep = "Repos".red().bold(), repos = data_map.get("repos").unwrap(),
-        foll = "Followers".red().bold(), followers = data_map.get("followers").unwrap(),
-        follw = "Following".red().bold(), following = data_map.get("following").unwrap(),
-        bi = "Bio".red().bold(), bio = data_map.get("bio").unwrap(),
-        tw = "Twitter".red().bold(), twitter = data_map.get("twitter").unwrap(),
-        em = "Email".red().bold(), email = data_map.get("email").unwrap(),
-        cre = "Created".red().bold(), created = data_map.get("created").unwrap(),
-        up = "Updated".red().bold(), updated = data_map.get("updated").unwrap(),
-        
+        name = "Name".red().bold(),
+        username = data_map.get("name").unwrap(),
+        comp = "Company".red().bold(),
+        company = data_map.get("company").unwrap(),
+        loc = "Location".red().bold(),
+        location = data_map.get("location").unwrap(),
+        bl = "Blog".red().bold(),
+        blog = data_map.get("blog").unwrap(),
+        st = "Star".red().bold(),
+        star = data_map.get("star").unwrap(),
+        fk = "Fork".red().bold(),
+        fork = data_map.get("fork").unwrap(),
+        lg = "Top lang".red().bold(),
+        top_lang = data_map.get("top_lang").unwrap(),
+        rep = "Repos".red().bold(),
+        repos = data_map.get("repos").unwrap(),
+        foll = "Followers".red().bold(),
+        followers = data_map.get("followers").unwrap(),
+        follw = "Following".red().bold(),
+        following = data_map.get("following").unwrap(),
+        bi = "Bio".red().bold(),
+        bio = data_map.get("bio").unwrap(),
+        tw = "Twitter".red().bold(),
+        twitter = data_map.get("twitter").unwrap(),
+        em = "Email".red().bold(),
+        email = data_map.get("email").unwrap(),
+        cre = "Created".red().bold(),
+        created = data_map.get("created").unwrap(),
+        up = "Updated".red().bold(),
+        updated = data_map.get("updated").unwrap(),
     );
     println!("{msg}");
-
 }
 
 pub fn print_formatter(
@@ -67,7 +79,6 @@ pub fn print_formatter(
     )>,
     data_map: HashMap<String, u32>,
 ) {
-
     // println!("{}", header_git_data[0].0);
 
     let mut git_map: HashMap<String, &str> = HashMap::new();
@@ -97,12 +108,9 @@ pub fn print_formatter(
     let max_key = find_max_key(data_map);
 
     git_map.insert("top_lang".to_string(), max_key.as_str());
-    
+
     print_logo(git_map);
-
 }
-
-
 
 fn find_max_key(data_map: HashMap<String, u32>) -> String {
     let mut max_val: u32 = 0;
@@ -114,9 +122,9 @@ fn find_max_key(data_map: HashMap<String, u32>) -> String {
 
     let mut max_key = String::new();
     for (key, val) in data_map {
-      if (!(key == "Star".to_string() || key == "Fork".to_string())) && val == max_val {
+        if (!(key == "Star".to_string() || key == "Fork".to_string())) && val == max_val {
             max_key = key;
-            break
+            break;
         }
     }
 
