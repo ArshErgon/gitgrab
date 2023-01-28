@@ -79,7 +79,6 @@ pub fn print_formatter(
     )>,
     data_map: HashMap<String, u32>,
 ) {
-
     let mut git_map: HashMap<String, &str> = HashMap::new();
     git_map.insert("username".to_string(), header_git_data[0].0.as_str());
     git_map.insert("name".to_string(), header_git_data[0].1.as_str());
