@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use colored::{Color, Colorize};
+use colored::{self, Colorize};
 
 fn print_logo(data_map: HashMap<String, &str>) {
     let msg = format!(
@@ -72,8 +72,8 @@ pub fn print_formatter(
         String,
         i32,
         i32,
-        i64,
-        i64,
+        i32,
+        i32,
         String,
         String,
     )>,
@@ -90,18 +90,19 @@ pub fn print_formatter(
     git_map.insert("bio".to_string(), header_git_data[0].5.as_str());
     git_map.insert("twitter".to_string(), header_git_data[0].6.as_str());
     git_map.insert("email".to_string(), header_git_data[0].7.as_str());
-    let repo = header_git_data[0].8.to_string();
-    let gists_two = header_git_data[0].9.to_string();
-    let followers = header_git_data[0].10.to_string();
-    let following = header_git_data[0].11.to_string();
+    let repo = add_k(header_git_data[0].8);
+
+    let gists_two = add_k(header_git_data[0].9);
+    let followers = add_k(header_git_data[0].10);
+    let following = add_k(header_git_data[0].11);
     git_map.insert("repos".to_string(), repo.as_str());
     git_map.insert("gists".to_string(), gists_two.as_str());
     git_map.insert("followers".to_string(), followers.as_str());
     git_map.insert("following".to_string(), following.as_str());
     git_map.insert("created".to_string(), header_git_data[0].12.as_str());
     git_map.insert("updated".to_string(), header_git_data[0].13.as_str());
-    let stars = data_map["Star"].to_string();
-    let forks = data_map["Fork"].to_string();
+    let stars = add_k(data_map["Star"].try_into().unwrap());
+    let forks = add_k(data_map["Fork"].try_into().unwrap());
     git_map.insert("star".to_string(), stars.as_str());
     git_map.insert("fork".to_string(), forks.as_str());
 
@@ -129,4 +130,16 @@ fn find_max_key(data_map: HashMap<String, u32>) -> String {
     }
 
     max_key
+}
+
+fn add_k(num: i32) -> String {
+    let ans = if num >= 1000 {
+        let decimal_star = num as f32 / 1000.0;
+        let num = format!("{:.1}k", decimal_star);
+        num
+    } else {
+        println!("{num}");
+        num.to_string()
+    };
+    ans
 }
