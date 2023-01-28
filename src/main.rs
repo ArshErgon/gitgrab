@@ -22,7 +22,7 @@ fn main() {
                 .short("u")
                 .long("user")
                 .value_name("username")
-                .help("ex: gitfetch USERNAME")
+                .help("saves the username, so that you don't have to put your username over again.")
                 .takes_value(true),
         )
         .arg(
@@ -38,7 +38,7 @@ fn main() {
                 .short("a")
                 .long("author")
                 .value_name("author")
-                .help("Show the information about the creator of gitfetch")
+                .help("Show the information about the creator of gitfetch ex: gitfetch -a")
                 .takes_value(false),
         )
         .get_matches();
