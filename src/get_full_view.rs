@@ -8,7 +8,6 @@ struct Repository {
     name: String,
     stargazers_count: u32,
     forks_count: u32,
-    #[serde(default)]
     language: Option<String>,
 }
 
