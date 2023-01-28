@@ -2,8 +2,7 @@
 name = "gitfetch"
 version = "0.1.0"
 edition = "2021"
-author = "ArshErgon"
-contact = ["arshergon@gmail.com", "https://www.linkedin.com/in/arsh-ergon/"]
+authors = ["ArshErgon", "arshergon@gmail.com", "https://www.linkedin.com/in/arsh-ergon/"]
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
