@@ -14,8 +14,8 @@ struct User {
     email: Option<String>,
     public_repos: i32,
     public_gists: i32,
-    followers: i64,
-    following: i64,
+    followers: i32,
+    following: i32,
     created_at: String,
     updated_at: String,
 }
@@ -33,8 +33,8 @@ impl User {
         email: Option<String>,
         public_repos: i32,
         public_gists: i32,
-        followers: i64,
-        following: i64,
+        followers: i32,
+        following: i32,
         created_at: String,
         updated_at: String,
     ) -> Self {
@@ -73,8 +73,8 @@ async fn main_info(
         String,
         i32,
         i32,
-        i64,
-        i64,
+        i32,
+        i32,
         String,
         String,
     )>,
@@ -121,8 +121,8 @@ async fn main_info(
         String,
         i32,
         i32,
-        i64,
-        i64,
+        i32,
+        i32,
         String,
         String,
     )> = vec![(
@@ -147,26 +147,6 @@ async fn main_info(
     Ok(data_vec)
 }
 
-fn formatter(
-    data_vec: Vec<(
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        i32,
-        i32,
-        i64,
-        i64,
-        String,
-        String,
-    )>,
-) {
-}
-
 pub fn start_info(
     user: &str,
     secret_key: String,
@@ -181,8 +161,8 @@ pub fn start_info(
     String,
     i32,
     i32,
-    i64,
-    i64,
+    i32,
+    i32,
     String,
     String,
 )> {
