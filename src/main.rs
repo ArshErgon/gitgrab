@@ -14,7 +14,15 @@ use std::path::Path;
 
 fn main() {
     let matches = App::new("Gitfetch")
-        .version("0.1.0")
+        .version(r"
+    _____ _ _   ______   _       _ 
+    / ____(_) | |  ____| | |     | |    
+   | |  __ _| |_| |__ ___| |_ ___| |__  
+   | | |_ | | __|  __/ _ \ __/ __| '_ \ 
+   | |__| | | |_| | |  __/ || (__| | | |
+    \_____|_|\__|_|  \___|\__\___|_| |_|
+                                        
+        ")
         .about("Just like `Neofetch` but for GitHub!")
         .author("https://github.com/ArshErgon/gitfetch/")
         .arg(
@@ -30,7 +38,7 @@ fn main() {
                 .short("t")
                 .long("temporally")
                 .value_name("temp")
-                .help("Show an user info temporally, ex: ex: gitfetch -t USERNAME")
+                .help("Show an user info temporally, ex: gitfetch -t USERNAME")
                 .takes_value(true),
         )
         .arg(
