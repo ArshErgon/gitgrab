@@ -16,7 +16,8 @@ For running it on Linux or MacOS(not tested) download the binary [here](https://
 $ sudo install -c gitfetch /usr/local/bin
 check
 $ gitfetch -h
-    _____ _ _   ______   _       _ 
+Gitfetch 
+     _____ _ _   ______   _       _ 
     / ____(_) | |  ____| | |     | |    
    | |  __ _| |_| |__ ___| |_ ___| |__  
    | | |_ | | __|  __/ _ \ __/ __| '_ \ 
@@ -36,8 +37,9 @@ FLAGS:
     -V, --version    Prints version information
 
 OPTIONS:
-    -t, --temporally <temp>    Show an user info temporally, ex: ex: gitfetch -t USERNAME
+    -t, --temporally <temp>    Show an user info temporally, ex: gitfetch -t USERNAME
     -u, --user <username>      saves the username, so that you don't have to put your username over again.
+
 ```
 ## Windows
 ```git
