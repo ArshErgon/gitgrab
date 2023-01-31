@@ -127,15 +127,13 @@ async fn main_info(
         String,
     )> = vec![(
         github_data.login,
-        // yes .unwrap would work here, cause we already handle the none case above.
-        // doing it so it don't get broke, will remove it.
-        github_data.name.unwrap_or("NA".to_string()),
-        github_data.company.unwrap_or("NA".to_string()),
-        github_data.blog.unwrap_or("NA".to_string()),
-        github_data.location.unwrap_or("NA".to_string()),
-        github_data.bio.unwrap_or("NA".to_string()),
-        github_data.twitter_username.unwrap_or("NA".to_string()),
-        github_data.email.unwrap_or("NA".to_string()),
+        github_data.name.unwrap(),
+        github_data.company.unwrap(),
+        github_data.blog.unwrap(),
+        github_data.location.unwrap(),
+        github_data.bio.unwrap(),
+        github_data.twitter_username.unwrap(),
+        github_data.email.unwrap(),
         github_data.public_repos,
         github_data.public_gists,
         github_data.followers,
