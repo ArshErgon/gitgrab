@@ -8,7 +8,7 @@
 
 **Like neofetch but for GitHub**
 > The approach of seeing your OS details, in `Neofetch` on terminal is cool, I thought why not for github as I'm using github on daily purpose and I need to check about my followers and stars etc, going back and forth on google and then github I found that a lot of work, I'm lazy.
-
+[img](https://github.com/ArshErgon/gitfetch/blob/main/gitfetch.gif)
 # Commands
 ```rust
 $ gitfetch -u USERNAME (it will add the user, after then you can run gitfetch without adding your name again)
