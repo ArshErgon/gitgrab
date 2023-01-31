@@ -2,6 +2,7 @@
 #![allow(unused)]
 
 use clap::{App, Arg};
+use colored::Colorize;
 mod get_full_view;
 mod github_logo_ascii;
 mod profile_header;
@@ -15,7 +16,7 @@ use std::path::Path;
 fn main() {
     let matches = App::new("Gitfetch")
         .version(r"
-    _____ _ _   ______   _       _ 
+     _____ _ _   ______   _       _ 
     / ____(_) | |  ____| | |     | |    
    | |  __ _| |_| |__ ___| |_ ___| |__  
    | | |_ | | __|  __/ _ \ __/ __| '_ \ 
@@ -70,7 +71,7 @@ fn main() {
     } else if arg_user != "None" || matches.is_present("username") {
         // to configure a user to use without adding -u username next time.
         let home_dirs = env::var_os("HOME").unwrap();
-        let file_path = home_dirs.into_string().unwrap() + "/gitfetchUser.txt";
+        let file_path = home_dirs.into_string().unwrap() + "/gitFetchUser.txt";
         let mut file = match fs::OpenOptions::new()
             .create(true)
             .write(true)
@@ -87,11 +88,18 @@ fn main() {
     } else {
         // if the command is empty gitfetch.
         let home_dir = env::var_os("HOME").expect("Cannot get home directory!");
-        let file_path = Path::new(&home_dir).join("gitfetchUser.txt");
+        let file_path = Path::new(&home_dir).join("gitFetchUser.txt");
+        let error_msg = format!(
+            "{oops} got an error. \
+            This error happend because
+            1. gitFetchUser.txt could be found.
+            2. Or the Home Directory can not be located. \n
+            gitfetch -u {username} or $ gitfetch -t {username}" 
+        , oops = "Oops".red().bold(), username = "USERNAME".cyan().bright_blue().bold() );
         let file = match fs::read_to_string(file_path) {
             Ok(contents) => contents,
             Err(e) => {
-                println!("Oops! got an error can you please try: gitfetch -u YOUR_USERNAME. If the problem stays the same, write an issue here: https://github.com/ArshErgon/gitfetch/issues");
+                println!("{error_msg}");
                 return;
             }
         };
