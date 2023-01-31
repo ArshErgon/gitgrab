@@ -49,6 +49,8 @@ pub async fn start(
 
     // count the stars, forks and Languages
     let mut star_lang_fork_count = HashMap::new();
+    star_lang_fork_count.insert("Star".to_string(), 0);
+    star_lang_fork_count.insert("Fork".to_string(), 0);
     for i in 0..length {
         if data[i].3 != "NA".to_string() {
             let count = star_lang_fork_count.entry(data[i].3.clone()).or_insert(0);
@@ -68,6 +70,7 @@ pub async fn start(
 
     // simple percentage for the top lang use.
     // added a checker to not make percentage value for star count and fork count
+    // will be using it later in the program as the program gets big
     for (key, val) in star_lang_fork_count.clone() {
         let percentage = ((val as f32 / 8 as f32) * 100.0) as u32;
         if !(key == "Star".to_string() || key == "Fork".to_string()) {
