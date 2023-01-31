@@ -81,6 +81,6 @@ pub async fn start(
     Ok(star_lang_fork_count)
 }
 
-pub fn starrt(user: &str, secret_key: String) -> HashMap<String, u32> {
+pub fn start_full_view(user: &str, secret_key: String) -> HashMap<String, u32> {
     start(user, secret_key).unwrap()
 }

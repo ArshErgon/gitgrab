@@ -145,7 +145,7 @@ async fn main_info(
     Ok(data_vec)
 }
 
-pub fn start_info(
+pub fn start_header_info(
     user: &str,
     secret_key: String,
 ) -> Vec<(

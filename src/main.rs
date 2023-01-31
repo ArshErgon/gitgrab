@@ -109,7 +109,7 @@ fn main() {
 
 fn start_the_project(arg: &str) {
     let secret_key = "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".to_string();
-    let header_git_data = profile_header::start_info(arg, secret_key.clone());
-    let full_data = get_full_view::starrt(arg, secret_key.clone());
+    let header_git_data = profile_header::start_header_info(arg, secret_key.clone());
+    let full_data = get_full_view::start_full_view(arg, secret_key.clone());
     github_logo_ascii::print_formatter(header_git_data, full_data);
 }
