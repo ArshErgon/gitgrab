@@ -15,7 +15,8 @@ use std::path::Path;
 
 fn main() {
     let matches = App::new("Gitfetch")
-        .version(r"
+        .version(
+            r"
      _____ _ _   ______   _       _ 
     / ____(_) | |  ____| | |     | |    
    | |  __ _| |_| |__ ___| |_ ___| |__  
@@ -23,7 +24,8 @@ fn main() {
    | |__| | | |_| | |  __/ || (__| | | |
     \_____|_|\__|_|  \___|\__\___|_| |_|
                                         
-        ")
+        ",
+        )
         .about("Just like `Neofetch` but for GitHub!")
         .author("https://github.com/ArshErgon/gitfetch/")
         .arg(
@@ -94,8 +96,10 @@ fn main() {
             This error happend because
             1. gitFetchUser.txt could be found.
             2. Or the Home Directory can not be located. \n
-            gitfetch -u {username} or $ gitfetch -t {username}" 
-        , oops = "Oops".red().bold(), username = "USERNAME".cyan().bright_blue().bold() );
+            gitfetch -u {username} or $ gitfetch -t {username}",
+            oops = "Oops".red().bold(),
+            username = "USERNAME".cyan().bright_blue().bold()
+        );
         let file = match fs::read_to_string(file_path) {
             Ok(contents) => contents,
             Err(e) => {
