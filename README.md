@@ -9,6 +9,13 @@
 **Like neofetch but for GitHub**
 > The approach of seeing your OS details, in `Neofetch` on terminal is cool, I thought why not for github as I'm using github on daily purpose and I need to check about my followers and stars etc, going back and forth on google and then github I found that a lot of work, I'm lazy.
 
+# Commands
+```rust
+$ gitfetch -u USERNAME (it will add the user, after then you can run gitfetch without adding your name again)
+$ gitfetch -t USERNAME (show a username temporary)
+$ gitfetch -h (help)
+$ gitfetch -a (shows the author information)
+```
 # Running it locally Or Installing for your OS
 ## Linux Or MacOS
 For running it on Linux or MacOS(not tested) download the binary [here](https://github.com/ArshErgon/gitfetch/blob/main/download/linux_&_macOS)
