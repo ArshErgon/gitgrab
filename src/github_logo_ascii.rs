@@ -4,8 +4,8 @@ use colored::{self, Colorize};
 
 fn print_logo(data_map: HashMap<String, &str>) {
     let msg = format!(
-        r"             
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀                           
+        r"
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                                                         github@{username_top}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      ⣀⣠⣤⣤⣤⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    {name}: {username}
@@ -61,44 +61,29 @@ fn print_logo(data_map: HashMap<String, &str>) {
 }
 
 pub fn print_formatter(
-    header_git_data: Vec<(
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        i32,
-        i32,
-        i32,
-        i32,
-        String,
-        String,
-    )>,
+    header_git_data: Vec<String>,
     data_map: HashMap<String, u32>,
 ) {
     let mut git_map: HashMap<String, &str> = HashMap::new();
-    git_map.insert("username".to_string(), header_git_data[0].0.as_str());
-    git_map.insert("name".to_string(), header_git_data[0].1.as_str());
-    git_map.insert("company".to_string(), header_git_data[0].2.as_str());
-    git_map.insert("blog".to_string(), header_git_data[0].3.as_str());
-    git_map.insert("location".to_string(), header_git_data[0].4.as_str());
-    git_map.insert("bio".to_string(), header_git_data[0].5.as_str());
-    git_map.insert("twitter".to_string(), header_git_data[0].6.as_str());
-    git_map.insert("email".to_string(), header_git_data[0].7.as_str());
-    let repo = add_k(header_git_data[0].8);
+    git_map.insert("username".to_string(), header_git_data[0].as_str());
+    git_map.insert("name".to_string(), header_git_data[1].as_str());
+    git_map.insert("company".to_string(), header_git_data[2].as_str());
+    git_map.insert("blog".to_string(), header_git_data[3].as_str());
+    git_map.insert("location".to_string(), header_git_data[4].as_str());
+    git_map.insert("bio".to_string(), header_git_data[5].as_str());
+    git_map.insert("twitter".to_string(), header_git_data[6].as_str());
+    git_map.insert("email".to_string(), header_git_data[7].as_str());
+    let repo = add_k(header_git_data[8].parse::<i32>().unwrap());
 
-    let gists_two = add_k(header_git_data[0].9);
-    let followers = add_k(header_git_data[0].10);
-    let following = add_k(header_git_data[0].11);
+    let gists_two = add_k(header_git_data[9].parse::<i32>().unwrap());
+    let followers = add_k(header_git_data[10].parse::<i32>().unwrap());
+    let following = add_k(header_git_data[11].parse::<i32>().unwrap());
     git_map.insert("repos".to_string(), repo.as_str());
     git_map.insert("gists".to_string(), gists_two.as_str());
     git_map.insert("followers".to_string(), followers.as_str());
     git_map.insert("following".to_string(), following.as_str());
-    git_map.insert("created".to_string(), header_git_data[0].12.as_str());
-    git_map.insert("updated".to_string(), header_git_data[0].13.as_str());
+    git_map.insert("created".to_string(), header_git_data[12].as_str());
+    git_map.insert("updated".to_string(), header_git_data[13].as_str());
     let stars = add_k(data_map["Star"].try_into().unwrap());
     let forks = add_k(data_map["Fork"].try_into().unwrap());
     git_map.insert("star".to_string(), stars.as_str());
