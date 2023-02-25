@@ -12,10 +12,10 @@ struct User {
     bio: Option<String>,
     twitter_username: Option<String>,
     email: Option<String>,
-    public_repos: i32,
-    public_gists: i32,
-    followers: i32,
-    following: i32,
+    public_repos: Option<String>,
+    public_gists: Option<String>,
+    followers: Option<String>,
+    following: Option<String>,
     created_at: String,
     updated_at: String,
 }
@@ -31,10 +31,10 @@ impl User {
         bio: Option<String>,
         twitter_username: Option<String>,
         email: Option<String>,
-        public_repos: i32,
-        public_gists: i32,
-        followers: i32,
-        following: i32,
+        public_repos: Option<String>,
+        public_gists: Option<String>,
+        followers: Option<String>,
+        following: Option<String>,
         created_at: String,
         updated_at: String,
     ) -> Self {
@@ -47,10 +47,10 @@ impl User {
             bio: Some(bio.unwrap_or_else(|| "NA".to_string())),
             twitter_username: Some(twitter_username.unwrap_or_else(|| "NA".to_string())),
             email: Some(email.unwrap_or_else(|| "NA".to_string())),
-            public_repos,
-            public_gists,
-            followers,
-            following,
+            public_repos: Some(public_repos.unwrap_or_else(|| "0".to_string())),
+            public_gists: Some(public_gists.unwrap_or_else(|| "0".to_string())),
+            followers: Some(followers.unwrap_or_else(|| "0".to_string())),
+            following: Some(following.unwrap_or_else(|| "0".to_string())),
             created_at,
             updated_at,
         }
@@ -62,22 +62,7 @@ async fn main_info(
     user: &str,
     secret_key: String,
 ) -> Result<
-    Vec<(
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        i32,
-        i32,
-        i32,
-        i32,
-        String,
-        String,
-    )>,
+    &[String],
     Box<dyn std::error::Error>,
 > {
     let client = Client::new();
@@ -110,22 +95,7 @@ async fn main_info(
         Err(e) => return Err(e.into()),
     };
 
-    let data_vec: Vec<(
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        i32,
-        i32,
-        i32,
-        i32,
-        String,
-        String,
-    )> = vec![(
+    let data_vec = vec![
         github_data.login,
         github_data.name.unwrap(),
         github_data.company.unwrap(),
@@ -134,13 +104,13 @@ async fn main_info(
         github_data.bio.unwrap(),
         github_data.twitter_username.unwrap(),
         github_data.email.unwrap(),
-        github_data.public_repos,
-        github_data.public_gists,
-        github_data.followers,
-        github_data.following,
+        github_data.public_repos.unwrap(),
+        github_data.public_gists.unwrap(),
+        github_data.followers.unwrap(),
+        github_data.following.unwrap(),
         github_data.created_at,
         github_data.updated_at,
-    )];
+    ];
 
     Ok(data_vec)
 }
@@ -148,7 +118,7 @@ async fn main_info(
 pub fn start_header_info(
     user: &str,
     secret_key: String,
-) -> Vec<(
+) -> Vec<
     String,
     String,
     String,
@@ -157,13 +127,13 @@ pub fn start_header_info(
     String,
     String,
     String,
-    i32,
-    i32,
-    i32,
-    i32,
     String,
     String,
-)> {
+    String,
+    String,
+    String,
+    String,
+> {
     let data = main_info(user, secret_key).unwrap();
     data
 }
