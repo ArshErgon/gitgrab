@@ -113,7 +113,5 @@ async fn main_info(
 }
 
 pub fn start_header_info(user: &str, secret_key: String) -> Vec<String> {
-    let data = main_info(user, secret_key).unwrap();
-    data
-    
+    main_info(user, secret_key).unwrap()
 }
