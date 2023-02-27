@@ -7,6 +7,7 @@ mod get_full_view;
 mod github_logo_ascii;
 mod profile_header;
 
+use std::collections::HashMap;
 use std::env;
 use std::fs::{self, File};
 use std::io::prelude::*;
@@ -115,5 +116,6 @@ fn start_the_project(arg: &str) {
     let secret_key = "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".to_string();
     let header_git_data = profile_header::start_header_info(arg, secret_key.clone());
     let full_data = get_full_view::start_full_view(arg, secret_key.clone());
-    github_logo_ascii::print_formatter(header_git_data, full_data);
+    github_logo_ascii::print_formatter(header_git_data, full_data.clone());
+    get_full_view::printing_full_profile_view(full_data);
 }
