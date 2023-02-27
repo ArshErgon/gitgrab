@@ -1,9 +1,8 @@
+use colored::Colorize;
 use reqwest::Client;
 use serde::Deserialize;
 use std::collections::HashMap;
-use std::{thread, time::Duration, time};
-use termion::{color, style};
-
+use std::{thread, time, time::Duration};
 
 extern crate colorful;
 
@@ -103,15 +102,6 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
     ██║   ██║██║   ██║   ██╔══╝  ██╔══╝     ██║   ██║     ██╔══██║
     ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
      ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0  
-
-      name:
-      username:
-    location:
-    bio/blog
-    Repos
-    following:
-    followers:
-
  "
     );
 
@@ -128,23 +118,32 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
     for (key, value) in data_map {
         if !(key == "Star" || key == "Fork") {
             // progress_bar(key, value);
-            values.push(value as f64);
+            if value > 100 {
+                values.push(100.0);
+            } else {
+                values.push(value as f64);
+            }
             languages.push(key);
         }
     }
-    progress_bar(values, languages)
+    // progress_bar(values, languages);
 }
 
 fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
     let s = "█";
-    println!("{}\n", "Most Loved, Dreaded, and Wanted Languages".red());
-    
+    println!("{}\n", "Top languages".bright_red().bold());
+
     let c = languages.iter().max_by_key(|x| x.len()).unwrap();
 
     for (i, value) in values.iter().enumerate() {
         let h = (*value as f32 * 15.0 % 360.0) / 360.0;
         let length = (value - 30.0) as usize;
-        println!("{:<width$} | {} {}%\n", languages.get(i).unwrap(), s.repeat(length).gradient(HSL::new(h, 1.0, 0.5)), value, width = c.len());
+        println!(
+            " {:<width$} | {} {}%\n",
+            languages.get(i).unwrap(),
+            s.repeat(length).gradient(HSL::new(h, 1.0, 0.5)),
+            value,
+            width = c.len()
+        );
     }
-
 }
