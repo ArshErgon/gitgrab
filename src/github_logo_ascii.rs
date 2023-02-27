@@ -120,20 +120,13 @@ pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u
 
 fn find_max_key(data_map: HashMap<String, u32>) -> String {
     let mut max_val: u32 = 0;
-    for (key, val) in data_map.clone() {
-        if (!(key == "Star".to_string() || key == "Fork".to_string())) && val > max_val {
-            max_val = val;
-        }
-    }
-
     let mut max_key = String::new();
     for (key, val) in data_map {
-        if (!(key == "Star".to_string() || key == "Fork".to_string())) && val == max_val {
+        if (!(key == "Star".to_string() || key == "Fork".to_string())) && val > max_val {
+            max_val = val;
             max_key = key;
-            break;
         }
     }
-
     max_key
 }
 
