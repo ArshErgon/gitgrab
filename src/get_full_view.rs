@@ -126,7 +126,7 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
             languages.push(key);
         }
     }
-    // progress_bar(values, languages);
+    progress_bar(values, languages);
 }
 
 fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
