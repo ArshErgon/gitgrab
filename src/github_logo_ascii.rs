@@ -24,7 +24,8 @@ fn print_logo(data_map: HashMap<String, &str>) {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀    {cre}: {created}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⠿⠿⠀⠀⠀⠀⠀⠀⠀⠸⠿⠿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    {up}: {updated}
 
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {red}{green}{yellow}{blue}{purple}{white}
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {red_bright}{green_bright}{yellow_bright}{blue_bright}{purple_bright}{white_bright}
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {light_red}{light_green}{light_yellow}{light_blue}{light_purple}{light_white}
     ",
         username_top = data_map.get("username").unwrap().bright_cyan().bold(),
         name = "Name".red().bold(),
@@ -57,12 +58,18 @@ fn print_logo(data_map: HashMap<String, &str>) {
         created = data_map.get("created").unwrap(),
         up = "Updated".red().bold(),
         updated = data_map.get("updated").unwrap(),
-        red = "████".bright_red(),
-        green = "████".bright_green(),
-        yellow = "████".bright_yellow(),
-        blue = "████".bright_blue(),
-        purple = "████".bright_purple(),
-        white = "████".bright_white(),
+        red_bright = "████".bright_red(),
+        green_bright = "████".bright_green(),
+        yellow_bright = "████".bright_yellow(),
+        blue_bright = "████".bright_blue(),
+        purple_bright = "████".bright_purple(),
+        white_bright = "████".bright_white(),
+        light_red = "████".red(),
+        light_green = "████".green(),
+        light_yellow = "████".yellow(),
+        light_blue = "████".blue(),
+        light_purple = "████".purple(),
+        light_white = "████".white(),
     );
     println!("{msg}");
 }
