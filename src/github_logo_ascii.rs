@@ -7,7 +7,7 @@ fn print_logo(data_map: HashMap<String, &str>) {
         r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
                                                         github@{username_top}
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      ⣀⣠⣤⣤⣤⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀      ⣀⣠⣤⣤⣤⣤⣤⣤⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀------------------------------
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    {name}: {username}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⡀⠀⠀⠀⠀⠀⠀⠀    {comp}: {company}
 ⠀⠀⠀⠀⠀⠀⠀⢀⣴⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀    {loc}: {location}
@@ -23,7 +23,8 @@ fn print_logo(data_map: HashMap<String, &str>) {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠙⣿⣿⣿⣤⣄⣉⣉⣀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⡟⠁⠀⠀⠀⠀⠀⠀    {em}: {email}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⢿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀    {cre}: {created}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠙⠿⠿⠿⠀⠀⠀⠀⠀⠀⠀⠸⠿⠿⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀    {up}: {updated}
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {red}{green}{yellow}{blue}{purple}{white}
     ",
         username_top = data_map.get("username").unwrap().bright_cyan().bold(),
         name = "Name".red().bold(),
@@ -56,21 +57,34 @@ fn print_logo(data_map: HashMap<String, &str>) {
         created = data_map.get("created").unwrap(),
         up = "Updated".red().bold(),
         updated = data_map.get("updated").unwrap(),
+        red = "████".bright_red(),
+        green = "████".bright_green(),
+        yellow = "████".bright_yellow(),
+        blue = "████".bright_blue(),
+        purple = "████".bright_purple(),
+        white = "████".bright_white(),
     );
     println!("{msg}");
 }
 
-pub fn print_formatter(
-    header_git_data: Vec<String>,
-    data_map: HashMap<String, u32>,
-) {
+pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u32>) {
     let mut git_map: HashMap<String, &str> = HashMap::new();
     git_map.insert("username".to_string(), header_git_data[0].as_str());
     git_map.insert("name".to_string(), header_git_data[1].as_str());
     git_map.insert("company".to_string(), header_git_data[2].as_str());
-    git_map.insert("blog".to_string(), header_git_data[3].as_str());
+    let blog_value = if header_git_data[3].len() > 30 {
+        header_git_data[3][0..25].as_ref()
+    } else {
+        header_git_data[3].as_str()
+    };
+    git_map.insert("blog".to_string(), blog_value);
     git_map.insert("location".to_string(), header_git_data[4].as_str());
-    git_map.insert("bio".to_string(), header_git_data[5].as_str());
+    let bio_value = if header_git_data[5].len() > 30 {
+        header_git_data[5][0..25].as_ref()
+    } else {
+        header_git_data[5].as_str()
+    };
+    git_map.insert("bio".to_string(), bio_value);
     git_map.insert("twitter".to_string(), header_git_data[6].as_str());
     git_map.insert("email".to_string(), header_git_data[7].as_str());
     let repo = add_k(header_git_data[8].parse::<i32>().unwrap());
