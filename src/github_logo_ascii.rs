@@ -3,6 +3,7 @@ use std::collections::HashMap;
 use colored::{self, Colorize};
 
 fn print_logo(data_map: HashMap<String, &str>) {
+    const BAR: &str = "████";
     let msg = format!(
         r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -58,18 +59,18 @@ fn print_logo(data_map: HashMap<String, &str>) {
         created = data_map.get("created").unwrap(),
         up = "Updated".red().bold(),
         updated = data_map.get("updated").unwrap(),
-        red_bright = "████".bright_red(),
-        green_bright = "████".bright_green(),
-        yellow_bright = "████".bright_yellow(),
-        blue_bright = "████".bright_blue(),
-        purple_bright = "████".bright_purple(),
-        white_bright = "████".bright_white(),
-        light_red = "████".red(),
-        light_green = "████".green(),
-        light_yellow = "████".yellow(),
-        light_blue = "████".blue(),
-        light_purple = "████".purple(),
-        light_white = "████".white(),
+        red_bright = BAR.bright_red(),
+        green_bright = BAR.bright_green(),
+        yellow_bright = BAR.bright_yellow(),
+        blue_bright = BAR.bright_blue(),
+        purple_bright = BAR.bright_purple(),
+        white_bright = BAR.bright_white(),
+        light_red = BAR.red(),
+        light_green = BAR.green(),
+        light_yellow = BAR.yellow(),
+        light_blue = BAR.blue(),
+        light_purple = BAR.purple(),
+        light_white = BAR.white(),
     );
     println!("{msg}");
 }
