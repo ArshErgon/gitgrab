@@ -1,4 +1,3 @@
-
 use reqwest::Client;
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -6,8 +5,8 @@ use std::{thread, time, time::Duration};
 
 extern crate colorful;
 
-use colorful::{Colorful, Color};
 use colorful::HSL;
+use colorful::{Color, Colorful};
 
 #[derive(Deserialize, Debug)]
 struct Repository {
