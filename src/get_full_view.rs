@@ -1,4 +1,4 @@
-use colored::Colorize;
+
 use reqwest::Client;
 use serde::Deserialize;
 use std::collections::HashMap;
@@ -6,7 +6,7 @@ use std::{thread, time, time::Duration};
 
 extern crate colorful;
 
-use colorful::Colorful;
+use colorful::{Colorful, Color};
 use colorful::HSL;
 
 #[derive(Deserialize, Debug)]
@@ -131,7 +131,9 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
 
 fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
     let s = "█";
-    println!("{}\n", "Top languages".bright_red().bold());
+    let txt = "Top languages";
+    txt.rainbow_with_speed(3);
+    println!(" {}\n", txt.gradient(Color::Red));
 
     let c = languages.iter().max_by_key(|x| x.len()).unwrap();
 
