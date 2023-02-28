@@ -91,26 +91,27 @@ pub fn start_full_view(user: &str, secret_key: String) -> HashMap<String, u32> {
 }
 
 pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
-    let header_logo = format!(
-        r"
-    
-
-     ██████╗ ██╗████████╗███████╗███████╗████████╗ ██████╗██╗  ██╗
-    ██╔════╝ ██║╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██╔════╝██║  ██║
-    ██║  ███╗██║   ██║   █████╗  █████╗     ██║   ██║     ███████║
-    ██║   ██║██║   ██║   ██╔══╝  ██╔══╝     ██║   ██║     ██╔══██║
-    ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
-     ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0  
- "
-    );
+    clean_terminal();
+    let line = "███████████████████████████████████████████████████████████████████████████";
+    line.rainbow();
+    println!("\n");
 
     // name:
-    // blog or bio should not be empty or should have a default values
+    // blog or bio should not be empty or should have a default values add a "\n" in string
     // top repos(by number of stars or by number of forks) even if 1 stars
     // add them.
+    let basic_information = format!(
+        "
+ {basic_info}\n
+ Name:
+ Blog:
 
+    ",
+        basic_info = "Profile Information".color(Color::Red)
+    );
+
+    println!("{basic_information}");
     // iterate through key and value and pass them in the bottom function
-
     let mut values = Vec::new();
     let mut languages = Vec::new();
 
@@ -147,4 +148,9 @@ fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
             width = c.len()
         );
     }
+}
+
+pub fn clean_terminal() {
+    // clean the full terminal of the terminal
+    std::process::Command::new("clear").status().unwrap();
 }
