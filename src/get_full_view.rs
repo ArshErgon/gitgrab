@@ -1,7 +1,12 @@
-use std::collections::HashMap;
-
 use reqwest::Client;
 use serde::Deserialize;
+use std::collections::HashMap;
+use std::{thread, time, time::Duration};
+
+extern crate colorful;
+
+use colorful::HSL;
+use colorful::{Color, Colorful};
 
 #[derive(Deserialize, Debug)]
 struct Repository {
@@ -83,4 +88,63 @@ pub async fn start(
 
 pub fn start_full_view(user: &str, secret_key: String) -> HashMap<String, u32> {
     start(user, secret_key).unwrap()
+}
+
+pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
+    let header_logo = format!(
+        r"
+    
+
+     ██████╗ ██╗████████╗███████╗███████╗████████╗ ██████╗██╗  ██╗
+    ██╔════╝ ██║╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██╔════╝██║  ██║
+    ██║  ███╗██║   ██║   █████╗  █████╗     ██║   ██║     ███████║
+    ██║   ██║██║   ██║   ██╔══╝  ██╔══╝     ██║   ██║     ██╔══██║
+    ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
+     ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0  
+ "
+    );
+
+    // name:
+    // blog or bio should not be empty or should have a default values
+    // top repos(by number of stars or by number of forks) even if 1 stars
+    // add them.
+
+    // iterate through key and value and pass them in the bottom function
+
+    let mut values = Vec::new();
+    let mut languages = Vec::new();
+
+    for (key, value) in data_map {
+        if !(key == "Star" || key == "Fork") {
+            // progress_bar(key, value);
+            if value > 100 {
+                values.push(100.0);
+            } else {
+                values.push(value as f64);
+            }
+            languages.push(key);
+        }
+    }
+    progress_bar(values, languages);
+}
+
+fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
+    let s = "█";
+    let txt = "Top languages";
+    txt.rainbow_with_speed(3);
+    println!(" {}\n", txt.gradient(Color::Red));
+
+    let c = languages.iter().max_by_key(|x| x.len()).unwrap();
+
+    for (i, value) in values.iter().enumerate() {
+        let h = (*value as f32 * 15.0 % 360.0) / 360.0;
+        let length = (value - 30.0) as usize;
+        println!(
+            " {:<width$} | {} {}%\n",
+            languages.get(i).unwrap(),
+            s.repeat(length).gradient(HSL::new(h, 1.0, 0.5)),
+            value,
+            width = c.len()
+        );
+    }
 }

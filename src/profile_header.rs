@@ -61,25 +61,7 @@ impl User {
 async fn main_info(
     user: &str,
     secret_key: String,
-) -> Result<
-    Vec<(
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        i32,
-        i32,
-        i32,
-        i32,
-        String,
-        String,
-    )>,
-    Box<dyn std::error::Error>,
-> {
+) -> Result<Vec<String>, Box<dyn std::error::Error>> {
     let client = Client::new();
     let request_url = format!("https://api.github.com/users/{user}");
 
@@ -110,22 +92,7 @@ async fn main_info(
         Err(e) => return Err(e.into()),
     };
 
-    let data_vec: Vec<(
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        String,
-        i32,
-        i32,
-        i32,
-        i32,
-        String,
-        String,
-    )> = vec![(
+    let data_vec = vec![
         github_data.login,
         github_data.name.unwrap(),
         github_data.company.unwrap(),
@@ -134,36 +101,17 @@ async fn main_info(
         github_data.bio.unwrap(),
         github_data.twitter_username.unwrap(),
         github_data.email.unwrap(),
-        github_data.public_repos,
-        github_data.public_gists,
-        github_data.followers,
-        github_data.following,
+        github_data.public_repos.to_string(),
+        github_data.public_gists.to_string(),
+        github_data.followers.to_string(),
+        github_data.following.to_string(),
         github_data.created_at,
         github_data.updated_at,
-    )];
+    ];
 
     Ok(data_vec)
 }
 
-pub fn start_header_info(
-    user: &str,
-    secret_key: String,
-) -> Vec<(
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-    String,
-    i32,
-    i32,
-    i32,
-    i32,
-    String,
-    String,
-)> {
-    let data = main_info(user, secret_key).unwrap();
-    data
+pub fn start_header_info(user: &str, secret_key: String) -> Vec<String> {
+    main_info(user, secret_key).unwrap()
 }
