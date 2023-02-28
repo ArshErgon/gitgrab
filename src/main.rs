@@ -117,5 +117,10 @@ fn start_the_project(arg: &str) {
     let header_git_data = profile_header::start_header_info(arg, secret_key.clone());
     let full_data = get_full_view::start_full_view(arg, secret_key.clone());
     github_logo_ascii::print_formatter(header_git_data, full_data.clone());
+    // sample data set for test
+    // let mut full_data:HashMap<String, u32> = HashMap::new();
+    // full_data.insert("!".to_string(), 40);
+    // full_data.insert("a".to_string(), 40);
+
     get_full_view::printing_full_profile_view(full_data);
 }
