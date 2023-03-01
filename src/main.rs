@@ -7,11 +7,9 @@ mod get_full_view;
 mod github_logo_ascii;
 mod profile_header;
 
-use std::collections::HashMap;
 use std::env;
-use std::fs::{self, File};
+use std::fs::{self};
 use std::io::prelude::*;
-use std::io::Read;
 use std::path::Path;
 
 fn main() {
