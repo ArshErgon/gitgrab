@@ -1,12 +1,11 @@
 use reqwest::Client;
 use serde::Deserialize;
 use std::collections::HashMap;
-use std::{thread, time, time::Duration};
-
 extern crate colorful;
-
+use colorful::Colorful;
 use colorful::HSL;
-use colorful::{Color, Colorful};
+extern crate cfonts;
+use cfonts::{say, Colors, Fonts, Options};
 
 #[derive(Deserialize, Debug)]
 struct Repository {
@@ -100,17 +99,9 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
     // blog or bio should not be empty or should have a default values add a "\n" in string
     // top repos(by number of stars or by number of forks) even if 1 stars
     // add them.
-    let basic_information = format!(
-        "
- {basic_info}\n
- Name:
- Blog:
 
-    ",
-        basic_info = "Profile Information".color(Color::Red)
-    );
+    ascii_text(String::from("Profile header"));
 
-    println!("{basic_information}");
     // iterate through key and value and pass them in the bottom function
     let mut values = Vec::new();
     let mut languages = Vec::new();
@@ -131,9 +122,7 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
 
 fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
     let s = "█";
-    let txt = "Top languages";
-    txt.rainbow_with_speed(3);
-    println!(" {}\n", txt.gradient(Color::Red));
+    ascii_text(String::from("Top Language"));
 
     let c = languages.iter().max_by_key(|x| x.len()).unwrap();
 
@@ -153,4 +142,14 @@ fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
 pub fn clean_terminal() {
     // clean the full terminal of the terminal
     std::process::Command::new("clear").status().unwrap();
+}
+
+pub fn ascii_text(txt: String) {
+    say(Options {
+        text: txt,
+        font: Fonts::FontTiny,
+        colors: vec![Colors::YellowBright],
+        align: cfonts::Align::Center,
+        ..Options::default()
+    });
 }
