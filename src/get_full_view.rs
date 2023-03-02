@@ -89,20 +89,21 @@ pub fn start_full_view(user: &str, secret_key: String) -> HashMap<String, u32> {
     start(user, secret_key).unwrap()
 }
 
+fn profile_header() {
+    ascii_text(String::from("Profile header"));
+    // will show the profile header information
+    // information like name, contribution, total commit, total issues, close and opened,
+}
+
 pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
     clean_terminal();
-    let line = "███████████████████████████████████████████████████████████████████████████";
+    let line = "███████████████████████████████████████████████████████████████████████████\n";
     line.rainbow();
-    println!("\n");
+    profile_header();
+    progress_bar(data_map);
+}
 
-    // name:
-    // blog or bio should not be empty or should have a default values add a "\n" in string
-    // top repos(by number of stars or by number of forks) even if 1 stars
-    // add them.
-
-    ascii_text(String::from("Profile header"));
-
-    // iterate through key and value and pass them in the bottom function
+fn progress_bar(data_map: HashMap<String, u32>) {
     let mut values = Vec::new();
     let mut languages = Vec::new();
 
@@ -117,10 +118,7 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
             languages.push(key);
         }
     }
-    progress_bar(values, languages);
-}
 
-fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
     let s = "█";
     ascii_text(String::from("Top Language"));
 
@@ -139,7 +137,7 @@ fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
     }
 }
 
-pub fn clean_terminal() {
+fn clean_terminal() {
     // clean the full terminal of the terminal
     std::process::Command::new("clear").status().unwrap();
 }
