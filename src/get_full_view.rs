@@ -1,9 +1,9 @@
-use reqwest::{Client, header::HeaderMap};
+use reqwest::{header::HeaderMap, Client};
 use serde::Deserialize;
 use std::collections::HashMap;
 extern crate colorful;
 use colorful::Colorful;
-use colorful::{HSL, Color};
+use colorful::{Color, HSL};
 extern crate cfonts;
 use cfonts::{say, Colors, Fonts, Options};
 
@@ -242,7 +242,7 @@ fn show_contribution_graph() -> i32 {
             _ => Color::Red,
         };
 
-    //    print!("{}", ascii_char.to_string().color(colors));
+        //    print!("{}", ascii_char.to_string().color(colors));
     }
     println!("{contribution_total}");
     contribution_total

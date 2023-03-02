@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 
-use colorful::{Colorful, Color};
+use colorful::{Color, Colorful};
 
-fn print_logo(data_map: HashMap<String, &str>) {    
+fn print_logo(data_map: HashMap<String, &str>) {
     let msg = format!(
         r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -27,7 +27,11 @@ fn print_logo(data_map: HashMap<String, &str>) {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {red_bright}{green_bright}{yellow_bright}{blue_bright}{purple_bright}{white_bright}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {light_red}{light_green}{light_yellow}{light_blue}{light_purple}{light_white}
     ",
-        username_top = data_map.get("username").unwrap().to_string().color(Color::Cyan2),
+        username_top = data_map
+            .get("username")
+            .unwrap()
+            .to_string()
+            .color(Color::Cyan2),
         name = "Name".to_string().color(Color::Red),
         username = data_map.get("name").unwrap(),
         comp = "Company".to_string().color(Color::Red),
