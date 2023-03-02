@@ -9,7 +9,6 @@ authors = ["ArshErgon", "arshergon@gmail.com", "https://www.linkedin.com/in/arsh
 [dependencies]
 cfonts = "1.1.0"
 clap = "2.29.4"
-colored = "2.0.0"
 colorful = "0.2.2"
 crossterm = "0.26.1"
 reqwest = "0.11"
