@@ -2,7 +2,6 @@
 #![allow(unused)]
 
 use clap::{App, Arg};
-use colored::Colorize;
 mod get_full_view;
 mod github_logo_ascii;
 mod profile_header;
@@ -97,8 +96,8 @@ fn main() {
             1. gitFetchUser.txt could be found.
             2. Or the Home Directory can not be located. \n
             gitfetch -u {username} or $ gitfetch -t {username}",
-            oops = "Oops".red().bold(),
-            username = "USERNAME".cyan().bright_blue().bold()
+            oops = "Oops",
+            username = "USERNAME",
         );
         let file = match fs::read_to_string(file_path) {
             Ok(contents) => contents,
