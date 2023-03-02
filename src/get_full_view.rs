@@ -24,6 +24,9 @@ struct Repository {
     stargazers_count: u32,
     forks_count: u32,
     language: Option<String>,
+    languages_url: Option<HashMap<String, i32>>,
+    description: Option<String>,
+    open_issues: i32,
 }
 
 #[tokio::main]
@@ -246,4 +249,16 @@ fn show_contribution_graph() -> i32 {
     }
     println!("{contribution_total}");
     contribution_total
+}
+
+
+
+// new Function for getting the counting the total number of issues (open and closed)
+fn fetching_issues() {
+    // add the perimeters for username and secretKey
+    let user = "ArshErgon";
+    let secret_key = "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";
+    let client = Client::new();
+    let url = format!("https://api.github.com/repos/:owner/:repo/issues?state=all");
+
 }
