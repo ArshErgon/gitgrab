@@ -1,12 +1,22 @@
-use reqwest::Client;
+use reqwest::{header::HeaderMap, Client};
 use serde::Deserialize;
 use std::collections::HashMap;
-use std::{thread, time, time::Duration};
-
 extern crate colorful;
+use colorful::Colorful;
+use colorful::{Color, HSL};
+extern crate cfonts;
+use cfonts::{say, Colors, Fonts, Options};
 
-use colorful::HSL;
-use colorful::{Color, Colorful};
+use crossterm::{
+    execute,
+    terminal::{self, SetSize},
+};
+
+#[derive(Debug, Deserialize)]
+struct ContributionData {
+    date: String,
+    count: i32,
+}
 
 #[derive(Deserialize, Debug)]
 struct Repository {
@@ -86,31 +96,61 @@ pub async fn start(
     Ok(star_lang_fork_count)
 }
 
+#[tokio::main]
+async fn fetch_contributions_data() -> Vec<ContributionData> {
+    // add parameters for username and secretKey
+    let user = "ArshErgon";
+    let secret_key = "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";
+    let client = Client::new();
+    let url = format!("https://api.github.com/users/{user}/events");
+
+    let mut headers = reqwest::header::HeaderMap::new();
+    headers.insert(reqwest::header::USER_AGENT, "{secret_key}".parse().unwrap());
+
+    let response = client.get(&url).headers(headers).send().await.unwrap();
+    let body = response.text().await.unwrap();
+    let events: Vec<HashMap<String, serde_json::Value>> = serde_json::from_str(&body).unwrap();
+    let mut contributions = vec![];
+    for event in events {
+        if let Some(type_) = event.get("type") {
+            if type_.as_str().unwrap() == "PushEvent" {
+                let date = event.get("created_at").unwrap().as_str().unwrap()[0..10].to_string();
+                let count = event
+                    .get("payload")
+                    .unwrap()
+                    .get("size")
+                    .unwrap()
+                    .as_i64()
+                    .unwrap() as i32;
+                contributions.push(ContributionData { date, count });
+            }
+        }
+    }
+    contributions
+}
+
 pub fn start_full_view(user: &str, secret_key: String) -> HashMap<String, u32> {
     start(user, secret_key).unwrap()
 }
 
+fn profile_header() {
+    ascii_text(String::from("Profile header"));
+    // will show the profile header information
+    // information like name, contribution, total commit, total issues, close and opened,
+}
+
 pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
-    let header_logo = format!(
-        r"
-    
+    set_new_terminal_size();
+    clean_terminal();
+    let line =
+        "\t\t\t███████████████████████████████████████████████████████████████████████████\n";
+    line.rainbow();
+    profile_header();
+    progress_bar(data_map);
+    let contribution_count = show_contribution_graph();
+}
 
-     ██████╗ ██╗████████╗███████╗███████╗████████╗ ██████╗██╗  ██╗
-    ██╔════╝ ██║╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██╔════╝██║  ██║
-    ██║  ███╗██║   ██║   █████╗  █████╗     ██║   ██║     ███████║
-    ██║   ██║██║   ██║   ██╔══╝  ██╔══╝     ██║   ██║     ██╔══██║
-    ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
-     ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0  
- "
-    );
-
-    // name:
-    // blog or bio should not be empty or should have a default values
-    // top repos(by number of stars or by number of forks) even if 1 stars
-    // add them.
-
-    // iterate through key and value and pass them in the bottom function
-
+fn progress_bar(data_map: HashMap<String, u32>) {
     let mut values = Vec::new();
     let mut languages = Vec::new();
 
@@ -125,20 +165,16 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
             languages.push(key);
         }
     }
-    progress_bar(values, languages);
-}
 
-fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
     let s = "█";
-    let txt = "Top languages";
-    txt.rainbow_with_speed(3);
-    println!(" {}\n", txt.gradient(Color::Red));
+    ascii_text(String::from("Top Language"));
 
     let c = languages.iter().max_by_key(|x| x.len()).unwrap();
 
     for (i, value) in values.iter().enumerate() {
         let h = (*value as f32 * 15.0 % 360.0) / 360.0;
-        let length = (value - 30.0) as usize;
+        let length = (value - 10.0) as usize;
+        let length = if length >= 100 { length / 2 } else { length };
         println!(
             " {:<width$} | {} {}%\n",
             languages.get(i).unwrap(),
@@ -147,4 +183,67 @@ fn progress_bar(values: Vec<f64>, languages: Vec<String>) {
             width = c.len()
         );
     }
+}
+
+fn clean_terminal() {
+    // clean the full terminal of the terminal
+    std::process::Command::new("clear").status().unwrap();
+}
+
+pub fn ascii_text(txt: String) {
+    say(Options {
+        text: txt,
+        font: Fonts::FontTiny,
+        colors: vec![Colors::YellowBright],
+        align: cfonts::Align::Center,
+        ..Options::default()
+    });
+}
+
+fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
+    // Get the current size of the terminal window
+    // let (width, height) = terminal::size()?;
+
+    // Set the new size of the terminal window
+    // the normal size of the window is default, using this because
+    // bar size is increasing and doing a text wrapping
+    // decreasing the length of the bar is decreasing all the other bars also.
+    // at now setting a new terminal height is a solution
+    let new_width = 124;
+    let new_height = 50;
+    let size = SetSize(new_width, new_height);
+    execute!(std::io::stdout(), size)?;
+    println!("Changing the size of the terminal\nWidth:{new_width}\t\tHeight:{new_height}\n\n");
+    Ok(())
+}
+
+fn show_contribution_graph() -> i32 {
+    ascii_text("Contribution Graph".to_string());
+    // Get the user's contributions data from GitHub API
+    let contributions_data = fetch_contributions_data();
+
+    // Define the characters to represent the contribution graph
+    let ascii_char = "██";
+
+    // Loop through the contributions data and draw the graph
+    let mut contribution_total = 0;
+    for day in contributions_data {
+        let contribution_count = day.count;
+        contribution_total += contribution_count;
+        // Set the color based on the contribution count
+        let colors = match contribution_count {
+            0 => Color::White,
+            1..=10 => Color::Yellow,
+            11..=20 => Color::Aquamarine3,
+            21..=30 => Color::Blue,
+            31..=40 => Color::Pink1,
+            41..=50 => Color::Green,
+            51..=100 => Color::Blue,
+            _ => Color::Red,
+        };
+
+        //    print!("{}", ascii_char.to_string().color(colors));
+    }
+    println!("{contribution_total}");
+    contribution_total
 }

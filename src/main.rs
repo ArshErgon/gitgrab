@@ -2,28 +2,26 @@
 #![allow(unused)]
 
 use clap::{App, Arg};
-use colored::Colorize;
 mod get_full_view;
 mod github_logo_ascii;
 mod profile_header;
 
-use std::collections::HashMap;
 use std::env;
-use std::fs::{self, File};
+use std::fs::{self};
 use std::io::prelude::*;
-use std::io::Read;
 use std::path::Path;
 
 fn main() {
     let matches = App::new("Gitfetch")
         .version(
             r"
-     _____ _ _   ______   _       _ 
-    / ____(_) | |  ____| | |     | |    
-   | |  __ _| |_| |__ ___| |_ ___| |__  
-   | | |_ | | __|  __/ _ \ __/ __| '_ \ 
-   | |__| | | |_| | |  __/ || (__| | | |
-    \_____|_|\__|_|  \___|\__\___|_| |_|
+
+         ██████╗ ██╗████████╗███████╗███████╗████████╗ ██████╗██╗  ██╗
+        ██╔════╝ ██║╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██╔════╝██║  ██║
+        ██║  ███╗██║   ██║   █████╗  █████╗     ██║   ██║     ███████║
+        ██║   ██║██║   ██║   ██╔══╝  ██╔══╝     ██║   ██║     ██╔══██║
+        ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
+         ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0  
                                         
         ",
         )
@@ -98,8 +96,8 @@ fn main() {
             1. gitFetchUser.txt could be found.
             2. Or the Home Directory can not be located. \n
             gitfetch -u {username} or $ gitfetch -t {username}",
-            oops = "Oops".red().bold(),
-            username = "USERNAME".cyan().bright_blue().bold()
+            oops = "Oops",
+            username = "USERNAME",
         );
         let file = match fs::read_to_string(file_path) {
             Ok(contents) => contents,
@@ -118,7 +116,7 @@ fn start_the_project(arg: &str) {
     let full_data = get_full_view::start_full_view(arg, secret_key.clone());
     github_logo_ascii::print_formatter(header_git_data, full_data.clone());
     // sample data set for test
-    // let mut full_data:HashMap<String, u32> = HashMap::new();
+    // let mut full_data: HashMap<String, u32> = HashMap::new();
     // full_data.insert("!".to_string(), 40);
     // full_data.insert("a".to_string(), 40);
 

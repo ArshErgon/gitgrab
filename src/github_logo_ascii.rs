@@ -1,9 +1,8 @@
 use std::collections::HashMap;
 
-use colored::{self, Colorize};
+use colorful::{Color, Colorful};
 
 fn print_logo(data_map: HashMap<String, &str>) {
-    const BAR: &str = "████";
     let msg = format!(
         r"
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -28,49 +27,53 @@ fn print_logo(data_map: HashMap<String, &str>) {
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {red_bright}{green_bright}{yellow_bright}{blue_bright}{purple_bright}{white_bright}
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀ {light_red}{light_green}{light_yellow}{light_blue}{light_purple}{light_white}
     ",
-        username_top = data_map.get("username").unwrap().bright_cyan().bold(),
-        name = "Name".red().bold(),
+        username_top = data_map
+            .get("username")
+            .unwrap()
+            .to_string()
+            .color(Color::Cyan2),
+        name = "Name".to_string().color(Color::Red),
         username = data_map.get("name").unwrap(),
-        comp = "Company".red().bold(),
+        comp = "Company".to_string().color(Color::Red),
         company = data_map.get("company").unwrap(),
-        loc = "Location".red().bold(),
+        loc = "Location".to_string().color(Color::Red),
         location = data_map.get("location").unwrap(),
-        bl = "Blog".red().bold(),
+        bl = "Blog".to_string().color(Color::Red),
         blog = data_map.get("blog").unwrap(),
-        st = "Star".red().bold(),
+        st = "Star".to_string().color(Color::Red),
         star = data_map.get("star").unwrap(),
-        fk = "Fork".red().bold(),
+        fk = "Fork".to_string().color(Color::Red),
         fork = data_map.get("fork").unwrap(),
-        lg = "Top lang".red().bold(),
+        lg = "Top lang".to_string().color(Color::Red),
         top_lang = data_map.get("top_lang").unwrap(),
-        rep = "Repos".red().bold(),
+        rep = "Repos".to_string().color(Color::Red),
         repos = data_map.get("repos").unwrap(),
-        foll = "Followers".red().bold(),
+        foll = "Followers".to_string().color(Color::Red),
         followers = data_map.get("followers").unwrap(),
-        follw = "Following".red().bold(),
+        follw = "Following".to_string().color(Color::Red),
         following = data_map.get("following").unwrap(),
-        bi = "Bio".red().bold(),
+        bi = "Bio".to_string().color(Color::Red),
         bio = data_map.get("bio").unwrap(),
-        tw = "Twitter".red().bold(),
+        tw = "Twitter".to_string().color(Color::Red),
         twitter = data_map.get("twitter").unwrap(),
-        em = "Email".red().bold(),
+        em = "Email".to_string().color(Color::Red),
         email = data_map.get("email").unwrap(),
-        cre = "Created".red().bold(),
+        cre = "Created".to_string().color(Color::Red),
         created = data_map.get("created").unwrap(),
-        up = "Updated".red().bold(),
+        up = "Updated".to_string().color(Color::Red),
         updated = data_map.get("updated").unwrap(),
-        red_bright = BAR.bright_red(),
-        green_bright = BAR.bright_green(),
-        yellow_bright = BAR.bright_yellow(),
-        blue_bright = BAR.bright_blue(),
-        purple_bright = BAR.bright_purple(),
-        white_bright = BAR.bright_white(),
-        light_red = BAR.red(),
-        light_green = BAR.green(),
-        light_yellow = BAR.yellow(),
-        light_blue = BAR.blue(),
-        light_purple = BAR.purple(),
-        light_white = BAR.white(),
+        red_bright = "████".to_string().color(Color::Red3b),
+        green_bright = "████".to_string().color(Color::Green),
+        yellow_bright = "████".to_string().color(Color::Yellow),
+        blue_bright = "████".to_string().color(Color::Blue),
+        purple_bright = "████".to_string().color(Color::Purple1a),
+        white_bright = "████".to_string().color(Color::White),
+        light_red = "████".to_string().color(Color::LightRed),
+        light_green = "████".to_string().color(Color::LightGreen),
+        light_yellow = "████".to_string().color(Color::LightYellow),
+        light_blue = "████".to_string().color(Color::LightBlue),
+        light_purple = "████".to_string().color(Color::MediumPurple4),
+        light_white = "████".to_string().color(Color::Wheat4),
     );
     println!("{msg}");
 }
