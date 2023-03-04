@@ -2,15 +2,18 @@ use reqwest::{header::HeaderMap, Client};
 use serde::Deserialize;
 use std::collections::HashMap;
 extern crate colorful;
-use colorful::Colorful;
-use colorful::{Color, HSL};
+use colorful::{Color, Colorful, HSL};
 extern crate cfonts;
 use cfonts::{say, Colors, Fonts, Options};
+use std::io::{stdout, Write};
 
 use crossterm::{
     execute,
     terminal::{self, SetSize},
 };
+
+// graph maker
+use crate::graph::graph_maker;
 
 #[derive(Debug, Deserialize)]
 struct ContributionData {
@@ -24,9 +27,9 @@ struct Repository {
     stargazers_count: u32,
     forks_count: u32,
     language: Option<String>,
-    languages_url: Option<HashMap<String, i32>>,
-    description: Option<String>,
-    open_issues: i32,
+    // languages_url: Option<HashMap<String, i32>>,
+    // description: Option<String>,
+    // open_issues: i32,
 }
 
 #[tokio::main]
@@ -222,36 +225,12 @@ fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
 
 fn show_contribution_graph() -> i32 {
     ascii_text("Contribution Graph".to_string());
-    // Get the user's contributions data from GitHub API
-    let contributions_data = fetch_contributions_data();
-
-    // Define the characters to represent the contribution graph
-    let ascii_char = "██";
-
-    // Loop through the contributions data and draw the graph
-    let mut contribution_total = 0;
-    for day in contributions_data {
-        let contribution_count = day.count;
-        contribution_total += contribution_count;
-        // Set the color based on the contribution count
-        let colors = match contribution_count {
-            0 => Color::White,
-            1..=10 => Color::Yellow,
-            11..=20 => Color::Aquamarine3,
-            21..=30 => Color::Blue,
-            31..=40 => Color::Pink1,
-            41..=50 => Color::Green,
-            51..=100 => Color::Blue,
-            _ => Color::Red,
-        };
-
-        //    print!("{}", ascii_char.to_string().color(colors));
-    }
-    println!("{contribution_total}");
-    contribution_total
+    graph_maker::generate_graph(
+        "ArshErgon".to_string(),
+        "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",
+    );
+    1
 }
-
-
 
 // new Function for getting the counting the total number of issues (open and closed)
 fn fetching_issues() {
@@ -260,5 +239,4 @@ fn fetching_issues() {
     let secret_key = "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";
     let client = Client::new();
     let url = format!("https://api.github.com/repos/:owner/:repo/issues?state=all");
-
 }
