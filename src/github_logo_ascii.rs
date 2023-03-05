@@ -69,19 +69,9 @@ pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u
     git_map.insert("username".to_string(), header_git_data[0].as_str());
     git_map.insert("name".to_string(), header_git_data[1].as_str());
     git_map.insert("company".to_string(), header_git_data[2].as_str());
-    let blog_value = if header_git_data[3].len() > 30 {
-        header_git_data[3][0..25].as_ref()
-    } else {
-        header_git_data[3].as_str()
-    };
-    git_map.insert("blog".to_string(), blog_value);
+    git_map.insert("blog".to_string(), header_git_data[3].as_str());
     git_map.insert("location".to_string(), header_git_data[4].as_str());
-    let bio_value = if header_git_data[5].len() > 30 {
-        header_git_data[5][0..25].as_ref()
-    } else {
-        header_git_data[5].as_str()
-    };
-    git_map.insert("bio".to_string(), bio_value);
+    git_map.insert("bio".to_string(), header_git_data[5].as_str());
     git_map.insert("twitter".to_string(), header_git_data[6].as_str());
     git_map.insert("email".to_string(), header_git_data[7].as_str());
     let repo = add_k(header_git_data[8].parse::<i32>().unwrap());
@@ -89,6 +79,7 @@ pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u
     let gists_two = add_k(header_git_data[9].parse::<i32>().unwrap());
     let followers = add_k(header_git_data[10].parse::<i32>().unwrap());
     let following = add_k(header_git_data[11].parse::<i32>().unwrap());
+    
     git_map.insert("repos".to_string(), repo.as_str());
     git_map.insert("gists".to_string(), gists_two.as_str());
     git_map.insert("followers".to_string(), followers.as_str());
