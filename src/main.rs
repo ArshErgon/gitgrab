@@ -2,7 +2,7 @@
 #![allow(unused)]
 
 use clap::{App, Arg};
-mod get_full_view;
+mod get_detailed_view;
 mod github_logo_ascii;
 mod profile_header;
 
@@ -125,8 +125,6 @@ fn start_the_project(arg: &str) {
         }
     };
     let header_git_data = profile_header::start_header_info(arg, secret_key.clone());
-    let full_data = get_full_view::start_full_view(arg, secret_key.clone());
-    github_logo_ascii::print_formatter(header_git_data, full_data.clone());
-
-    get_full_view::show_contribution_graph(arg.to_string(), secret_key.clone());
+    let full_data = get_detailed_view::main_view_start(arg.to_string(), secret_key.clone());
+    // github_logo_ascii::print_formatter(header_git_data, full_data.clone());
 }
