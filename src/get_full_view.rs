@@ -5,22 +5,14 @@ extern crate colorful;
 use colorful::{Color, Colorful, HSL};
 extern crate cfonts;
 use cfonts::{say, Colors, Fonts, Options};
-use std::io::{stdout, Write};
 
 use crossterm::{
     execute,
     terminal::{self, SetSize},
 };
 
-
 // graph maker
 use crate::graph::graph_maker;
-
-#[derive(Debug, Deserialize)]
-struct ContributionData {
-    date: String,
-    count: i32,
-}
 
 #[derive(Deserialize, Debug)]
 struct Repository {
@@ -98,39 +90,6 @@ pub async fn start(
     }
 
     Ok(star_lang_fork_count)
-}
-
-#[tokio::main]
-async fn fetch_contributions_data() -> Vec<ContributionData> {
-    // add parameters for username and secretKey
-    let user = "ArshErgon";
-    let secret_key = "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";
-    let client = Client::new();
-    let url = format!("https://api.github.com/users/{user}/events");
-
-    let mut headers = reqwest::header::HeaderMap::new();
-    headers.insert(reqwest::header::USER_AGENT, "{secret_key}".parse().unwrap());
-
-    let response = client.get(&url).headers(headers).send().await.unwrap();
-    let body = response.text().await.unwrap();
-    let events: Vec<HashMap<String, serde_json::Value>> = serde_json::from_str(&body).unwrap();
-    let mut contributions = vec![];
-    for event in events {
-        if let Some(type_) = event.get("type") {
-            if type_.as_str().unwrap() == "PushEvent" {
-                let date = event.get("created_at").unwrap().as_str().unwrap()[0..10].to_string();
-                let count = event
-                    .get("payload")
-                    .unwrap()
-                    .get("size")
-                    .unwrap()
-                    .as_i64()
-                    .unwrap() as i32;
-                contributions.push(ContributionData { date, count });
-            }
-        }
-    }
-    contributions
 }
 
 pub fn start_full_view(user: &str, secret_key: String) -> HashMap<String, u32> {
@@ -230,8 +189,7 @@ pub fn show_contribution_graph(user_name: String, secret_key: String) {
     // ascii_text("Contribution Graph".to_string());
     let secret_key = secret_key.trim();
     let key = "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";
-    graph_maker::generate_graph(
-        user_name,
-        secret_key
-    );
+    graph_maker::generate_graph(user_name, secret_key);
 }
+
+fn main_view_start(data_map: HashMap<String, u32>, username: String, secret_key: String) {}
