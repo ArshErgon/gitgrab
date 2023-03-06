@@ -82,7 +82,6 @@ fn get_github_contributions(response_data: kusa::ResponseData) -> (i64, Vec<Vec<
 
 fn post_graphql_query(user_name: String, secret_key: &str) -> Result<kusa::ResponseData> {
     let variables = kusa::Variables { user_name };
-
     let client = Client::builder()
         .user_agent("graphql-rust/0.10.0")
         .default_headers(

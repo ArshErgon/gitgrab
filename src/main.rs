@@ -127,7 +127,6 @@ fn start_the_project(arg: &str) {
     let header_git_data = profile_header::start_header_info(arg, secret_key.clone());
     let full_data = get_full_view::start_full_view(arg, secret_key.clone());
     github_logo_ascii::print_formatter(header_git_data, full_data.clone());
-    // get_full_view::show_contribution_graph();
-
-    // get_full_view::printing_full_profile_view(full_data, arg.to_string(), secret_key.as_str());
+    
+    get_full_view::show_contribution_graph(arg.to_string(), secret_key.clone());
 }
