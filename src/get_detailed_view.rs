@@ -187,8 +187,7 @@ fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
 // check why does the contribution graph is not showing when using other keys.
 pub fn show_contribution_graph(user_name: String, secret_key: String) {
     let secret_key = secret_key.trim();
-    let key: &str = "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";
-    graph_maker::generate_graph(user_name, key);
+    graph_maker::generate_graph(user_name, secret_key);
 }
 
 pub fn main_view_start(
