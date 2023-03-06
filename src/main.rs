@@ -125,6 +125,8 @@ fn start_the_project(arg: &str) {
         }
     };
     let header_git_data = profile_header::start_header_info(arg, secret_key.clone());
-    let full_data = get_detailed_view::main_view_start(arg.to_string(), secret_key.clone());
-    // github_logo_ascii::print_formatter(header_git_data, full_data.clone());
+    let counter_data =
+        get_detailed_view::main_view_start(arg.to_string(), secret_key.clone(), Some(false));
+    let filter_data = counter_data.unwrap();
+    github_logo_ascii::print_formatter(header_git_data, filter_data);
 }
