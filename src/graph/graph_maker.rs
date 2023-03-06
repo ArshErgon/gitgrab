@@ -95,6 +95,7 @@ fn post_graphql_query(user_name: String, secret_key: &str) -> Result<kusa::Respo
 
     let response_body =
         post_graphql::<Kusa, _>(&client, "https://api.github.com/graphql", variables)?;
+
     response_body.data.context("failed to fetch data")
 }
 
