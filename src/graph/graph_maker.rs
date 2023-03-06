@@ -1,4 +1,3 @@
-
 // NOTICE: With all due respect this folder `graph` is owned by https://github.com/Ryu0118/
 // he has created this script for showing the graph (https://github.com/Ryu0118/Kusa)
 // I just have done some changes into it, so it can run like I want it to.
@@ -10,8 +9,6 @@ use anyhow::{Context, Result};
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery};
 use std::process;
 
-
-
 #[derive(GraphQLQuery)]
 #[graphql(
     schema_path = "src/graph/schema.graphql",
@@ -22,8 +19,6 @@ use std::process;
 struct Kusa;
 
 type Date = String;
-
-
 
 struct DailyStatus {
     date: String,
@@ -93,8 +88,7 @@ fn post_graphql_query(user_name: String, secret_key: &str) -> Result<kusa::Respo
         .default_headers(
             std::iter::once((
                 reqwest::header::AUTHORIZATION,
-                reqwest::header::HeaderValue::from_str(&format!("Bearer {}", secret_key))
-                    .unwrap(),
+                reqwest::header::HeaderValue::from_str(&format!("Bearer {}", secret_key)).unwrap(),
             ))
             .collect(),
         )
@@ -102,7 +96,6 @@ fn post_graphql_query(user_name: String, secret_key: &str) -> Result<kusa::Respo
 
     let response_body =
         post_graphql::<Kusa, _>(&client, "https://api.github.com/graphql", variables)?;
-
     response_body.data.context("failed to fetch data")
 }
 
@@ -192,9 +185,6 @@ fn print_kusa(kusa: &Vec<Vec<&DailyStatus>>) {
 pub fn generate_graph(user_name: String, secret_key: &str) -> Result<()> {
     #[cfg(target_os = "windows")]
     ansi_term::enable_ansi_support();
-
-    // let user_name = "ArshErgon".to_string();
-    // let secret_key = "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";
     let data = post_graphql_query(user_name, secret_key)?;
     let (total_contributions, weekly_statuses) = get_github_contributions(data);
     let kusa = transpose(&weekly_statuses);
