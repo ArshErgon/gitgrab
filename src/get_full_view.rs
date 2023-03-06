@@ -12,6 +12,12 @@ use crossterm::{
     terminal::{self, SetSize},
 };
 
+// use ::reqwest::blocking::Client as graphClient;
+// use ansi_term::{Colour, Style};
+// use anyhow::{Context, Result};
+// use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery};
+// use std::process;
+
 // graph maker
 use crate::graph::graph_maker;
 
@@ -145,7 +151,11 @@ fn profile_header() {
     // information like name, contribution, total commit, total issues, close and opened,
 }
 
-pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
+pub fn printing_full_profile_view(
+    data_map: HashMap<String, u32>,
+    username: String,
+    secret_key: &str,
+) {
     set_new_terminal_size();
     clean_terminal();
     let line =
@@ -153,7 +163,7 @@ pub fn printing_full_profile_view(data_map: HashMap<String, u32>) {
     line.rainbow();
     profile_header();
     progress_bar(data_map);
-    let contribution_count = show_contribution_graph();
+    show_contribution_graph(username, secret_key);
 }
 
 fn progress_bar(data_map: HashMap<String, u32>) {
@@ -223,20 +233,11 @@ fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
     Ok(())
 }
 
-fn show_contribution_graph() -> i32 {
-    ascii_text("Contribution Graph".to_string());
+// check why does the contribution graph is not showing when using other keys.
+pub fn show_contribution_graph(username: String, secret_key: &str) {
+    // ascii_text("Contribution Graph".to_string());
     graph_maker::generate_graph(
         "ArshErgon".to_string(),
-        "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",
+        "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",
     );
-    1
-}
-
-// new Function for getting the counting the total number of issues (open and closed)
-fn fetching_issues() {
-    // add the perimeters for username and secretKey
-    let user = "ArshErgon";
-    let secret_key = "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";
-    let client = Client::new();
-    let url = format!("https://api.github.com/repos/:owner/:repo/issues?state=all");
 }
