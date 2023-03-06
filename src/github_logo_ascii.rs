@@ -79,7 +79,7 @@ pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u
     let gists_two = add_k(header_git_data[9].parse::<i32>().unwrap());
     let followers = add_k(header_git_data[10].parse::<i32>().unwrap());
     let following = add_k(header_git_data[11].parse::<i32>().unwrap());
-    
+
     git_map.insert("repos".to_string(), repo.as_str());
     git_map.insert("gists".to_string(), gists_two.as_str());
     git_map.insert("followers".to_string(), followers.as_str());
