@@ -2,9 +2,13 @@
 #![allow(unused)]
 
 use clap::{App, Arg};
-mod get_full_view;
+mod get_detailed_view;
 mod github_logo_ascii;
 mod profile_header;
+
+mod graph {
+    pub mod graph_maker;
+}
 
 use std::env;
 use std::fs::{self};
@@ -111,14 +115,18 @@ fn main() {
 }
 
 fn start_the_project(arg: &str) {
-    let secret_key = "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".to_string();
+    let home_dir = env::var_os("HOME").expect("Cannot get home directory!");
+    let file_path = Path::new(&home_dir).join("secretkey.txt");
+    let secret_key = match fs::read_to_string(file_path) {
+        Ok(contents) => contents,
+        Err(e) => {
+            println!("{:?}", e);
+            return;
+        }
+    };
     let header_git_data = profile_header::start_header_info(arg, secret_key.clone());
-    let full_data = get_full_view::start_full_view(arg, secret_key.clone());
-    github_logo_ascii::print_formatter(header_git_data, full_data.clone());
-    // sample data set for test
-    // let mut full_data: HashMap<String, u32> = HashMap::new();
-    // full_data.insert("!".to_string(), 40);
-    // full_data.insert("a".to_string(), 40);
-
-    get_full_view::printing_full_profile_view(full_data);
+    let counter_data =
+        get_detailed_view::main_view_start(arg.to_string(), secret_key.clone(), Some(false));
+    let filter_data = counter_data.unwrap();
+    github_logo_ascii::print_formatter(header_git_data, filter_data);
 }
