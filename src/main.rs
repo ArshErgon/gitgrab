@@ -129,4 +129,9 @@ fn start_the_project(arg: &str) {
         get_detailed_view::main_view_start(arg.to_string(), secret_key.clone(), Some(false));
     let filter_data = counter_data.unwrap();
     github_logo_ascii::print_formatter(header_git_data, filter_data);
+    // checker for graph contribution as it has an key error which needs to continously to be updated.
+    let graph = get_detailed_view::show_contribution_graph(arg.to_string(), secret_key);
+    match graph.unwrap_err() {
+        error => println!("You should change you API key, it got expires for graph contribution\nits an issue and I need to fix it."),
+    }
 }
