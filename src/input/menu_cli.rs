@@ -7,10 +7,16 @@ enum UserOption {
     Commands,
 }
 
+
+// todo:
+// inside the create a user, check wheather the user has a github file or no?
+// if no: suggest him to create a new (by asking him)
+// if yes, print a message thats your name is save, by gitfetch you can get information.
+// and how can he update that username
 pub fn menu_view() {
     let options = [
         "1. Create a User",
-        "2. Enter the Github API key",
+        "2. Enter/Update the Github API key",
         "3. About",
         "4. Show all commands",
     ];
