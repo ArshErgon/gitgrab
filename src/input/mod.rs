@@ -1,6 +1,6 @@
 use std::{env, path::Path};
 
-use clap::{Arg, Command};
+use clap::{Arg, ArgAction, Command};
 
 mod menu_cli;
 
@@ -10,16 +10,7 @@ mod menu_cli;
 pub fn cli_input() {
     let matches = Command::new("gitfetch")
         .version("2.0")
-        .author(r"  
-         ██████╗ ██╗████████╗███████╗███████╗████████╗ ██████╗██╗  ██╗
-        ██╔════╝ ██║╚══██╔══╝██╔════╝██╔════╝╚══██╔══╝██╔════╝██║  ██║
-        ██║  ███╗██║   ██║   █████╗  █████╗     ██║   ██║     ███████║
-        ██║   ██║██║   ██║   ██╔══╝  ██╔══╝     ██║   ██║     ██╔══██║
-        ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
-         ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0
-
-         A CLI application for github users, which shows the information of a particular user in a `neofetch` style\n
-         Proudly build with the help of Rust.")
+        .author("A CLI application for github users, which shows the information of a particular user in a `neofetch` style\nProudly build with the help of Rust.")
         .about("Neofetch but build for GitHub")
         .arg(
             Arg::new("t")
@@ -29,19 +20,20 @@ pub fn cli_input() {
         .arg(
             Arg::new("o")
                 .long("o")
+                .action(ArgAction::SetTrue)
                 .help("Option to create the user or insert the github API key"),
         )
         .arg(
             Arg::new("author")
-            .long("author")
-            .required(false)
+            .long("a")
+            .action(ArgAction::SetTrue)
         )
         .get_matches();
 
     // for menu bar
-    let arg_option = match matches.get_one::<String>("o") {
-        None => "None",
-        Some(val) => val,
+    match matches.get_flag("o") {
+        true => menu_cli::menu_view(),
+        false => todo!(),
     };
 
     // a temporary user
@@ -49,13 +41,12 @@ pub fn cli_input() {
         None => "None",
         Some(val) => val,
     };
-    // to show the name of the user.
-    let author = match matches.get_one::<String>("author") {
-        None => "None",
-        Some(val) => val,
-    };
 
-    println!("{:?}", author);
+    // to show the name of the user.
+    match matches.get_flag("author") {
+        true => about(),
+        false => todo!(),
+    };
 
     // menu_cli::menu_view();
 }
@@ -107,6 +98,7 @@ pub fn show_user_info() -> (String, String) {
     ("ArshErgon".to_string(), secret_key)
 }
 
+// add some information about the creator
 fn about() {
     let gitfetch_logo = format!(
         r"
@@ -118,8 +110,9 @@ fn about() {
         ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
          ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0
 
-         A CLI application for github users, which shows the information of a particular user in a `neofetch` style\n
-         Proudly build with the help of Rust.
+    A CLI application for github users, which shows the information of a particular user in a `neofetch` style
+    Proudly build with the help of Rust.
     "
     );
+    println!("{}", gitfetch_logo);
 }
