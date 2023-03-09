@@ -72,7 +72,6 @@ pub fn show_user_info() -> (String, String) {
             "File not found".to_string()
         }
     };
-    println!("{username}");
     (username, secret_key)
 }
 

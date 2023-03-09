@@ -51,6 +51,7 @@ fn create_user_file() {
     );
 
     println!("{}", success_msg);
+
 }
 
 fn create_api_file() {
