@@ -84,14 +84,26 @@ pub async fn get_repos_info(
             let fork_count = counter.entry("Fork".to_string()).or_insert(0);
             *fork_count += data[i].2;
         }
+
+        if data[i].4 > 0 {
+            let issue_count = counter.entry("Issue".to_string()).or_insert(0);
+            *issue_count += data[i].2;
+        }
+
+        if data[i].5 > 0 {
+            let watchers_count = counter.entry("Watcher".to_string()).or_insert(0);
+            *watchers_count += data[i].5;
+        }
     }
 
     // simple percentage for the top lang use.
-    // added a checker to not make percentage value for star count and fork count
-    // will be using it later in the program as the program gets big
     for (key, val) in counter.clone() {
         let percentage = ((val as f32 / 8 as f32) * 100.0) as u32;
-        if !(key == "Star".to_string() || key == "Fork".to_string()) {
+        if !(key == "Star".to_string()
+            || key == "Fork".to_string()
+            || key == "Issue".to_string()
+            || key == "Watcher")
+        {
             counter.insert(key, percentage);
         }
     }
