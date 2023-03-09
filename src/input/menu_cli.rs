@@ -1,23 +1,16 @@
 use dialoguer::{theme::ColorfulTheme, Select};
 
-// todo:
-// inside the create a user, check wheather the user has a github file or no?
-// if no: suggest him to create a new (by asking him)
-// if yes, print a message thats your name is save, by gitfetch you can get information.
-// and how can he update that username
-
-// in the enter/update github api, check the wheather it is exists
-// if it exists show the user its current key
-// and change the current key
 pub fn menu_view() -> std::io::Result<()> {
     let selection = Select::with_theme(&ColorfulTheme::default())
         .item("1. Create a User")
         .item("2. Enter/Update the Github API key")
+        .item("3. Exit")
         .interact()?;
 
     match selection {
         0 => create_user_file(),
         1 => create_api_file(),
+        2 => std::process::exit(0),
         _ => println!("Not an option"),
     };
     Ok(())
@@ -45,13 +38,18 @@ fn create_user_file() {
     // add a checker to check wheather the user have api key file or not
     std::io::Write::write_all(&mut file, user_name.as_bytes()).unwrap();
     let success_msg = format!(
-        "User file is sucessfuly created at {} with a name gitfetch_user\n 
-    You can now run `gitfetch` to see your github information",
+        "User file is sucessfuly created at {} with a name gitfetch_user\n",
         home_dir.into_string().unwrap()
     );
 
-    println!("{}", success_msg);
+    let (key, flag) = get_secret_key();
+    let mut flag_msg = "You can now run `gitfetch` to see your github information";
+    if !flag {
+        // show how to create an API key
+        flag_msg = "API key is not available"
+    }
 
+    println!("{} {}", success_msg, flag_msg);
 }
 
 fn create_api_file() {
@@ -85,11 +83,11 @@ fn create_api_file() {
 
 fn get_secret_key() -> (String, bool) {
     let home_dir = std::env::var_os("HOME").expect("Cannot get home directory!");
-    let file_path = std::path::Path::new(&home_dir).join("secretkey.txt");
+    let file_path = std::path::Path::new(&home_dir).join("gitfetch_api.txt");
     let secret_key = match std::fs::read_to_string(file_path) {
         Ok(contents) => contents,
         Err(e) => {
-            println!("{:?}", e);
+            println!("API key not found at {} ", home_dir.into_string().unwrap());
             "File not found".to_string()
         }
     };
