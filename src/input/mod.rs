@@ -43,63 +43,41 @@ pub fn cli_input() {
     };
 
     // to show the name of the user.
-    match matches.get_flag("author") {
-        true => about(),
-        false => todo!(),
+    if matches.get_flag("author") {
+        about();
     };
+
+    // start the temporary user function
+    if arg_temp != "None" {}
 
     // menu_cli::menu_view();
 }
 
-fn create_user_file(arg_user: String) {
-    let home_dir = env::var_os("HOME").expect("Cannot get home directory!");
-    let file_path = home_dir.into_string().unwrap() + "/gitfetch_user.txt";
-    let mut file = match std::fs::OpenOptions::new()
-        .create(true)
-        .write(true)
-        .open(file_path)
-    {
-        Ok(file) => file,
-        Err(e) => {
-            println!("Error opening file: {:?}", e);
-            return;
-        }
-    };
-    std::io::Write::write_all(&mut file, arg_user.as_bytes()).unwrap();
-}
-
-fn create_api_file(arg_api: String) {
-    let home_dir = env::var_os("HOME").expect("Cannot get home directory!");
-    let file_path = home_dir.into_string().unwrap() + "/gitfetch_api.txt";
-    let mut file = match std::fs::OpenOptions::new()
-        .create(true)
-        .write(true)
-        .open(file_path)
-    {
-        Ok(file) => file,
-        Err(e) => {
-            println!("Error opening file: {:?}", e);
-            return;
-        }
-    };
-    std::io::Write::write_all(&mut file, arg_api.as_bytes()).unwrap();
-}
-
 pub fn show_user_info() -> (String, String) {
     let home_dir = env::var_os("HOME").expect("Cannot get home directory!");
-    let file_path = Path::new(&home_dir).join("secretkey.txt");
-    let secret_key = match std::fs::read_to_string(file_path) {
+    let apifile_path = Path::new(&home_dir).join("gitfetch_api.txt");
+    let username_file_path = Path::new(&home_dir).join("gitfetch_user.txt");
+    let secret_key = match std::fs::read_to_string(apifile_path) {
         Ok(contents) => contents,
         Err(e) => {
             println!("{:?}", e);
             "Stop".to_string()
         }
     };
-    ("ArshErgon".to_string(), secret_key)
+
+    let username = match std::fs::read_to_string(username_file_path) {
+        Ok(contents) => contents,
+        Err(e) => {
+            println!("{:?}", e);
+            "File not found".to_string()
+        }
+    };
+    println!("{username}");
+    (username, secret_key)
 }
 
 // add some information about the creator
-fn about() {
+pub fn about() {
     let gitfetch_logo = format!(
         r"
 

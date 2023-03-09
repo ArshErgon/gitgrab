@@ -27,13 +27,7 @@ fn main() {
 fn start_the_project() {
     let (arg, secret_key) = input::show_user_info();
     let header_git_data = profile_header::start_header_info(arg.as_str(), secret_key.clone());
-    let counter_data =
-        get_detailed_view::main_view_start(arg.to_string(), secret_key.clone(), Some(false));
-    let filter_data = counter_data.unwrap();
+    let counter_data = get_detailed_view::main_view_start(arg.to_string(), secret_key.clone());
+    let filter_data = counter_data;
     github_logo_ascii::print_formatter(header_git_data, filter_data);
-    // checker for graph contribution as it has an key error which needs to continously to be updated.
-    let graph = get_detailed_view::show_contribution_graph(arg.to_string(), secret_key);
-    match graph.unwrap_err() {
-        error => println!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17"),
-    }
 }
