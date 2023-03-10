@@ -4,10 +4,8 @@ use clap::{Arg, ArgAction, Command};
 
 mod menu_cli;
 
-// this files do takes the argument from the cli
-// it use clap
-
 pub fn cli_input() -> (String, String) {
+    let mut flag = false;
     let matches = Command::new("gitfetch")
         .version("2.0")
         .author("A CLI application for github users, which shows the information of a particular user in a `neofetch` style\nProudly build with the help of Rust.")
@@ -48,14 +46,20 @@ pub fn cli_input() -> (String, String) {
     // to show the name of the user.
     if matches.get_flag("author") {
         about();
+        flag = true;
     };
 
     // start the temporary user function
     let (mut username, mut secret_key) = (String::new(), String::new());
+
     if arg_temp != "None" {
-        (username, secret_key) = show_user_info(arg_temp.to_string(), true)
-    } else {
-        (username, secret_key) = show_user_info("".to_string(), false)
+        (username, secret_key) = show_user_info(arg_temp.to_string(), true);
+    }
+
+    // for the feature gitfetch
+    // so that a full information about the permanet user(the home_dir/gitfetch_user one) will be displayed on the screen.
+    if !flag {
+        (username, secret_key) = show_user_info(String::new(), false);
     }
 
     (username, secret_key)
