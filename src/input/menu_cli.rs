@@ -10,7 +10,10 @@ pub fn menu_view() -> std::io::Result<()> {
     match selection {
         0 => create_user_file(),
         1 => create_api_file(),
-        2 => std::process::exit(0),
+        2 => {
+            println!("Thanks for using gitfetch");
+            std::process::exit(0)
+        }
         _ => println!("Not an option"),
     };
     Ok(())
@@ -38,7 +41,7 @@ fn create_user_file() {
     // add a checker to check wheather the user have api key file or not
     std::io::Write::write_all(&mut file, user_name.as_bytes()).unwrap();
     let success_msg = format!(
-        "User file is sucessfuly created at {} with a name gitfetch_user\n",
+        "\nUser file is sucessfuly created at {} with a name gitfetch_user\n",
         home_dir.into_string().unwrap()
     );
 
@@ -49,7 +52,8 @@ fn create_user_file() {
         flag_msg = "API key is not available"
     }
 
-    println!("{} {}", success_msg, flag_msg);
+    println!("{0} {1}", success_msg, flag_msg);
+    std::process::exit(0);
 }
 
 fn create_api_file() {
@@ -76,9 +80,10 @@ fn create_api_file() {
     };
     std::io::Write::write_all(&mut file, api_key.as_bytes()).unwrap();
     match flag {
-        true => println!("Key successfuly updated"),
-        false => println!("Key file generted"),
+        true => println!("\nKey successfuly updated"),
+        false => println!("\nKey file generted"),
     }
+    std::process::exit(0);
 }
 
 fn get_secret_key() -> (String, bool) {
@@ -87,7 +92,10 @@ fn get_secret_key() -> (String, bool) {
     let secret_key = match std::fs::read_to_string(file_path) {
         Ok(contents) => contents,
         Err(e) => {
-            println!("API key not found at {} ", home_dir.into_string().unwrap());
+            println!(
+                "\nAPI key not found at {} ",
+                home_dir.into_string().unwrap()
+            );
             "File not found".to_string()
         }
     };
