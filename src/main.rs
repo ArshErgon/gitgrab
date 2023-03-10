@@ -10,7 +10,6 @@ mod graph {
     pub mod graph_maker;
 }
 
-
 fn main() {
     let (username, secret_key) = input::cli_input();
     start_the_project(username, secret_key);
