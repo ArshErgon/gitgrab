@@ -10,6 +10,7 @@ mod graph {
     pub mod graph_maker;
 }
 
+// you can transfer the `start_the_project` to some other fuction which invokes every function
 fn main() {
     let (username, secret_key) = input::cli_input();
     start_the_project(username, secret_key);
