@@ -1,6 +1,6 @@
 [package]
 name = "gitfetch"
-version = "0.1.0"
+version = "0.2.0"
 edition = "2021"
 authors = ["ArshErgon", "arshergon@gmail.com", "https://www.linkedin.com/in/arsh-ergon/"]
 
@@ -10,9 +10,10 @@ authors = ["ArshErgon", "arshergon@gmail.com", "https://www.linkedin.com/in/arsh
 ansi_term = "0.12.1"
 anyhow = "1.0.69"
 cfonts = "1.1.0"
-clap = "2.29.4"
+clap = "4.1.8"
 colorful = "0.2.2"
 crossterm = "0.26.1"
+dialoguer = "0.10.3"
 graphql_client = { version = "0.12.0", features = ["reqwest-blocking"] }
 reqwest = "0.11"
 serde = { version = "1.0", features = ["derive"] }

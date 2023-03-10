@@ -84,14 +84,26 @@ pub async fn get_repos_info(
             let fork_count = counter.entry("Fork".to_string()).or_insert(0);
             *fork_count += data[i].2;
         }
+
+        if data[i].4 > 0 {
+            let issue_count = counter.entry("Issue".to_string()).or_insert(0);
+            *issue_count += data[i].2;
+        }
+
+        if data[i].5 > 0 {
+            let watchers_count = counter.entry("Watcher".to_string()).or_insert(0);
+            *watchers_count += data[i].5;
+        }
     }
 
     // simple percentage for the top lang use.
-    // added a checker to not make percentage value for star count and fork count
-    // will be using it later in the program as the program gets big
     for (key, val) in counter.clone() {
         let percentage = ((val as f32 / 8 as f32) * 100.0) as u32;
-        if !(key == "Star".to_string() || key == "Fork".to_string()) {
+        if !(key == "Star".to_string()
+            || key == "Fork".to_string()
+            || key == "Issue".to_string()
+            || key == "Watcher")
+        {
             counter.insert(key, percentage);
         }
     }
@@ -106,8 +118,6 @@ fn gather_repo_info(user: &str, secret_key: String) -> HashMap<String, u32> {
 
 fn profile_header(user: String) {
     ascii_text(user);
-    // will show the profile header information
-    // information like name, contribution, total commit, total issues, close and opened,
 }
 
 fn rainbow() {
@@ -116,6 +126,7 @@ fn rainbow() {
     line.rainbow();
 }
 
+// progress bar for languages bars.
 fn progress_bar(data_map: HashMap<String, u32>) {
     let mut values = Vec::new();
     let mut languages = Vec::new();
@@ -132,7 +143,7 @@ fn progress_bar(data_map: HashMap<String, u32>) {
         }
     }
 
-    let s = "█";
+    let bar = "█";
     ascii_text(String::from("Top Language"));
 
     let c = languages.iter().max_by_key(|x| x.len()).unwrap();
@@ -144,7 +155,7 @@ fn progress_bar(data_map: HashMap<String, u32>) {
         println!(
             " {:<width$} | {} {}%\n",
             languages.get(i).unwrap(),
-            s.repeat(length).gradient(HSL::new(h, 1.0, 0.5)),
+            bar.repeat(length).gradient(HSL::new(h, 1.0, 0.5)),
             value,
             width = c.len()
         );
@@ -185,34 +196,30 @@ fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 // check why does the contribution graph is not showing when using other keys.
-pub fn show_contribution_graph(user_name: String, secret_key: String) {
+fn show_contribution_graph(user_name: String, secret_key: String) -> Result<(), anyhow::Error> {
     let secret_key = secret_key.trim();
-    graph_maker::generate_graph(user_name, secret_key);
+    graph_maker::generate_graph(user_name, secret_key)
 }
 
-pub fn main_view_start(
-    username: String,
-    secret_key: String,
-    flag: Option<bool>,
-) -> Result<HashMap<String, u32>, ()> {
+pub fn main_view_start(username: String, secret_key: String) -> HashMap<String, u32> {
     // taking the stars, fork counts.
     let repo_data = get_repos_info(username.as_str(), secret_key.clone()).unwrap();
-    if flag.unwrap_or(false) {
-        // clean the terminal
-        clean_terminal();
-        // change the size so that it can show bars and all that.
-        set_new_terminal_size();
-        clean_terminal();
-        // An animated rainbow bar, attraction
-        rainbow();
-        // profile header bar, showing information about the user
-        profile_header(username.clone());
-        // starting the progress bar.
-        progress_bar(repo_data.clone());
-        // starting of the contribution graph
-        ascii_text("Contribution Graph".to_string());
-        show_contribution_graph(username, secret_key);
-        ();
+    // clean the terminal
+    clean_terminal();
+    // change the size so that it can show bars and all that.
+    set_new_terminal_size();
+    clean_terminal();
+    // An animated rainbow bar, attraction
+    rainbow();
+    // profile header bar, showing information about the user
+    profile_header(username.clone());
+    // starting the progress bar.
+    progress_bar(repo_data.clone());
+    // starting of the contribution graph
+    ascii_text("Contribution Graph".to_string());
+    let graph = show_contribution_graph(username, secret_key);
+    match graph.unwrap_err() {
+        error => println!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17"),
     }
-    Ok(repo_data)
+    repo_data
 }
