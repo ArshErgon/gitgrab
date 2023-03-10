@@ -118,8 +118,6 @@ fn gather_repo_info(user: &str, secret_key: String) -> HashMap<String, u32> {
 
 fn profile_header(user: String) {
     ascii_text(user);
-    // will show the profile header information
-    // information like name, contribution, total commit, total issues, close and opened,
 }
 
 fn rainbow() {
