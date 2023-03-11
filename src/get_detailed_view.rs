@@ -69,6 +69,7 @@ pub async fn get_repos_info(
     counter.insert("Issue".to_string(), 0);
     counter.insert("Watcher".to_string(), 0);
 
+    // counting every stars, watchers, issues (graphQl will help here.)
     for i in 0..length {
         if data[i].3 != "NA".to_string() {
             let lang_count = counter.entry(data[i].3.clone()).or_insert(0);
@@ -199,14 +200,15 @@ fn show_contribution_graph(user_name: String, secret_key: String) -> Result<(), 
     graph_maker::generate_graph(user_name, secret_key)
 }
 
+// the main_view_start is the backbone of our tool.
+// the two username and secret_key grab the github username, and the API key
+// API key always saved in a .txt file inside the `home_dir`
+// same goes for the permanent user, the only time the username file will not be read when the command is starts with -t
+
+// the header_git_data: takes a vector of string which is fetching the basic information like username, repo counts etc from the file `start_header_info`
+
+// the repo_data is holding the repo details, like total stars counts etc (graphql will help me alot here, need an improment)
 pub fn main_view_start() {
-    // thinking to start all the function from right here.
-    // the cli_input will be put inside here, with a variable
-    // no need to pass username and secret_key as a parimeter
-    // as the cli_input is already returing the user & key
-    // we just need to start only this function and rest will work
-    // make sure, some errors will happen, handle them
-    // and document your code.
     let (username, secret_key) = input::cli_input();
 
     let header_git_data =
@@ -222,11 +224,14 @@ pub fn main_view_start() {
     // An animated rainbow bar, attraction
     rainbow();
     // profile header bar, showing information about the user
+    // prints the github logo and the basic information
     profile_header(username.clone());
     crate::github_logo_ascii::print_formatter(header_git_data, repo_data.clone());
     // starting the progress bar.
+    // for languages it will start a bar.
     progress_bar(repo_data.clone());
     // starting of the contribution graph
+    // ascii_text converts text to ascii art for heading
     ascii_text("Contribution Graph".to_string());
     let graph = show_contribution_graph(username, secret_key);
     match graph.unwrap_err() {
