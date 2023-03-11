@@ -112,8 +112,7 @@ pub async fn get_repos_info(
 }
 
 fn gather_repo_info(user: &str, secret_key: String) -> HashMap<String, u32> {
-    let basic_data = get_repos_info(user, secret_key).unwrap();
-    basic_data
+    get_repos_info(user, secret_key).unwrap()
 }
 
 fn profile_header(user: String) {
@@ -168,7 +167,7 @@ fn clean_terminal() {
 }
 
 // prints the ascii text to the terminal, colorful
-pub fn ascii_text(txt: String) {
+fn ascii_text(txt: String) {
     say(Options {
         text: txt,
         font: Fonts::FontTiny,
@@ -191,7 +190,6 @@ fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
     let new_height = 50;
     let size = SetSize(new_width, new_height);
     execute!(std::io::stdout(), size)?;
-    println!("Changing the size of the terminal\nWidth:{new_width}\t\tHeight:{new_height}\n\n");
     Ok(())
 }
 
