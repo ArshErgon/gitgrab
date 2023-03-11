@@ -23,6 +23,5 @@ fn main() {
 fn start_the_project(arg: String, secret_key: String) {
     let header_git_data = profile_header::start_header_info(arg.as_str(), secret_key.clone());
     let counter_data = get_detailed_view::main_view_start(arg.to_string(), secret_key.clone());
-    let filter_data = counter_data;
-    github_logo_ascii::print_formatter(header_git_data, filter_data);
+    github_logo_ascii::print_formatter(header_git_data, counter_data);
 }
