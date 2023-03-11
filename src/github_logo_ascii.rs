@@ -115,8 +115,8 @@ pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u
     git_map.insert("updated".to_string(), header_git_data[13].clone());
     let stars = add_k(data_map["Star"].try_into().unwrap());
     let forks = add_k(data_map["Fork"].try_into().unwrap());
-    let issue = data_map["Issue"].to_string();
-    let watcher = data_map["Watcher"].to_string();
+    let issue = add_k(data_map["Issue"] as i32);
+    let watcher = add_k(data_map["Watcher"] as i32);
     git_map.insert("star".to_string(), stars);
     git_map.insert("fork".to_string(), forks);
     git_map.insert("issue".to_string(), issue);

@@ -53,7 +53,6 @@ pub fn cli_input() -> (String, String) {
     let (mut username, mut secret_key) = (String::new(), String::new());
 
     if arg_temp != "None" {
-        // (username, secret_key) = show_user_info(arg_temp.to_string(), true);
         let (key, _) = menu_cli::get_secret_key();
         (username, secret_key) = (arg_temp.to_string(), key);
         flag = true;
