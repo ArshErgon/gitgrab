@@ -147,7 +147,7 @@ fn find_max_key(data_map: HashMap<String, u32>) -> String {
     max_key
 }
 
-// add a k to the number 
+// add a k to the number
 // like 1000 will become 1k
 fn add_k(num: i32) -> String {
     let ans = if num >= 1000 {

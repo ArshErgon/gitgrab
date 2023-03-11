@@ -69,7 +69,7 @@ pub async fn get_repos_info(
     counter.insert("Issue".to_string(), 0);
     counter.insert("Watcher".to_string(), 0);
 
-// counting every stars, watchers, issues (graphQl will help here.)
+    // counting every stars, watchers, issues (graphQl will help here.)
     for i in 0..length {
         if data[i].3 != "NA".to_string() {
             let lang_count = counter.entry(data[i].3.clone()).or_insert(0);
