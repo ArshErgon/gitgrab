@@ -234,7 +234,8 @@ pub fn main_view_start() {
     // ascii_text converts text to ascii art for heading
     ascii_text("Contribution Graph".to_string());
     let graph = show_contribution_graph(username, secret_key);
-    match graph.unwrap_err() {
-        error => println!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17"),
+    match graph {
+        Ok(()) => print!(""),
+        Err(error) => println!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17"),
     }
 }
