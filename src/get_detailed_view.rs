@@ -12,7 +12,7 @@ use crossterm::{
 };
 
 // Contribution Graph Maker
-use crate::graph::graph_maker;
+use crate::{graph::graph_maker, input};
 
 #[derive(Deserialize, Debug)]
 struct Repository {
@@ -199,9 +199,21 @@ fn show_contribution_graph(user_name: String, secret_key: String) -> Result<(), 
     graph_maker::generate_graph(user_name, secret_key)
 }
 
-pub fn main_view_start(username: String, secret_key: String) -> HashMap<String, u32> {
-    // taking the stars, fork counts.
+pub fn main_view_start() {
+    // thinking to start all the function from right here.
+    // the cli_input will be put inside here, with a variable
+    // no need to pass username and secret_key as a parimeter
+    // as the cli_input is already returing the user & key
+    // we just need to start only this function and rest will work
+    // make sure, some errors will happen, handle them
+    // and document your code.
+    let (username, secret_key) = input::cli_input();
+
+    let header_git_data =
+        crate::profile_header::start_header_info(username.clone().as_str(), secret_key.clone());
     let repo_data = get_repos_info(username.as_str(), secret_key.clone()).unwrap();
+
+    // taking the stars, fork counts.
     // clean the terminal
     clean_terminal();
     // change the size so that it can show bars and all that.
@@ -211,6 +223,7 @@ pub fn main_view_start(username: String, secret_key: String) -> HashMap<String, 
     rainbow();
     // profile header bar, showing information about the user
     profile_header(username.clone());
+    crate::github_logo_ascii::print_formatter(header_git_data, repo_data.clone());
     // starting the progress bar.
     progress_bar(repo_data.clone());
     // starting of the contribution graph
@@ -219,5 +232,4 @@ pub fn main_view_start(username: String, secret_key: String) -> HashMap<String, 
     match graph.unwrap_err() {
         error => println!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17"),
     }
-    repo_data
 }
