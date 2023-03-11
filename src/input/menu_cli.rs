@@ -93,7 +93,7 @@ pub fn get_secret_key() -> (String, bool) {
         Ok(contents) => contents,
         Err(e) => {
             println!(
-                "\nAPI key not found at {} ",
+                "\nAPI key not found at {}; see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token and give it all permission (expect: deleting or creating)",
                 home_dir.into_string().unwrap()
             );
             "File not found".to_string()
