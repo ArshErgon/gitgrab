@@ -51,7 +51,6 @@ fn print_logo(data_map: HashMap<String, String>) {
                                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⢿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⡿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
         "
     );
-    // {blog_msg}{twitter_msg}{bio_msg}{language_msg}
     let msg = format!(
         r"
 {0}`({10})` has {1} repositories with a total of {2} stars, {3} forks {9} watchers. 
@@ -91,6 +90,7 @@ twitter: {14}",
     println!("{}", table.render());
 }
 
+// inserting the vector data which we get from header_info, to a map, as getting data would be readable and easy from it, then remembering the index of data
 pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u32>) {
     let mut git_map: HashMap<String, String> = HashMap::new();
     git_map.insert("username".to_string(), header_git_data[0].clone());
@@ -129,6 +129,7 @@ pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u
     print_logo(git_map);
 }
 
+// find the max_key for the top language
 fn find_max_key(data_map: HashMap<String, u32>) -> String {
     let mut max_val: u32 = 0;
     let mut max_key = String::new();
@@ -146,6 +147,8 @@ fn find_max_key(data_map: HashMap<String, u32>) -> String {
     max_key
 }
 
+// add a k to the number 
+// like 1000 will become 1k
 fn add_k(num: i32) -> String {
     let ans = if num >= 1000 {
         let decimal_star = num as f32 / 1000.0;
