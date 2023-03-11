@@ -86,7 +86,7 @@ fn create_api_file() {
     std::process::exit(0);
 }
 
-fn get_secret_key() -> (String, bool) {
+pub fn get_secret_key() -> (String, bool) {
     let home_dir = std::env::var_os("HOME").expect("Cannot get home directory!");
     let file_path = std::path::Path::new(&home_dir).join("gitfetch_api.txt");
     let secret_key = match std::fs::read_to_string(file_path) {

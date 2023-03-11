@@ -53,7 +53,10 @@ pub fn cli_input() -> (String, String) {
     let (mut username, mut secret_key) = (String::new(), String::new());
 
     if arg_temp != "None" {
-        (username, secret_key) = show_user_info(arg_temp.to_string(), true);
+        // (username, secret_key) = show_user_info(arg_temp.to_string(), true);
+        let (key, _) = menu_cli::get_secret_key();
+        (username, secret_key) = (arg_temp.to_string(), key);
+        flag = true;
     }
 
     // for the feature gitfetch
@@ -61,7 +64,6 @@ pub fn cli_input() -> (String, String) {
     if !flag {
         (username, secret_key) = show_user_info(String::new(), false);
     }
-
     (username, secret_key)
 }
 
@@ -77,18 +79,18 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
         }
     };
     let mut username = String::new();
-    if !flag {
-        username = String::new();
-        username = match std::fs::read_to_string(username_file_path) {
-            Ok(contents) => contents,
-            Err(e) => {
-                println!("{:?}", e);
-                "File not found".to_string()
-            }
-        };
-    } else {
-        username = arg
-    }
+    // if !flag {
+    username = String::new();
+    username = match std::fs::read_to_string(username_file_path) {
+        Ok(contents) => contents,
+        Err(e) => {
+            println!("{:?}", e);
+            "File not found".to_string()
+        }
+    };
+    // } else {
+    //     username = arg
+    // }
     (username, secret_key)
 }
 
