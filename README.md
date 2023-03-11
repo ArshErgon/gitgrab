@@ -8,7 +8,8 @@
 
 ***Get for GitHub Information on your terminal***
 > We all know `neofetch` an awesome tool to see your OS details on your terminal, so why not a website details which we developers use alot? Thats why I made `GitFetch` to showcase one's github profile in the terminal.
-[img]((https://user-images.githubusercontent.com/40994679/224485236-7f3c4207-3ac0-4bf7-8711-7f10718c1f36.webm))
+
+[img](https://user-images.githubusercontent.com/40994679/224485236-7f3c4207-3ac0-4bf7-8711-7f10718c1f36.webm)
 
 
 # Commands
