@@ -14,6 +14,8 @@ use crossterm::{
 // Contribution Graph Maker
 use crate::{graph::graph_maker, input};
 
+use crate::github_graphql::detailed_view;
+
 #[derive(Deserialize, Debug)]
 struct Repository {
     name: String,
@@ -98,6 +100,7 @@ pub async fn get_repos_info(
     }
 
     // simple percentage for the top lang use.
+    // keep this language percantage
     for (key, val) in counter.clone() {
         let percentage = ((val as f32 / 8 as f32) * 100.0) as u32;
         if !(key == "Star".to_string()
@@ -179,16 +182,13 @@ fn ascii_text(txt: String) {
 }
 
 fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
-    // Get the current size of the terminal window
-    // let (width, height) = terminal::size()?;
-
     // Set the new size of the terminal window
     // the normal size of the window is default, using this because
     // bar size is increasing and doing a text wrapping
     // decreasing the length of the bar is decreasing all the other bars also.
     // at now setting a new terminal height is a solution
-    let new_width = 124;
-    let new_height = 50;
+    let new_width = 120;
+    let new_height = 30;
     let size = SetSize(new_width, new_height);
     execute!(std::io::stdout(), size)?;
     Ok(())
@@ -210,28 +210,38 @@ fn show_contribution_graph(user_name: String, secret_key: String) -> Result<(), 
 // the repo_data is holding the repo details, like total stars counts etc (graphql will help me alot here, need an improment)
 pub fn main_view_start() {
     let (username, secret_key) = input::cli_input();
+    let (profile_data, language_data) =
+        detailed_view::get_graphql_info(username.clone(), secret_key.as_str());
 
+    // these two variables are no longer needed
     let header_git_data =
         crate::profile_header::start_header_info(username.clone().as_str(), secret_key.clone());
     let repo_data = get_repos_info(username.as_str(), secret_key.clone()).unwrap();
+    // delete above
 
-    // taking the stars, fork counts.
-    // clean the terminal
-    clean_terminal();
     // change the size so that it can show bars and all that.
+
     set_new_terminal_size();
     clean_terminal();
+
     // An animated rainbow bar, attraction
+
     rainbow();
+
     // profile header bar, showing information about the user
     // prints the github logo and the basic information
+
     profile_header(username.clone());
-    crate::github_logo_ascii::print_formatter(header_git_data, repo_data.clone());
+    crate::github_logo_ascii::print_formatter(profile_data, language_data.clone());
+
     // starting the progress bar.
     // for languages it will start a bar.
+
     progress_bar(repo_data.clone());
+
     // starting of the contribution graph
     // ascii_text converts text to ascii art for heading
+
     ascii_text("Contribution Graph".to_string());
     let graph = show_contribution_graph(username, secret_key);
     match graph {
