@@ -1,0 +1,52 @@
+query Kusa($userName: String!) {
+  user(login: $userName) {
+    bio
+    company
+    email
+    followers {
+      totalCount
+    }
+    following {
+      totalCount
+    }
+    location
+    login
+    name
+    websiteUrl
+    starredRepositories {
+      totalCount
+    }
+    pullRequests {
+      totalCount
+    }
+    repositories(first: 100) {
+      totalCount
+      nodes {
+        name
+        primaryLanguage {
+          name
+        }
+      }
+    }
+    twitterUsername
+    watching {
+      totalCount
+    }
+    topRepositories(orderBy: {field: STARGAZERS, direction: ASC}, first: 3) {
+      edges {
+        node {
+          name
+          primaryLanguage {
+            name
+          }
+          description
+          stargazerCount
+        }
+      }
+    }
+    issues {
+      totalCount
+    }
+  }
+  
+}
