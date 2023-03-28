@@ -78,18 +78,15 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
         }
     };
     let mut username = String::new();
-    // if !flag {
     username = String::new();
     username = match std::fs::read_to_string(username_file_path) {
-        Ok(contents) => contents,
+        Ok(contents) => contents.trim().to_string(),
         Err(e) => {
             println!("{:?}", e);
             "File not found".to_string()
         }
     };
-    // } else {
-    //     username = arg
-    // }
+    
     (username, secret_key)
 }
 
