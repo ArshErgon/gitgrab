@@ -3,6 +3,7 @@ query Kusa($userName: String!) {
     bio
     company
     email
+    updatedAt
     followers {
       totalCount
     }
@@ -22,7 +23,9 @@ query Kusa($userName: String!) {
     repositories(first: 100) {
       totalCount
       nodes {
-        name
+        forks {
+          totalCount
+        }
         primaryLanguage {
           name
         }
