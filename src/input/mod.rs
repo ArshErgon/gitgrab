@@ -86,7 +86,7 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
             "File not found".to_string()
         }
     };
-    
+
     (username, secret_key)
 }
 
