@@ -14,6 +14,7 @@ use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuer
 
 struct Kusa;
 type URI = String;
+type DateTime = String;
 
 pub fn get_graphql_info(
     username: String,
@@ -31,15 +32,14 @@ pub fn get_graphql_info(
         Ok(raw_data) => filter_out_data(raw_data),
         Err(_) => {
             print!("{error_msg}");
+            std::process::exit(1);
             (HashMap::new(), HashMap::new())
         }
     };
     return_data
 }
 
-fn user_authentication(username: String, secret_key: &str) -> Result<kusa::ResponseData> {
-    let user_name = "ArshErgon".to_string();
-    let secret_key = "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";
+fn user_authentication(user_name: String, secret_key: &str) -> Result<kusa::ResponseData> {
     let variables = kusa::Variables { user_name };
     let client = Client::builder()
         .user_agent("graphql-rust/0.10.0")
@@ -62,9 +62,13 @@ fn filter_out_data(
     const EMPTY: &str = "NA";
     let mut filter_data_map: HashMap<String, String> = HashMap::new();
     let mut languages: HashMap<String, i32> = HashMap::new();
-
+    let mut fork_count = 0;
     match response_data.user {
         Some(user) => {
+            filter_data_map.insert(
+                "username".to_string(),
+                user.name.clone().unwrap_or_else(|| EMPTY.to_string()),
+            );
             filter_data_map.insert(
                 "bio".to_string(),
                 user.bio.unwrap_or_else(|| EMPTY.to_string()),
@@ -76,7 +80,7 @@ fn filter_out_data(
             filter_data_map.insert("email".to_string(), user.email);
 
             filter_data_map.insert(
-                "email".to_string(),
+                "location".to_string(),
                 user.location.unwrap_or_else(|| EMPTY.to_string()),
             );
 
@@ -94,6 +98,7 @@ fn filter_out_data(
                 "website_url".to_string(),
                 user.website_url.unwrap_or_else(|| EMPTY.to_string()),
             );
+
             match user.followers {
                 followers => {
                     filter_data_map
@@ -132,10 +137,16 @@ fn filter_out_data(
                 }
             }
 
+            match user.updated_at {
+                update => {
+                    filter_data_map.insert("update".to_string(), update);
+                }
+            }
+
             match user.repositories {
                 repo => {
                     filter_data_map.insert("repo".to_string(), repo.total_count.to_string());
-                    if let Some(nodes) = repo.nodes {
+                    if let Some(ref nodes) = repo.nodes {
                         nodes
                             .iter()
                             .filter_map(|node| if let Some(n) = node { Some(n) } else { None })
@@ -144,14 +155,24 @@ fn filter_out_data(
                                 *languages.entry(lang.name.to_string()).or_insert(0) += 1;
                             });
                     }
+
+                    if let Some(nodes) = repo.nodes {
+                        nodes
+                            .iter()
+                            .filter_map(|node| if let Some(n) = node { Some(n) } else { None })
+                            .for_each(|node| {
+                                fork_count += node.forks.total_count;
+                            });
+                    };
                 }
             }
         }
         None => {
-            println!("error")
+            println!("Error, could not find information about the user");
+            std::process::exit(1)
         }
     }
-
+    filter_data_map.insert("fork".to_string(), fork_count.to_string());
     let total_value: i32 = languages.values().sum();
     for (key, val) in languages.clone() {
         let mut percentage = ((val as f32 / total_value as f32) * 100.0) as i32;

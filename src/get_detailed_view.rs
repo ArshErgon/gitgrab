@@ -16,6 +16,7 @@ use crate::{graph::graph_maker, input};
 
 use crate::github_graphql::detailed_view;
 
+// this section till this comment says "end here" will be deleted
 #[derive(Deserialize, Debug)]
 struct Repository {
     name: String,
@@ -99,25 +100,14 @@ pub async fn get_repos_info(
         }
     }
 
-    // simple percentage for the top lang use.
-    // keep this language percantage
-    for (key, val) in counter.clone() {
-        let percentage = ((val as f32 / 8 as f32) * 100.0) as u32;
-        if !(key == "Star".to_string()
-            || key == "Fork".to_string()
-            || key == "Issue".to_string()
-            || key == "Watcher")
-        {
-            counter.insert(key, percentage);
-        }
-    }
-
     Ok(counter)
 }
 
 fn gather_repo_info(user: &str, secret_key: String) -> HashMap<String, u32> {
     get_repos_info(user, secret_key).unwrap()
 }
+// end Here.
+
 
 fn profile_header(user: String) {
     ascii_text(user);
@@ -211,7 +201,7 @@ fn show_contribution_graph(user_name: String, secret_key: String) -> Result<(), 
 pub fn main_view_start() {
     let (username, secret_key) = input::cli_input();
     let (profile_data, language_data) =
-        detailed_view::get_graphql_info(username.clone(), secret_key.as_str());
+        detailed_view::get_graphql_info(username.clone(), secret_key.trim());
 
     // these two variables are no longer needed
     let header_git_data =
