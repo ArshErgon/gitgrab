@@ -1,8 +1,6 @@
-use reqwest::{header::HeaderMap, Client};
-use serde::Deserialize;
 use std::collections::HashMap;
 extern crate colorful;
-use colorful::{Color, Colorful, HSL};
+use colorful::{Colorful, HSL};
 extern crate cfonts;
 use cfonts::{say, Colors, Fonts, Options};
 
@@ -16,99 +14,6 @@ use crate::{graph::graph_maker, input};
 
 use crate::github_graphql::detailed_view;
 
-// this section till this comment says "end here" will be deleted
-#[derive(Deserialize, Debug)]
-struct Repository {
-    name: String,
-    stargazers_count: u32,
-    forks_count: u32,
-    language: Option<String>,
-    open_issues_count: u32,
-    watchers: u32,
-}
-
-#[tokio::main]
-pub async fn get_repos_info(
-    user: &str,
-    secret_key: String,
-) -> Result<(HashMap<String, u32>), Box<dyn std::error::Error>> {
-    let client = Client::new();
-    let request_url = format!("https://api.github.com/users/{user}/repos");
-    let mut headers = reqwest::header::HeaderMap::new();
-    headers.insert(reqwest::header::USER_AGENT, "{secret_key}".parse().unwrap());
-
-    let response = client.get(&request_url).headers(headers).send().await?;
-
-    let json_str = response.text().await?;
-    let json_data: serde_json::Value = serde_json::from_str(&json_str)?;
-    let persons: Vec<Repository> = json_data
-        .as_array()
-        .unwrap()
-        .into_iter()
-        .map(|val| val.as_object().unwrap())
-        .map(|val| serde_json::from_value(serde_json::Value::Object(val.clone())).unwrap())
-        .collect();
-
-    let data: Vec<(String, u32, u32, String, u32, u32)> = persons
-        .iter()
-        .map(|repo| {
-            (
-                repo.name.to_string(),
-                repo.stargazers_count,
-                repo.forks_count,
-                repo.language.clone().unwrap_or_else(|| "NA".to_string()),
-                repo.open_issues_count,
-                repo.watchers,
-            )
-        })
-        .collect();
-
-    let length = data.len();
-
-    // count the stars, forks, issues, watchers and languages
-    let mut counter = HashMap::new();
-    counter.insert("Star".to_string(), 0);
-    counter.insert("Fork".to_string(), 0);
-    counter.insert("Issue".to_string(), 0);
-    counter.insert("Watcher".to_string(), 0);
-
-    // counting every stars, watchers, issues (graphQl will help here.)
-    for i in 0..length {
-        if data[i].3 != "NA".to_string() {
-            let lang_count = counter.entry(data[i].3.clone()).or_insert(0);
-            *lang_count += 1;
-        }
-
-        if data[i].1 > 0 {
-            let star_count = counter.entry("Star".to_string()).or_insert(0);
-            *star_count += data[i].1;
-        }
-
-        if data[i].2 > 0 {
-            let fork_count = counter.entry("Fork".to_string()).or_insert(0);
-            *fork_count += data[i].2;
-        }
-
-        if data[i].4 > 0 {
-            let issue_count = counter.entry("Issue".to_string()).or_insert(0);
-            *issue_count += data[i].2;
-        }
-
-        if data[i].5 > 0 {
-            let watchers_count = counter.entry("Watcher".to_string()).or_insert(0);
-            *watchers_count += data[i].5;
-        }
-    }
-
-    Ok(counter)
-}
-
-fn gather_repo_info(user: &str, secret_key: String) -> HashMap<String, u32> {
-    get_repos_info(user, secret_key).unwrap()
-}
-// end Here.
-
-
 fn profile_header(user: String) {
     ascii_text(user);
 }
@@ -120,20 +25,18 @@ fn rainbow() {
 }
 
 // progress bar for languages bars.
-fn progress_bar(data_map: HashMap<String, u32>) {
+fn progress_bar(data_map: HashMap<String, i32>) {
     let mut values = Vec::new();
     let mut languages = Vec::new();
 
     for (key, value) in data_map {
-        if !(key == "Star" || key == "Fork" || key == "Issue" || key == "Watcher") {
-            // progress_bar(key, value);
-            if value > 100 {
-                values.push(100.0);
-            } else {
-                values.push(value as f64);
-            }
-            languages.push(key);
+        // progress_bar(key, value);
+        if value > 100 {
+            values.push(100.0);
+        } else {
+            values.push(value as f64);
         }
+        languages.push(key);
     }
 
     let bar = "█";
@@ -144,7 +47,6 @@ fn progress_bar(data_map: HashMap<String, u32>) {
     for (i, value) in values.iter().enumerate() {
         let h = (*value as f32 * 15.0 % 360.0) / 360.0;
         let length = (value - 10.0) as usize;
-        let length = if length >= 100 { length / 2 } else { length };
         println!(
             " {:<width$} | {} {}%\n",
             languages.get(i).unwrap(),
@@ -203,12 +105,6 @@ pub fn main_view_start() {
     let (profile_data, language_data) =
         detailed_view::get_graphql_info(username.clone(), secret_key.trim());
 
-    // these two variables are no longer needed
-    let header_git_data =
-        crate::profile_header::start_header_info(username.clone().as_str(), secret_key.clone());
-    let repo_data = get_repos_info(username.as_str(), secret_key.clone()).unwrap();
-    // delete above
-
     // change the size so that it can show bars and all that.
 
     set_new_terminal_size();
@@ -227,7 +123,7 @@ pub fn main_view_start() {
     // starting the progress bar.
     // for languages it will start a bar.
 
-    progress_bar(repo_data.clone());
+    progress_bar(language_data);
 
     // starting of the contribution graph
     // ascii_text converts text to ascii art for heading

@@ -31,9 +31,8 @@ pub fn get_graphql_info(
     let return_data = match data {
         Ok(raw_data) => filter_out_data(raw_data),
         Err(_) => {
-            print!("{error_msg}");
-            std::process::exit(1);
-            (HashMap::new(), HashMap::new())
+            eprint!("{error_msg}");
+            std::process::exit(0);
         }
     };
     return_data
@@ -168,16 +167,25 @@ fn filter_out_data(
             }
         }
         None => {
-            println!("Error, could not find information about the user");
-            std::process::exit(1)
+            let error_msg = format!(
+                r"
+Error, could not find information about the user
+This error can happened because of the following
+1. User doesn't exists (recheck your username).
+2. Organization support is not available right now
+3. The token request is exceed (https://docs.github.com/en/apps/creating-github-apps/creating-github-apps/rate-limits-for-github-apps)"
+            );
+            println!("{error_msg}");
+
+            std::process::exit(0)
         }
     }
     filter_data_map.insert("fork".to_string(), fork_count.to_string());
     let total_value: i32 = languages.values().sum();
     for (key, val) in languages.clone() {
-        let mut percentage = ((val as f32 / total_value as f32) * 100.0) as i32;
-        if percentage < 10 {
-            percentage += 9
+        let mut percentage = (((val + 10) as f32 / total_value as f32) * 100.0) as i32;
+        if percentage > 100 {
+            percentage = 100
         }
         languages.insert(key.to_string(), percentage);
     }

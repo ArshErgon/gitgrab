@@ -6,7 +6,6 @@ use get_detailed_view::main_view_start;
 mod get_detailed_view;
 mod github_logo_ascii;
 mod input;
-mod profile_header;
 mod github_graphql {
     pub mod detailed_view;
 }

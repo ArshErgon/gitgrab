@@ -67,19 +67,17 @@ pub fn cli_input() -> (String, String) {
 }
 
 fn show_user_info(arg: String, flag: bool) -> (String, String) {
-    let home_dir = env::var_os("HOME").expect("Cannot get home directory!");
-    let apifile_path = Path::new(&home_dir).join("gitfetch_api.txt");
-    let username_file_path = Path::new(&home_dir).join("gitfetch_user.txt");
-    let secret_key = match std::fs::read_to_string(apifile_path) {
-        Ok(contents) => contents,
-        Err(e) => {
-            println!("{:?}", e);
-            "Stop".to_string()
+    let home_dir = match env::var_os("HOME") {
+        Some(path) => path,
+        None => {
+            println!("Cannot get home directory!");
+            std::process::exit(0);
         }
     };
-    let mut username = String::new();
-    username = String::new();
-    username = match std::fs::read_to_string(username_file_path) {
+
+    let apifile_path = Path::new(&home_dir).join("gitfetch_api.txt");
+    let username_file_path = Path::new(&home_dir).join("gitfetch_user.txt");
+    let mut username = match std::fs::read_to_string(&username_file_path) {
         Ok(contents) => contents.trim().to_string(),
         Err(e) => {
             println!("{:?}", e);
@@ -87,7 +85,16 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
         }
     };
 
-    (username, secret_key)
+    let secret_key_string = menu_cli::get_secret_key().0; // get the string only
+    if !secret_key_string.is_empty() {
+        // overwrite the contents of gitfetch_api.txt with the new API key
+        match std::fs::write(&apifile_path, secret_key_string.clone()) {
+            Ok(_) => (),
+            Err(e) => println!("Error writing to file: {:?}", e),
+        }
+    }
+
+    (username, secret_key_string)
 }
 
 // add some information about the creator

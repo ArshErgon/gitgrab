@@ -7,8 +7,6 @@ fn print_logo(data_map: HashMap<String, String>) {
     let mut table = Table::new();
     table.max_column_width = 40;
     table.style = term_table::TableStyle::rounded();
-    print!("{:#?}", data_map);
-    std::process::exit(1);
 
     let email = &data_map["email"];
     let repos = &data_map["repo"];
@@ -16,17 +14,18 @@ fn print_logo(data_map: HashMap<String, String>) {
     let followers = &data_map["followers"];
     let company = &data_map["company"];
     let watcher = &data_map["watcher"];
-    let star = &data_map["star"];
+    let star = &data_map["stars"];
     let pull_requests = &data_map["request"];
     let issues = &data_map["issues"];
     let fork = &data_map["fork"];
-    let twitter = &data_map["twitter"];
+    let twitter = &data_map["twitter_username"];
     let name = &data_map["username"];
     let bio = &data_map["bio"];
     let blog = &data_map["website_url"];
     let following = &data_map["following"];
     let username = &data_map["login"];
     let location = &data_map["location"];
+    let top_lang = &data_map["top_lang"];
 
     // let top_lang = &data_map["top_lang"];
     // there's a way of centering it, {^50}
@@ -56,8 +55,8 @@ fn print_logo(data_map: HashMap<String, String>) {
                                 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⢿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⡿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
         "
     );
-        let msg = format!(
-            r"
+    let msg = format!(
+        r"
     {0}`({10})` has {1} repositories with a total of {2} stars, {3} forks {9} watchers.
 
     Additionally, {0} has {4} open issues and {5} watchers.
@@ -68,36 +67,36 @@ fn print_logo(data_map: HashMap<String, String>) {
     blog: {12},
     email: {13},
     twitter: {14}",
-            name.color(Color::Aquamarine1a),
-            repos.color(Color::Aquamarine1a),
-            star.color(Color::Aquamarine1a),
-            fork.color(Color::Aquamarine1a),
-            issue.color(Color::Aquamarine1a),
-            watcher.color(Color::Aquamarine1a),
-            following.color(Color::Aquamarine1a),
-            followers.color(Color::Aquamarine1a),
-            "top_lang",
-            watcher.color(Color::Aquamarine1a),
-            username.color(Color::Aquamarine1a),
-            bio.color(Color::Aquamarine1a),
-            blog.color(Color::Aquamarine1a),
-            email.color(Color::Aquamarine1a),
-            twitter.color(Color::Aquamarine1a),
-        );
-        print!("{}\n", logo.color(Color::White));
-        table.add_row(term_table::row::Row::new(vec![
-            term_table::table_cell::TableCell::new_with_alignment(
-                msg,
-                2,
-                term_table::table_cell::Alignment::Left,
-            ),
-        ]));
-        println!("{}", table.render());
+        name.clone().color(Color::Aquamarine1a),
+        repos.clone().color(Color::Aquamarine1a),
+        star.clone().color(Color::Aquamarine1a),
+        fork.clone().color(Color::Aquamarine1a),
+        issue.clone().color(Color::Aquamarine1a),
+        watcher.clone().color(Color::Aquamarine1a),
+        following.clone().color(Color::Aquamarine1a),
+        followers.clone().color(Color::Aquamarine1a),
+        "top_lang",
+        watcher.clone().color(Color::Aquamarine1a),
+        username.clone().color(Color::Aquamarine1a),
+        bio.clone().color(Color::Aquamarine1a),
+        blog.clone().color(Color::Aquamarine1a),
+        email.clone().color(Color::Aquamarine1a),
+        twitter.clone().color(Color::Aquamarine1a),
+    );
+    print!("{}\n", logo.color(Color::White));
+    table.add_row(term_table::row::Row::new(vec![
+        term_table::table_cell::TableCell::new_with_alignment(
+            msg,
+            2,
+            term_table::table_cell::Alignment::Left,
+        ),
+    ]));
+    println!("{:^width$}", table.render(), width = 40);
+    println!("{:^width$}", "this will be center", width=50);
+    std::process::exit(1);
 }
 
-pub fn print_formatter(mut git_data: HashMap<String, String>, data_map: HashMap<String, i32>) {
-    let mut git_map: HashMap<String, String> = HashMap::new();
-
+pub fn print_formatter(mut git_data: HashMap<String, String>, language_map: HashMap<String, i32>) {
     let repo = add_k(git_data[&"repo".to_string()].parse::<i32>().unwrap());
     git_data.entry("repo".to_string()).or_insert(repo);
 
@@ -114,6 +113,13 @@ pub fn print_formatter(mut git_data: HashMap<String, String>, data_map: HashMap<
     git_data.insert("fork".to_string(), forks);
     git_data.insert("issue".to_string(), issue);
     git_data.insert("watcher".to_string(), watcher);
+    let max_key = language_map
+        .iter()
+        .max_by_key(|(_, &value)| value)
+        .map(|(key, _)| key.clone())
+        .unwrap_or_else(|| "NA".to_string());
+
+    git_data.insert("top_lang".to_string(), max_key);
 
     print_logo(git_data);
 }
