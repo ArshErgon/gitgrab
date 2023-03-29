@@ -20,7 +20,7 @@ fn profile_header(user: String) {
 
 fn rainbow() {
     let line =
-        "\t\t\t███████████████████████████████████████████████████████████████████████████\n";
+        "\t\t███████████████████████████████████████████████████████████████████████████\n";
     line.rainbow();
 }
 
@@ -79,7 +79,7 @@ fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
     // bar size is increasing and doing a text wrapping
     // decreasing the length of the bar is decreasing all the other bars also.
     // at now setting a new terminal height is a solution
-    let new_width = 120;
+    let new_width = 110;
     let new_height = 30;
     let size = SetSize(new_width, new_height);
     execute!(std::io::stdout(), size)?;
