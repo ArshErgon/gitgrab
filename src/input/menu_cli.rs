@@ -89,8 +89,8 @@ fn create_api_file() {
     {
         Ok(file) => file,
         Err(e) => {
-            println!("Error opening file: {:?}", e);
-            return;
+            eprintln!("Error opening file: {:?}", e);
+            std::process::exit(0)
         }
     };
     std::io::Write::write_all(&mut file, api_key.as_bytes()).unwrap();
@@ -105,7 +105,7 @@ pub fn get_secret_key() -> (String, bool) {
     let home_dir = match dirs::home_dir() {
         Some(path) => path,
         None => {
-            println!("Cannot get home directory!");
+            eprintln!("Cannot get home directory!");
             std::process::exit(0);
         }
     };

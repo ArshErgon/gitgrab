@@ -7,7 +7,6 @@ fn print_logo(data_map: HashMap<String, String>) {
     let mut table = Table::new();
     table.max_column_width = 55;
     table.style = term_table::TableStyle::rounded();
-
     let email = &data_map["email"];
     let repos = &data_map["repo"];
     let issue = &data_map["issue"];
@@ -19,15 +18,16 @@ fn print_logo(data_map: HashMap<String, String>) {
     let issues = &data_map["issues"];
     let fork = &data_map["fork"];
     let twitter = &data_map["twitter_username"];
-    let name = &data_map["username"];
+    let name = &data_map["name"];
     let bio = &data_map["bio"];
     let blog = &data_map["website_url"];
     let following = &data_map["following"];
     let username = &data_map["login"];
     let location = &data_map["location"];
     let top_lang = &data_map["top_lang"];
+    let request = &data_map["request"];
+    let update = &data_map["update"];
 
-    
     let logo = format!(
         "
                             ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣶⣦⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
@@ -55,32 +55,11 @@ fn print_logo(data_map: HashMap<String, String>) {
     );
     let msg = format!(
         r"
-    {0}`({10})` has {1} repositories with a total of {2} stars, {3} forks {9} watchers.
-
-    Additionally, {0} has {4} open issues and {5} watchers.
-
-    {0} is also following {6} accounts and has {7} followers, with a Top language {8}.
-
-    Bio: {11},
-    blog: {12},
-    email: {13},
-    twitter: {14}",
-        name.clone().color(Color::Aquamarine1a),
-        repos.clone().color(Color::Aquamarine1a),
-        star.clone().color(Color::Aquamarine1a),
-        fork.clone().color(Color::Aquamarine1a),
-        issue.clone().color(Color::Aquamarine1a),
-        watcher.clone().color(Color::Aquamarine1a),
-        following.clone().color(Color::Aquamarine1a),
-        followers.clone().color(Color::Aquamarine1a),
-        "top_lang",
-        // add top lang and location
-        watcher.clone().color(Color::Aquamarine1a),
-        username.clone().color(Color::Aquamarine1a),
-        bio.clone().color(Color::Aquamarine1a),
-        blog.clone().color(Color::Aquamarine1a),
-        email.clone().color(Color::Aquamarine1a),
-        twitter.clone().color(Color::Aquamarine1a),
+    name `username` have repo_count with a `top_lang` and `followers` and `following`
+    `username` has got stars, forks and watchers, and also started `` number of issues and `` pull requests
+    Currently `username` working in `` company location ``
+    `` username email
+        "
     );
     print!("{}\n", logo.color(Color::White));
     table.add_row(term_table::row::Row::new(vec![
@@ -91,7 +70,6 @@ fn print_logo(data_map: HashMap<String, String>) {
         ),
     ]));
     println!("{:^width$}", table.render(), width = 40);
-
 }
 
 pub fn print_formatter(mut git_data: HashMap<String, String>, language_map: HashMap<String, i32>) {

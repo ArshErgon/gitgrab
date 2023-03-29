@@ -70,7 +70,7 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
     let home_dir = match env::var_os("HOME") {
         Some(path) => path,
         None => {
-            println!("Cannot get home directory!");
+            eprintln!("Cannot get home directory!");
             std::process::exit(0);
         }
     };
@@ -80,8 +80,8 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
     let mut username = match std::fs::read_to_string(&username_file_path) {
         Ok(contents) => contents.trim().to_string(),
         Err(e) => {
-            println!("{:?}", e);
-            "File not found".to_string()
+            eprintln!("{:?}", e);
+            std::process::exit(0)
         }
     };
 
@@ -90,7 +90,10 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
         // overwrite the contents of gitfetch_api.txt with the new API key
         match std::fs::write(&apifile_path, secret_key_string.clone()) {
             Ok(_) => (),
-            Err(e) => println!("Error writing to file: {:?}", e),
+            Err(e) => {
+                eprintln!("Error writing to file: {:?}", e);
+                std::process::exit(0)
+            }
         }
     }
 

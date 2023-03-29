@@ -19,8 +19,7 @@ fn profile_header(user: String) {
 }
 
 fn rainbow() {
-    let line =
-        "\t\t███████████████████████████████████████████████████████████████████████████\n";
+    let line = "\t\t███████████████████████████████████████████████████████████████████████████\n";
     line.rainbow();
 }
 
@@ -132,6 +131,9 @@ pub fn main_view_start() {
     let graph = show_contribution_graph(username, secret_key);
     match graph {
         Ok(()) => print!(""),
-        Err(error) => println!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17"),
+        Err(error) => {
+            eprintln!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17");
+            std::process::exit(0)
+        }
     }
 }

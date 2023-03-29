@@ -65,10 +65,6 @@ fn filter_out_data(
     match response_data.user {
         Some(user) => {
             filter_data_map.insert(
-                "username".to_string(),
-                user.name.clone().unwrap_or_else(|| EMPTY.to_string()),
-            );
-            filter_data_map.insert(
                 "bio".to_string(),
                 user.bio.unwrap_or_else(|| EMPTY.to_string()),
             );
@@ -175,7 +171,7 @@ This error can happened because of the following
 2. Organization support is not available right now
 3. The token request is exceed (https://docs.github.com/en/apps/creating-github-apps/creating-github-apps/rate-limits-for-github-apps)"
             );
-            println!("{error_msg}");
+            eprintln!("{error_msg}");
 
             std::process::exit(0)
         }
