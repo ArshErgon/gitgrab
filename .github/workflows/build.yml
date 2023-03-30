@@ -9,46 +9,29 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        target: [x86_64-unknown-linux-gnu, x86_64-apple-darwin, x86_64-pc-windows-msvc]
-        rust-toolchain: [stable, nightly]
     env:
       CARGO_TARGET_DIR: ./target
     steps:
-
-      - name: Install MSVC build tools
-        if: matrix.target == 'x86_64-pc-windows-msvc'
-        run: |
-          choco install -y visualstudio2019buildtools
-          choco install -y visualstudio2019-workload-vctools
-          
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Install target
-        run: rustup target add ${{ matrix.target }}
-
-      - name: Create target directory
-        run: mkdir -p ${{ env.CARGO_TARGET_DIR }}
-
       - name: Install OpenSSL development headers
-        run: sudo apt-get install -y libssl-dev
+        run: sudo apt-get update && sudo apt-get install -y libssl-dev
 
       - name: Install Rust
         uses: actions-rs/toolchain@v1.0.6
         with:
-          toolchain: ${{ matrix.rust-toolchain }}
+          toolchain: stable
           profile: minimal
 
       - name: Build
-        run: cargo build --release --target ${{ matrix.target }} --target-dir ${{ env.CARGO_TARGET_DIR }}/target_${{ matrix.target }}
+        run: cargo build --release --target x86_64-unknown-linux-gnu --target-dir ${{ env.CARGO_TARGET_DIR }}/target_x86_64-unknown-linux-gnu
 
       - name: Test
-        run: cargo test --target ${{ matrix.target }} --target-dir ${{ env.CARGO_TARGET_DIR }}/target_${{ matrix.target }}
+        run: cargo test --target x86_64-unknown-linux-gnu --target-dir ${{ env.CARGO_TARGET_DIR }}/target_x86_64-unknown-linux-gnu
 
       - name: Archive binary
         uses: actions/upload-artifact@v2
         with:
-          name: ${{ matrix.os }}-${{ matrix.target }}
-          path: ${{ env.CARGO_TARGET_DIR }}/target_${{ matrix.target }}/${{ matrix.target }}/release/
+          name: linux
+          path: ${{ env.CARGO_TARGET_DIR }}/target_x86_64-unknown-linux-gnu/release/
