@@ -13,6 +13,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Install OpenSSL development headers
+        run: sudo apt-get update && sudo apt-get install -y libssl-dev
+
       - name: Install Rust
         uses: actions-rs/toolchain@v1.0.6
         with:
@@ -21,6 +24,9 @@ jobs:
 
       - name: Build
         run: cargo build --release
+
+      - name: Test
+        run: cargo test --release
 
       - name: Archive binary
         uses: actions/upload-artifact@v2
