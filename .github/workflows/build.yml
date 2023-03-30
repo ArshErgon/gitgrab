@@ -20,5 +20,5 @@ jobs:
           RUSTTARGET: ${{ matrix.target }}
       - name: Move release artifact to target folder
         run: |
-          mv ${{ matrix.target }}/release/<your-binary-filename> target/
+          mv ${{ matrix.target }}/release/gitfetch target/
         if: ${{ success() }}
