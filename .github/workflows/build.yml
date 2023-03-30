@@ -16,6 +16,13 @@ jobs:
     env:
       CARGO_TARGET_DIR: ./target
     steps:
+
+      - name: Install MSVC build tools
+        if: matrix.target == 'x86_64-pc-windows-msvc'
+        run: |
+          choco install -y visualstudio2019buildtools
+          choco install -y visualstudio2019-workload-vctools
+          
       - name: Checkout code
         uses: actions/checkout@v2
 
