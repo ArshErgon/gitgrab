@@ -25,7 +25,6 @@ fn print_logo(data_map: HashMap<String, String>) {
     let username = &data_map["login"];
     let location = &data_map["location"];
     let top_lang = &data_map["top_lang"];
-    let request = &data_map["request"];
     let update = &data_map["update"];
 
     let logo = format!(
@@ -54,12 +53,33 @@ fn print_logo(data_map: HashMap<String, String>) {
         "
     );
     let msg = format!(
-        r"
-    name `username` have repo_count with a `top_lang` and `followers` and `following`
-    `username` has got stars, forks and watchers, and also started `` number of issues and `` pull requests
-    Currently `username` working in `` company location ``
-    `` username email
         "
+ {name} ({username}) has {repos} repos on GitHub, using {top_lang}. 
+ {followers} followers, {following} following, {star} stars, {fork} forks, and {watcher} watchers. 
+ {issue} issues and {pull_request} pull requests. 
+ Works at {company} in {location}. 
+ Last updated: {updated}. 
+ Contact: {email}. {bio} 
+ Follow on Twitter: {twitter}. 
+ Visit blog: {blog}.",
+        name= name.clone().color(Color::Aquamarine1a),
+        username=username.clone().color(Color::Aquamarine1a),
+        email=email.clone().color(Color::Aquamarine1a),
+        repos=repos.clone().color(Color::Aquamarine1a),
+        issue=issue.clone().color(Color::Aquamarine1a),
+        followers=followers.clone().color(Color::Aquamarine1a),
+        company=company.clone().color(Color::Aquamarine1a),
+        watcher=watcher.clone().color(Color::Aquamarine1a),
+        star=star.clone().color(Color::Aquamarine1a),
+        pull_request=pull_requests.clone().color(Color::Aquamarine1a),
+        fork=fork.clone().color(Color::Aquamarine1a),
+        twitter=twitter.clone().color(Color::Aquamarine1a),
+        bio=bio.clone().color(Color::Aquamarine1a),
+        blog=blog.clone().color(Color::Aquamarine1a),
+        following=following.clone().color(Color::Aquamarine1a),
+        location=location.clone().color(Color::Aquamarine1a),
+        top_lang=top_lang.clone().color(Color::Aquamarine1a),
+        updated=update.clone().color(Color::Aquamarine1a),
     );
     print!("{}\n", logo.color(Color::White));
     table.add_row(term_table::row::Row::new(vec![
