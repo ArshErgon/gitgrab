@@ -13,33 +13,35 @@ jobs:
     - name: Upload artifact
       uses: actions/upload-artifact@v2
       with:
-        name: myapp-windows
-        path: target/windows-x86_64/release/myapp.exe
-  build_linux:
-    runs-on: ubuntu-latest
-    steps:
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-    - name: Build for Linux
-      run: cargo build --target x86_64-unknown-linux-gnu --release
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: myapp-linux
-        path: target/linux-x86_64/release/myapp
-  build_macos:
-    runs-on: macos-latest
-    steps:
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-    - name: Build for macOS
-      run: cargo build --target x86_64-apple-darwin --release
-    - name: Upload artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: myapp-macos
-        path: target/macos-x86_64/release/myapp
+          toolchain: nightly
+          override: true
+          name: myapp-windows
+          path: target/windows-x86_64/release/myapp.exe
+  # build_linux:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #   - name: Install Rust
+  #     uses: actions-rs/toolchain@v1
+  #     with:
+  #       profile: minimal
+  #   - name: Build for Linux
+  #     run: cargo build --target x86_64-unknown-linux-gnu --release
+  #   - name: Upload artifact
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: myapp-linux
+  #       path: target/linux-x86_64/release/myapp
+  # build_macos:
+  #   runs-on: macos-latest
+  #   steps:
+  #   - name: Install Rust
+  #     uses: actions-rs/toolchain@v1
+  #     with:
+  #       profile: minimal
+  #   - name: Build for macOS
+  #     run: cargo build --target x86_64-apple-darwin --release
+  #   - name: Upload artifact
+  #     uses: actions/upload-artifact@v2
+  #     with:
+  #       name: myapp-macos
+  #       path: target/macos-x86_64/release/myapp
