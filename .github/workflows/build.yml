@@ -12,8 +12,8 @@ jobs:
     env:
       CARGO_TARGET_DIR: ./release
     steps:
-      - name: Create directory
-        run: mkdir -p ./release
+      - name: Create target directory
+        run: sudo mkdir -p release
 
       - name: Checkout code
         uses: actions/checkout@v2
