@@ -1,4 +1,4 @@
-name: release
+name: Release
 
 on:
   release:
@@ -6,30 +6,64 @@ on:
 
 jobs:
   release:
-    name: publish ${{ matrix.name }}
-    strategy:
-      fail-fast: true
-      matrix:
-        include:
-          - target: x86_64-pc-windows-gnu
-            suffix: windows-x86_64
-            archive: zip
-          - target: x86_64-unknown-linux-gnu
-            suffix: linux-x86_64
-            archive: tar.xz
-          - target: x86_64-apple-darwin
-            suffix: darwin-x86_64
-            archive: tar.gz
     runs-on: ubuntu-latest
     steps:
-      - name: Clone test repository
+      - name: Checkout code
         uses: actions/checkout@v2
-      - uses: xhaiker/rust-release.action@v1.0.0
-        name: build ${{ matrix.name }}
-        with:
-          rust_target: ${{ matrix.target }}
-          archive_suffix: ${{ matrix.suffix }}
-          archive_types: ${{ matrix.archive }}
-          extra_files: "README.md README_zh.md LICENSE"
+
+      - name: Build for Windows
+        run: cargo build --release --target x86_64-pc-windows-gnu
+        env:
+          RUSTFLAGS: "-C target-feature=-crt-static"
+
+      - name: Build for Linux
+        run: cargo build --release --target x86_64-unknown-linux-gnu
+        env:
+          RUSTFLAGS: "-C target-feature=-crt-static"
+
+      - name: Build for macOS
+        run: cargo build --release --target x86_64-apple-darwin
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Release ${{ github.ref }}
+
+      - name: Upload Windows binary
+        id: upload_win
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/x86_64-pc-windows-gnu/release/<your-binary-filename>.exe
+          asset_name: gitfetch-windows-x86_64.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux binary
+        id: upload_linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/x86_64-unknown-linux-gnu/release/gitfetch
+          asset_name: gitfetch-linux-x86_64
+          asset_content_type: application/octet-stream
+
+      - name: Upload macOS binary
+        id: upload_macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/x86_64-apple-darwin/release/gitfetch
+          asset_name: gitfetch-macos-x86_64
+          asset_content_type: application/octet-stream
