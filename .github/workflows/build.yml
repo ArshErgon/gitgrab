@@ -10,7 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     env:
-      CARGO_TARGET_DIR: ./target
+      CARGO_TARGET_DIR: ./release
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
