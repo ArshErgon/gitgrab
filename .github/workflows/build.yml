@@ -26,10 +26,10 @@ jobs:
         run: cargo build --release
 
       - name: Test
-        run: cargo test --release
+        run: cargo test
 
       - name: Archive binary
         uses: actions/upload-artifact@v2
         with:
           name: linux
-          path: ./target/release/
+          path: target/release/
