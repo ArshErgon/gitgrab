@@ -5,79 +5,80 @@ use term_table::Table;
 
 fn print_logo(data_map: HashMap<String, String>) {
     let mut table = Table::new();
-    table.max_column_width = 40;
+    table.max_column_width = 55;
     table.style = term_table::TableStyle::rounded();
+    let email = &data_map["email"];
+    let repos = &data_map["repo"];
+    let issue = &data_map["issue"];
+    let followers = &data_map["followers"];
+    let company = &data_map["company"];
+    let watcher = &data_map["watcher"];
+    let star = &data_map["stars"];
+    let pull_requests = &data_map["request"];
+    let fork = &data_map["fork"];
+    let twitter = &data_map["twitter_username"];
+    let name = &data_map["name"];
+    let bio = &data_map["bio"];
+    let blog = &data_map["website_url"];
+    let following = &data_map["following"];
+    let username = &data_map["login"];
+    let location = &data_map["location"];
+    let top_lang = &data_map["top_lang"];
+    let update = &data_map["update"];
 
-    let username = data_map.get("username").unwrap().as_str();
-    let name = data_map.get("name").unwrap().as_str();
-    let company = data_map.get("company").unwrap().as_str();
-    let location = data_map.get("location").unwrap().as_str();
-    let blog = data_map.get("blog").unwrap().as_str();
-    let star = data_map.get("star").unwrap().as_str();
-    let fork = data_map.get("fork").unwrap().as_str();
-    let top_lang = data_map.get("top_lang").unwrap().as_str();
-    let repos = data_map.get("repos").unwrap().as_str();
-    let followers = data_map.get("followers").unwrap().as_str();
-    let following = data_map.get("following").unwrap().as_str();
-    let bio = data_map.get("bio").unwrap().as_str();
-    let twitter = data_map.get("twitter").unwrap().as_str();
-    let email = data_map.get("email").unwrap().as_str();
-    let issue = data_map.get("watcher").unwrap().as_str();
-    let watcher = data_map.get("watcher").unwrap().as_str();
-    // there's a way of centering it, {^50}
-    // but it was not working
     let logo = format!(
         "
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣶⣦⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⠛⠛⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠛⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠙⠛⠋⠉⠉⠉⠉⠉⠉⠉⠙⠛⠋⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣷⣄⡀⠉⢻⣿⣿⣿⣿⣶⣶⣦⠄⠀⠀⠀⠀⠀⠀⠀⠠⣴⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣿⣿⣷⡄⠀⠙⢿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣄⠀⠀⠈⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣷⣦⣤⣤⣤⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-                                ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⢿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⡿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣴⣶⣾⣿⣿⣿⣿⣿⣿⣿⣷⣶⣦⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣶⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣾⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣷⣄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣾⣿⣿⣿⣿⣿⠛⠛⠛⠿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠿⠛⠛⠛⣿⣿⣿⣿⣿⣷⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠙⠛⠋⠉⠉⠉⠉⠉⠉⠉⠙⠛⠋⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⡄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠹⣿⣿⣿⣿⣿⣿⣿⣿⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣿⣿⣿⠏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣾⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣿⣿⣿⣿⣿⣇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢰⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⣿⣿⣿⣿⣿⣿⣿⣿⣆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣰⣿⣿⣿⣿⣿⣿⣿⣿⠃⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢹⣿⣿⣿⣿⣿⣿⣿⣿⣷⣤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣤⣾⣿⣿⣿⣿⣿⣿⣿⣿⡏⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢻⣿⣿⣷⣄⡀⠉⢻⣿⣿⣿⣿⣶⣶⣦⠄⠀⠀⠀⠀⠀⠀⠀⠠⣴⣶⣶⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠻⣿⣿⣿⣷⡄⠀⠙⢿⣿⣿⣿⣿⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣿⣄⠀⠀⠈⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⢿⣿⣿⣷⣦⣤⣤⣤⣤⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⡿⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠙⠻⣿⣿⣿⣿⣿⣿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+                            ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠛⠿⢿⡿⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢿⡿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
         "
     );
     let msg = format!(
-        r"
-{0}`({10})` has {1} repositories with a total of {2} stars, {3} forks {9} watchers. 
-
-Additionally, {0} has {4} open issues and {5} watchers. 
-
-{0} is also following {6} accounts and has {7} followers, with a Top language {8}. 
-
-Bio: {11}, 
-blog: {12}, 
-email: {13}, 
-twitter: {14}",
-        name.color(Color::Aquamarine1a),
-        repos.color(Color::Aquamarine1a),
-        star.color(Color::Aquamarine1a),
-        fork.color(Color::Aquamarine1a),
-        issue.color(Color::Aquamarine1a),
-        watcher.color(Color::Aquamarine1a),
-        following.color(Color::Aquamarine1a),
-        followers.color(Color::Aquamarine1a),
-        top_lang.color(Color::Aquamarine1a),
-        watcher.color(Color::Aquamarine1a),
-        username.color(Color::Aquamarine1a),
-        bio.color(Color::Aquamarine1a),
-        blog.color(Color::Aquamarine1a),
-        email.color(Color::Aquamarine1a),
-        twitter.color(Color::Aquamarine1a),
+        "
+ {name} ({username}) has {repos} repos on GitHub, using {top_lang}. 
+ {followers} followers, {following} following, {star} stars, {fork} forks, and {watcher} watchers. 
+ {issue} issues and {pull_request} pull requests. 
+ Works at {company} in {location}. 
+ Last updated: {updated}. 
+ Contact: {email}. {bio} 
+ Follow on Twitter: {twitter}. 
+ Visit blog: {blog}.",
+        name = name.clone().color(Color::Aquamarine1a),
+        username = username.clone().color(Color::Aquamarine1a),
+        email = email.clone().color(Color::Aquamarine1a),
+        repos = repos.clone().color(Color::Aquamarine1a),
+        issue = issue.clone().color(Color::Aquamarine1a),
+        followers = followers.clone().color(Color::Aquamarine1a),
+        company = company.clone().color(Color::Aquamarine1a),
+        watcher = watcher.clone().color(Color::Aquamarine1a),
+        star = star.clone().color(Color::Aquamarine1a),
+        pull_request = pull_requests.clone().color(Color::Aquamarine1a),
+        fork = fork.clone().color(Color::Aquamarine1a),
+        twitter = twitter.clone().color(Color::Aquamarine1a),
+        bio = bio.clone().color(Color::Aquamarine1a),
+        blog = blog.clone().color(Color::Aquamarine1a),
+        following = following.clone().color(Color::Aquamarine1a),
+        location = location.clone().color(Color::Aquamarine1a),
+        top_lang = top_lang.clone().color(Color::Aquamarine1a),
+        updated = update.clone().color(Color::Aquamarine1a),
     );
     print!("{}\n", logo.color(Color::White));
     table.add_row(term_table::row::Row::new(vec![
@@ -87,64 +88,35 @@ twitter: {14}",
             term_table::table_cell::Alignment::Left,
         ),
     ]));
-    println!("{}", table.render());
+    println!("{:^width$}", table.render(), width = 40);
 }
 
-// inserting the vector data which we get from header_info, to a map, as getting data would be readable and easy from it, then remembering the index of data
-pub fn print_formatter(header_git_data: Vec<String>, data_map: HashMap<String, u32>) {
-    let mut git_map: HashMap<String, String> = HashMap::new();
-    git_map.insert("username".to_string(), header_git_data[0].clone());
-    git_map.insert("name".to_string(), header_git_data[1].clone());
-    git_map.insert("company".to_string(), header_git_data[2].clone());
-    git_map.insert("blog".to_string(), header_git_data[3].clone());
-    git_map.insert("location".to_string(), header_git_data[4].clone());
-    git_map.insert("bio".to_string(), header_git_data[5].clone());
-    git_map.insert("twitter".to_string(), header_git_data[6].clone());
-    git_map.insert("email".to_string(), header_git_data[7].clone());
-    let repo = add_k(header_git_data[8].parse::<i32>().unwrap());
+pub fn print_formatter(mut git_data: HashMap<String, String>, language_map: HashMap<String, i32>) {
+    let repo = add_k(git_data[&"repo".to_string()].parse::<i32>().unwrap());
+    git_data.entry("repo".to_string()).or_insert(repo);
 
-    let gists_two = add_k(header_git_data[9].parse::<i32>().unwrap());
-    let followers = add_k(header_git_data[10].parse::<i32>().unwrap());
-    let following = add_k(header_git_data[11].parse::<i32>().unwrap());
+    let followers = add_k(git_data[&"followers".to_string()].parse::<i32>().unwrap());
+    let following = add_k(git_data[&"following".to_string()].parse::<i32>().unwrap());
+    git_data.entry("followers".to_string()).or_insert(followers);
+    git_data.entry("following".to_string()).or_insert(following);
 
-    git_map.insert("repos".to_string(), repo);
-    git_map.insert("gists".to_string(), gists_two);
-    git_map.insert("followers".to_string(), followers);
-    git_map.insert("following".to_string(), following);
-    git_map.insert("created".to_string(), header_git_data[12].clone());
-    git_map.insert("updated".to_string(), header_git_data[13].clone());
-    let stars = add_k(data_map["Star"].try_into().unwrap());
-    let forks = add_k(data_map["Fork"].try_into().unwrap());
-    let issue = add_k(data_map["Issue"] as i32);
-    let watcher = add_k(data_map["Watcher"] as i32);
-    git_map.insert("star".to_string(), stars);
-    git_map.insert("fork".to_string(), forks);
-    git_map.insert("issue".to_string(), issue);
-    git_map.insert("watcher".to_string(), watcher);
+    let stars = add_k(git_data[&"stars".to_string()].parse::<i32>().unwrap());
+    let forks = add_k(git_data[&"fork".to_string()].parse::<i32>().unwrap());
+    let issue = add_k(git_data[&"issues".to_string()].parse::<i32>().unwrap());
+    let watcher = add_k(git_data[&"watcher".to_string()].parse::<i32>().unwrap());
+    git_data.insert("stars".to_string(), stars);
+    git_data.insert("fork".to_string(), forks);
+    git_data.insert("issue".to_string(), issue);
+    git_data.insert("watcher".to_string(), watcher);
+    let max_key = language_map
+        .iter()
+        .max_by_key(|(_, &value)| value)
+        .map(|(key, _)| key.clone())
+        .unwrap_or_else(|| "NA".to_string());
 
-    let max_key = find_max_key(data_map);
+    git_data.insert("top_lang".to_string(), max_key);
 
-    git_map.insert("top_lang".to_string(), max_key.to_string());
-
-    print_logo(git_map);
-}
-
-// find the max_key for the top language
-fn find_max_key(data_map: HashMap<String, u32>) -> String {
-    let mut max_val: u32 = 0;
-    let mut max_key = String::new();
-    for (key, val) in data_map {
-        if (!(key == "Star".to_string()
-            || key == "Fork".to_string()
-            || key == "Issue".to_string()
-            || key == "Watcher".to_string()))
-            && val > max_val
-        {
-            max_val = val;
-            max_key = key;
-        }
-    }
-    max_key
+    print_logo(git_data);
 }
 
 // add a k to the number

@@ -23,14 +23,28 @@ fn create_user_file() {
     let mut user_name = String::new();
     println!("Enter Username\n");
     let user_input = std::io::stdin();
-    user_input.read_line(&mut user_name);
-    let home_dir = std::env::var_os("HOME").expect("Cannot get home directory!");
-    let file_path = home_dir.clone().into_string().unwrap() + "/gitfetch_user.txt";
+    user_input.read_line(&mut user_name).unwrap();
+
+    let home_dir = match std::env::var_os("HOME") {
+        Some(path) => path,
+        None => {
+            println!("Cannot get home directory!");
+            return;
+        }
+    };
+    let file_path = match home_dir.to_str() {
+        Some(path) => path.to_owned() + "/gitfetch_user.txt",
+        None => {
+            println!("Cannot convert home directory to string!");
+            return;
+        }
+    };
+
     let mut file = match std::fs::OpenOptions::new()
         .create(true)
         .write(true)
-        .truncate(true) // truncate the file to 0 bytes
-        .open(file_path)
+        .truncate(true)
+        .open(&file_path)
     {
         Ok(file) => file,
         Err(e) => {
@@ -38,21 +52,22 @@ fn create_user_file() {
             return;
         }
     };
-    // add a checker to check wheather the user have api key file or not
+
     std::io::Write::write_all(&mut file, user_name.as_bytes()).unwrap();
+
     let success_msg = format!(
-        "\nUser file is sucessfuly created at {} with a name gitfetch_user\n",
-        home_dir.into_string().unwrap()
+        "\nUser file is successfully created at {} with a name gitfetch_user\n",
+        home_dir.to_str().unwrap()
     );
 
-    let (key, flag) = get_secret_key();
-    let mut flag_msg = "You can now run `gitfetch` to see your github information";
+    let flag = get_secret_key().1; // store just the boolean value.
+    let mut flag_msg = "You can now run `gitfetch` to see your Github information.";
+
     if !flag {
-        // show how to create an API key
-        flag_msg = "API key is not available"
+        flag_msg = "API key is not available. Please create an API key at https://github.com/settings/tokens with 'repo' and 'user' scopes and store it in your home directory in a file named 'gitfetch_api.txt'.";
     }
 
-    println!("{0} {1}", success_msg, flag_msg);
+    eprintln!("{0} {1}", success_msg, flag_msg);
     std::process::exit(0);
 }
 
@@ -74,8 +89,8 @@ fn create_api_file() {
     {
         Ok(file) => file,
         Err(e) => {
-            println!("Error opening file: {:?}", e);
-            return;
+            eprintln!("Error opening file: {:?}", e);
+            std::process::exit(0)
         }
     };
     std::io::Write::write_all(&mut file, api_key.as_bytes()).unwrap();
@@ -87,16 +102,22 @@ fn create_api_file() {
 }
 
 pub fn get_secret_key() -> (String, bool) {
-    let home_dir = std::env::var_os("HOME").expect("Cannot get home directory!");
-    let file_path = std::path::Path::new(&home_dir).join("gitfetch_api.txt");
-    let secret_key = match std::fs::read_to_string(file_path) {
+    let home_dir = match dirs::home_dir() {
+        Some(path) => path,
+        None => {
+            eprintln!("Cannot get home directory!");
+            std::process::exit(0);
+        }
+    };
+    let file_path = home_dir.join("gitfetch_api.txt");
+    let secret_key = match std::fs::read_to_string(&file_path) {
         Ok(contents) => contents,
         Err(e) => {
-            println!(
+            eprintln!(
                 "\nAPI key not found at {}; see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token and give it all permission (expect: deleting or creating)",
-                home_dir.into_string().unwrap()
+                file_path.display()
             );
-            "File not found".to_string()
+            std::process::exit(0)
         }
     };
     (secret_key, true)
