@@ -15,7 +15,6 @@ fn print_logo(data_map: HashMap<String, String>) {
     let watcher = &data_map["watcher"];
     let star = &data_map["stars"];
     let pull_requests = &data_map["request"];
-    let issues = &data_map["issues"];
     let fork = &data_map["fork"];
     let twitter = &data_map["twitter_username"];
     let name = &data_map["name"];
