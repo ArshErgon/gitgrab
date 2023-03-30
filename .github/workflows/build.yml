@@ -24,7 +24,13 @@ jobs:
           profile: minimal
 
       - name: Build
-        run: cargo build --release --target ${{ matrix.target }}
+        run: cargo build --release --target ${{ matrix.target }} --target-dir ${{ env.CARGO_TARGET_DIR }}/target_${{ matrix.target }}
 
       - name: Test
-        run: cargo test --target ${{ matrix.target }}
+        run: cargo test --target ${{ matrix.target }} --target-dir ${{ env.CARGO_TARGET_DIR }}/target_${{ matrix.target }}
+
+      - name: Archive binary
+        uses: actions/upload-artifact@v2
+        with:
+          name: ${{ matrix.target }}
+          path: ${{ env.CARGO_TARGET_DIR }}/target_${{ matrix.target }}/${{ matrix.target }}/release/
