@@ -1,108 +1,61 @@
-name: Build and Release
+name: OS release
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  build-linux:
+  build:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        rust-version: [stable]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: ${{ matrix.rust-version }}
+    - name: Build Project
+      run: cargo build --release
+    - name: Archive Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: myproject-${{ matrix.os }}
+        path: target/release/myproject
+  release:
+    name: Create Release
+    needs: build
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        rust-version: ['stable']
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Remove existing target folder
-      run: rm -rf target/
-
-    - name: Setup Rust
-      uses: actions-rs/toolchain@v1
+    - name: Download Artifact
+      uses: actions/download-artifact@v2
       with:
-        profile: minimal
-        toolchain: ${{ matrix.rust-version }}
-
-    - name: Build binary for Linux
-      run: cargo build --release
-
-    - name: Set file size environment variable
-      run: |
-        echo ::set-env name=FILE_SIZE::$(du -b target/release/gitfetch | cut -f1)
-
+        name: myproject-${{ matrix.os }}
     - name: Create Release
-      id: create_release_linux
+      id: create_release
       uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        tag_name: ${{ github.ref }}-${{ github.run_number }}-linux
-        release_name: Release ${{ github.ref }} - Linux
-        body: Automated release from CI
+        tag_name: v1.0.0
+        release_name: Release 1.0.0
+        body: |
+          This is the first release of myproject.
         draft: false
         prerelease: false
-
     - name: Upload Asset
-      id: upload-release-asset-linux
       uses: actions/upload-release-asset@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        upload_url: ${{ steps.create_release_linux.outputs.upload_url }}
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: target/release/gitfetch
-        asset_name: gitfetch
+        asset_name: gitfetch-${{ matrix.os }}
         asset_content_type: application/octet-stream
-        asset_label: gitfetch binary for Linux
-        asset_content_length: ${{ env.FILE_SIZE }}
-
-  build-windows:
-    runs-on: windows-latest
-    strategy:
-      matrix:
-        rust-version: ['stable']
-
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-
-    - name: Remove existing target folder
-      run: rm -rf target/
-
-    - name: Setup Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: ${{ matrix.rust-version }}
-
-    - name: Build binary for Windows
-      run: cargo build --release
-
-    - name: Set file size environment variable
-      run: |
-        echo ::set-env name=FILE_SIZE::$(Get-ChildItem -Path target/release/gitfetch | Select-Object -ExpandProperty Length)
-
-    - name: Create Release
-      id: create_release_windows
-      uses: actions/create-release@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ github.ref }}-${{ github.run_number }}-windows
-        release_name: Release ${{ github.ref }} - Windows
-        body: Automated release from CI
-        draft: false
-        prerelease: false
-
-    - name: Upload Asset
-      id: upload-release-asset-windows
-      uses: actions/upload-release-asset@v1
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        upload_url: ${{ steps.create_release_windows.outputs.upload_url }}
-        asset_path: target/release/gitfetch.exe
-        asset_name: gitfetch.exe
-        asset_content_type: application/octet-stream
-        asset_label: gitfetch binary for
