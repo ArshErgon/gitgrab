@@ -53,3 +53,5 @@ jobs:
         asset_path: target/release/gitfetch
         asset_name: gitfetch
         asset_content_type: application/octet-stream
+        asset_label: gitfetch binary for Ubuntu
+        asset_content_length: ${{ env.FILE_SIZE }}
