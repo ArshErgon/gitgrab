@@ -1,42 +1,8 @@
-name: OS Build
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  build:
-    name: Build and Test
-    runs-on: ${{ matrix.os }}
-    strategy:
-      matrix:
-        os: [macos-latest, ubuntu-latest, windows-latest]
-        rust-version: [stable]
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Install Rust
-      uses: actions-rs/toolchain@v1
-      with:
-        profile: minimal
-        toolchain: ${{ matrix.rust-version }}
-    - name: Build Project
-      run: cargo build --release
-    - name: List files in directory
-      run: ls -R
-      working-directory: target/release/
-    - name: Archive Artifact
-      uses: actions/upload-artifact@v2
-      with:
-        name: gitfetch-${{ matrix.os }}
-        path: target/release/gitfetch
-        if: success()
-        working-directory: release/${{ matrix.os }}
-  release:
-    name: Create Release
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
+release:
+  name: Create Release
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Download Windows Artifact
