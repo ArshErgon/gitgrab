@@ -73,7 +73,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: release/windows-latest/gitfetch.exe
-        asset_name: gitfetch-windows-latest.exe
+        asset_name: gitfetch.exe
         asset_content_type: application/octet-stream
     - name: Upload macOS Asset
       uses: actions/upload-release-asset@v1
@@ -82,7 +82,7 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: release/macos-latest/gitfetch
-        asset_name: gitfetch-macos-latest
+        asset_name: gitfetch
         asset_content_type: application/octet-stream
     - name: Upload Linux Asset
       uses: actions/upload-release-asset@v1
@@ -91,5 +91,5 @@ jobs:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: release/ubuntu-latest/gitfetch
-        asset_name: gitfetch-ubuntu-latest
+        asset_name: gitfetch
         asset_content_type: application/octet-stream
