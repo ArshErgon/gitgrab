@@ -22,6 +22,9 @@ jobs:
         toolchain: ${{ matrix.rust-version }}
     - name: Build Project
       run: cargo build --release
+    - name: List files in directory
+      run: ls -R
+      working-directory: target/release/
     - name: Archive Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -51,9 +54,6 @@ jobs:
       with:
         name: gitfetch-ubuntu-latest
         path: release/ubuntu-latest
-    - name: List Release Directory
-      run: |
-        ls -R release
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
