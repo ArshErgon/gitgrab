@@ -42,17 +42,17 @@ jobs:
     - name: Download Windows Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-windows-latest
+        name: gitfetch
         path: release/windows-latest
     - name: Download macOS Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-macos-latest
+        name: gitfetch
         path: release/macos-latest
     - name: Download Linux Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-ubuntu-latest
+        name: gitfetch
         path: release/ubuntu-latest
     - name: Create Release
       id: create_release
