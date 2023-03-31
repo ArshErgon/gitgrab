@@ -42,7 +42,7 @@ jobs:
     - name: Download Windows Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch
+        name: gitfetch.exe
         path: release/windows-latest
     - name: Download macOS Artifact
       uses: actions/download-artifact@v2
