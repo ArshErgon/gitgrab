@@ -42,12 +42,12 @@ jobs:
     - name: Download Windows Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch.exe
+        name: gitfetch-${{ matrix.os }}
         path: release/windows-latest
     - name: Download macOS Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch
+        name: gitfetch-${{ matrix.os }}.exe
         path: release/macos-latest
     - name: Download Linux Artifact
       uses: actions/download-artifact@v2
