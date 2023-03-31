@@ -21,7 +21,9 @@ jobs:
         profile: minimal
         toolchain: ${{ matrix.rust-version }}
     - name: Build Project
-      run: cargo build --release
+      run: |
+        cargo build --release
+        ls -R release
     - name: Archive Artifact
       uses: actions/upload-artifact@v2
       with:
@@ -29,6 +31,10 @@ jobs:
         path: target/release/gitfetch
         if: success()
         working-directory: release/${{ matrix.os }}
+    - name: Print current working directory
+      run: pwd
+    - name: Check release directory
+      run: ls -R release
   release:
     name: Create Release
     needs: build
