@@ -1,25 +1,62 @@
-release:
-  name: Create Release
-  needs: build
-  runs-on: ubuntu-latest
-  steps:
+name: OS Build
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-latest, ubuntu-latest, windows-latest]
+        rust-version: [stable]
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    - name: Install Rust
+      uses: actions-rs/toolchain@v1
+      with:
+        profile: minimal
+        toolchain: ${{ matrix.rust-version }}
+    - name: Build Project
+      run: cargo build --release
+    - name: List files in directory
+      run: ls -R
+      working-directory: target/release/
+    - name: Archive Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: gitfetch-${{ matrix.os }}
+        path: target/release/gitfetch
+        if: success()
+        working-directory: release/${{ matrix.os }}
+  release:
+    name: Create Release
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
     - name: Checkout code
       uses: actions/checkout@v2
     - name: Download Windows Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-${{ matrix.os }}
+        name: gitfetch-windows-latest
         path: release/windows-latest
+      if: matrix.os == 'windows-latest'
     - name: Download macOS Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-${{ matrix.os }}.exe
+        name: gitfetch-macos-latest
         path: release/macos-latest
+      if: matrix.os == 'macos-latest'
     - name: Download Linux Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch
+        name: gitfetch-ubuntu-latest
         path: release/ubuntu-latest
+      if: matrix.os == 'ubuntu-latest'
     - name: Create Release
       id: create_release
       uses: actions/create-release@v1
@@ -41,6 +78,7 @@ release:
         asset_path: release/windows-latest/gitfetch.exe
         asset_name: gitfetch.exe
         asset_content_type: application/octet-stream
+      if: matrix.os == 'windows-latest'
     - name: Upload macOS Asset
       uses: actions/upload-release-asset@v1
       env:
@@ -50,6 +88,7 @@ release:
         asset_path: release/macos-latest/gitfetch
         asset_name: gitfetch
         asset_content_type: application/octet-stream
+      if: matrix.os == 'macos-latest'
     - name: Upload Linux Asset
       uses: actions/upload-release-asset@v1
       env:
@@ -57,5 +96,4 @@ release:
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
         asset_path: release/ubuntu-latest/gitfetch
-        asset_name: gitfetch
-        asset_content_type: application/octet-stream
+       
