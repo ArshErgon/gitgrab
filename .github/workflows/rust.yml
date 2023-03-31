@@ -1,0 +1,69 @@
+name: Release
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Build for Windows
+        run: cargo build --release --target x86_64-pc-windows-gnu
+        env:
+          RUSTFLAGS: "-C target-feature=-crt-static"
+
+      - name: Build for Linux
+        run: cargo build --release --target x86_64-unknown-linux-gnu
+        env:
+          RUSTFLAGS: "-C target-feature=-crt-static"
+
+      - name: Build for macOS
+        run: cargo build --release --target x86_64-apple-darwin
+
+      - name: Create release
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+          release_name: Release ${{ github.ref }}
+          body: |
+            Release ${{ github.ref }}
+
+      - name: Upload Windows binary
+        id: upload_win
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/x86_64-pc-windows-gnu/release/<your-binary-filename>.exe
+          asset_name: gitfetch-windows-x86_64.exe
+          asset_content_type: application/octet-stream
+
+      - name: Upload Linux binary
+        id: upload_linux
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/x86_64-unknown-linux-gnu/release/gitfetch
+          asset_name: gitfetch-linux-x86_64
+          asset_content_type: application/octet-stream
+
+      - name: Upload macOS binary
+        id: upload_macos
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./target/x86_64-apple-darwin/release/gitfetch
+          asset_name: gitfetch-macos-x86_64
+          asset_content_type: application/octet-stream
