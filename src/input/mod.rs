@@ -79,8 +79,11 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
     let username_file_path = Path::new(&home_dir).join("gitfetch_user.txt");
     let mut username = match std::fs::read_to_string(&username_file_path) {
         Ok(contents) => contents.trim().to_string(),
-        Err(e) => {
-            eprintln!("{:?}", e);
+        Err(_) => {
+            eprintln!(
+                "Couldn't find the `gitfetch_user.txt' file here: {}",
+                username_file_path.display()
+            );
             std::process::exit(0)
         }
     };
@@ -91,7 +94,10 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
         match std::fs::write(&apifile_path, secret_key_string.clone()) {
             Ok(_) => (),
             Err(e) => {
-                eprintln!("Error writing to file: {:?}", e);
+                eprintln!(
+                    "Could not find `gitfetch_api.txt` file here: {}",
+                    apifile_path.display()
+                );
                 std::process::exit(0)
             }
         }
