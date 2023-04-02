@@ -5,7 +5,7 @@ use term_table::Table;
 
 fn print_logo(data_map: HashMap<String, String>) {
     let mut table = Table::new();
-    table.max_column_width = 55;
+    table.max_column_width = 70;
     table.style = term_table::TableStyle::rounded();
     let email = &data_map["email"];
     let repos = &data_map["repo"];
@@ -85,7 +85,7 @@ fn print_logo(data_map: HashMap<String, String>) {
         term_table::table_cell::TableCell::new_with_alignment(
             msg,
             2,
-            term_table::table_cell::Alignment::Left,
+            term_table::table_cell::Alignment::Center,
         ),
     ]));
     println!("{:^width$}", table.render(), width = 40);
