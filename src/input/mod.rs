@@ -81,7 +81,7 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
         Ok(contents) => contents.trim().to_string(),
         Err(_) => {
             eprintln!(
-                "Couldn't find the `gitfetch_user.txt' file here: {}",
+                "Couldn't find the `gitfetch_user.txt' file here: {}\nEnter gitfetch -o to enter user or -t for temporary user",
                 username_file_path.display()
             );
             std::process::exit(0)
@@ -95,7 +95,7 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
             Ok(_) => (),
             Err(e) => {
                 eprintln!(
-                    "Could not find `gitfetch_api.txt` file here: {}",
+                    "Could not find `gitfetch_api.txt` file here: {}\n Have you generated the key? https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token\ngitfetch -o",
                     apifile_path.display()
                 );
                 std::process::exit(0)
