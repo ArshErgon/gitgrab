@@ -60,7 +60,7 @@ C:> PATH=%PATH%;C:\path\to\gitfetch.exe
 ```
 2. Directly running the binary
 ```rust
-C/Downloads>./gitfetch
+C/Downloads>./gitfetch #or add gitfetch.exe if gets an error.
 ```
 ## MacOS
 ```

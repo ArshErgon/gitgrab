@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Noto+Serif+Kannada:wght@700&family=Urbanist:wght@900&display=swap');
 
 body {
-    margin: 0;
+    margin: 0 !important;
     background-color: #1e1c1c;
 }
 
@@ -75,6 +75,7 @@ a {
     font-family: 'Noto Serif Kannada', serif;
     font-family: 'Urbanist', sans-serif;
 }
+
 
 @media only screen and (max-width: 600px) {
     #welcome-text {
