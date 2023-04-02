@@ -46,13 +46,13 @@ $ gitfetch -h
 # Installation
 Remember you need to add github token also: [your safety](https://github.com/ArshErgon/gitfetch#api-key-security), What are [token?](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and where it will be [created](https://github.com/settings/tokens). Give every permission except **creating and deleting**
 ## Linux
-Download the binary from here, after downloading go to the place where its download (mostly on Desktop) and enter the command below.
+Download the binary from [here](https://github.com/ArshErgon/gitfetch/releases/download/v1.0.0/gitfetch), after downloading go to the place where its download (mostly on Desktop) and enter the command below.
 
 ```rust
 $ sudo install -c gitfetch /usr/local/bin
 ```
 ## Windows
-Download the binary from here,
+Download the binary from [here](https://github.com/ArshErgon/gitfetch/releases/download/v1.0.0/gitfetch.exe),
 There are two ways to run in windows.
 1. Add to the path
 ```rust
