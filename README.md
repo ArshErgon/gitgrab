@@ -24,37 +24,27 @@ I was quite active on Open-Source contributions and I needed to track my progres
 
 ```rust
 $ gitfetch -o
-## this command will give you options for
-# 1. Creating a permanent user (so that next time just typing gitfetch will show you your information)
-# 2. Enter your API key/ Update (the github API key)
-# 3. Exit
-# here what it will look like
----------------
-$ gitfetch -o
   1. Create a User
   2. Enter/Update the Github API key
   3. Exit
-
 ```
 
 ### For a temporary User
 
 ```rust
-## There will be times when your friend need to see his/her github profile, but you dont want them to be a permanent user, for that you can use
 $ gitfetch -t <USERNAME>
-# where in <USERNAME> will be their github's username
 ```
 
 ### More commands
 
 ```rust
 $ gitfetch -a
-## Shows the information about the creater(@ArshErgon)
+
 $ gitfetch -h
-## Shows all commands and how to use them.
 ```
 
 # Installation
+Remember you need to add github token also: [your safety](https://github.com/ArshErgon/gitfetch#api-key-security), What are [token?](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and where it will be [created](https://github.com/settings/tokens). Give every permission except **creating and deleting**
 ## Linux
 Download the binary from here, after downloading go to the place where its download (mostly on Desktop) and enter the command below.
 
@@ -76,7 +66,6 @@ C/Downloads>./gitfetch
 ```
 its in alpha stage.
 ```
-
 # Development
 
 ```git
@@ -99,6 +88,3 @@ cargo run -- -t USERNAME
 
 https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token and give it all permission (expect: deleting or creating)
 
-# Plans
-
-> I have a plan of making it more useful, by showing more information and using the graphQL api. There's still ton of work left.
