@@ -40,19 +40,19 @@ jobs:
     - name: Checkout code
       uses: actions/checkout@v3
     - name: Download Windows Artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: gitfetch-windows-latest
         path: release/windows-latest
       if: matrix.os == 'windows-latest'
     - name: Download macOS Artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: gitfetch-macos-latest
         path: release/macos-latest
       if: matrix.os == 'macos-latest'
     - name: Download Linux Artifact
-      uses: actions/download-artifact@v2
+      uses: actions/download-artifact@v3
       with:
         name: gitfetch-ubuntu-latest
         path: release/ubuntu-latest
