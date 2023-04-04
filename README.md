@@ -5,7 +5,7 @@
 </div>
 <div align="center">
 
-# **fetchQuest**
+# **gitGrab**
 
 An Open-Source tool for Open-Source Enthusiast that shows your GitHub information, languages bars, and contribution graph on terminal.
 
@@ -13,7 +13,7 @@ An Open-Source tool for Open-Source Enthusiast that shows your GitHub informatio
 
 # Why its created?
 
-I was quite active on Open-Source contributions and I needed to track my progress across multiple repositories. I was constantly going back and forth between different tools to check my issues, followers, and pull requests. In the mean time I got to know about neofetch an awesome CLI program which tells the basic information of OS, so I thought why not create something similar to it? The starting phase of the fetchquest was quite similar to neofetch later I have added language bars and contribution graph to it.
+I was quite active on Open-Source contributions and I needed to track my progress across multiple repositories. I was constantly going back and forth between different tools to check my issues, followers, and pull requests. In the mean time I got to know about neofetch an awesome CLI program which tells the basic information of OS, so I thought why not create something similar to it? The starting phase of the gitgrab was quite similar to neofetch later I have added language bars and contribution graph to it.
 
 # Features
 
@@ -27,7 +27,7 @@ I was quite active on Open-Source contributions and I needed to track my progres
 ### Basic
 
 ```rust
-$ fetchquest -o
+$ gitgrab -o
   1. Create a User
   2. Enter/Update the Github API key
   3. Exit
@@ -36,15 +36,15 @@ $ fetchquest -o
 ### For a temporary User
 
 ```rust
-$ fetchquest -t <USERNAME>
+$ gitgrab -t <USERNAME>
 ```
 
 ### More commands
 
 ```rust
-$ fetchquest -a
+$ gitgrab -a
 
-$ fetchquest -h
+$ gitgrab -h
 ```
 
 # Installation
@@ -56,7 +56,7 @@ Remember you need to add github token also: [your safety](https://github.com/Ars
 Download the binary from [here](https://github.com/ArshErgon/gitfetch/releases/download/v1.0.0/gitfetch), after downloading go to the place where its download (mostly on Desktop) and enter the command below.
 
 ```rust
-$ sudo install -c fetchquest /usr/local/bin
+$ sudo install -c gitgrab /usr/local/bin
 ```
 
 ## Windows
@@ -67,13 +67,13 @@ There are two ways to run in windows.
 1. Add to the path
 
 ```rust
-C:> PATH=%PATH%;C:\path\to\fetchquest.exe
+C:> PATH=%PATH%;C:\path\to\gitgrab.exe
 ```
 
 2. Directly running the binary
 
 ```rust
-C/Downloads>./fetchquest #or add fetchquest.exe if gets an error.
+C/Downloads>./gitgrab #or add gitgrab.exe if gets an error.
 ```
 
 ## MacOS

@@ -6,7 +6,7 @@ mod menu_cli;
 
 pub fn cli_input() -> (String, String) {
     let mut flag = false;
-    let matches = Command::new("fetchquest")
+    let matches = Command::new("gitgrab")
         .version("2.0")
         .author("A CLI application for github users, which shows the information of a particular user in a `neofetch` style\nProudly build with the help of Rust.")
         .about("Neofetch but build for GitHub")
@@ -14,7 +14,7 @@ pub fn cli_input() -> (String, String) {
             Arg::new("t")
                 .short('t')
                 .long("temp")
-                .help("Show information for a temporary user: fetchquest -t <USER>"),
+                .help("Show information for a temporary user: gitgrab -t <USER>"),
         )
         .arg(
             Arg::new("o")
@@ -58,8 +58,8 @@ pub fn cli_input() -> (String, String) {
         flag = true;
     }
 
-    // for the feature fetchquest
-    // so that a full information about the permanet user(the home_dir/fetchquest_user one) will be displayed on the screen.
+    // for the feature gitgrab
+    // so that a full information about the permanet user(the home_dir/gitgrab_user one) will be displayed on the screen.
     if !flag {
         (username, secret_key) = show_user_info(String::new(), false);
     }
@@ -75,13 +75,13 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
         }
     };
 
-    let apifile_path = Path::new(&home_dir).join("fetchquest_api.txt");
-    let username_file_path = Path::new(&home_dir).join("fetchquest_user.txt");
+    let apifile_path = Path::new(&home_dir).join("gitgrab_api.txt");
+    let username_file_path = Path::new(&home_dir).join("gitgrab_user.txt");
     let mut username = match std::fs::read_to_string(&username_file_path) {
         Ok(contents) => contents.trim().to_string(),
         Err(_) => {
             eprintln!(
-                "Couldn't find the `fetchquest_user.txt' file here: {}\nEnter fetchquest -o to enter user or -t for temporary user",
+                "Couldn't find the `gitgrab_user.txt' file here: {}\nEnter gitgrab -o to enter user or -t for temporary user",
                 username_file_path.display()
             );
             std::process::exit(0)
@@ -90,12 +90,12 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
 
     let secret_key_string = menu_cli::get_secret_key().0; // get the string only
     if !secret_key_string.is_empty() {
-        // overwrite the contents of fetchquest_api.txt with the new API key
+        // overwrite the contents of gitgrab_api.txt with the new API key
         match std::fs::write(&apifile_path, secret_key_string.clone()) {
             Ok(_) => (),
             Err(e) => {
                 eprintln!(
-                    "Could not find `fetchquest_api.txt` file here: {}\n Have you generated the key? https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token\nfetchquest -o",
+                    "Could not find `gitgrab_api.txt` file here: {}\n Have you generated the key? https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token\ngitgrab -o",
                     apifile_path.display()
                 );
                 std::process::exit(0)
@@ -108,7 +108,7 @@ fn show_user_info(arg: String, flag: bool) -> (String, String) {
 
 // add some information about the creator
 fn about() {
-    let fetchquest_logo = format!(
+    let gitgrab_logo = format!(
         r"
 
          ██████╗ ██╗████████╗███████╗███████╗████████╗ ██████╗██╗  ██╗
