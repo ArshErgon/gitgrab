@@ -122,6 +122,6 @@ fn about() {
     Proudly build with the help of Rust.
     "
     );
-    println!("{}", gitfetch_logo);
+    println!("{}", gitgrab_logo);
     std::process::exit(0)
 }
