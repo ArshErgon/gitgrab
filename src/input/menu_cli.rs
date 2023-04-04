@@ -11,7 +11,7 @@ pub fn menu_view() -> std::io::Result<()> {
         0 => create_user_file(),
         1 => create_api_file(),
         2 => {
-            println!("Thanks for using gitfetch");
+            println!("Thanks for using gitgrab");
             std::process::exit(0)
         }
         _ => println!("Not an option"),
@@ -33,7 +33,7 @@ fn create_user_file() {
         }
     };
     let file_path = match home_dir.to_str() {
-        Some(path) => path.to_owned() + "/gitfetch_user.txt",
+        Some(path) => path.to_owned() + "/gitgrab_user.txt",
         None => {
             println!("Cannot convert home directory to string!");
             return;
@@ -56,15 +56,15 @@ fn create_user_file() {
     std::io::Write::write_all(&mut file, user_name.as_bytes()).unwrap();
 
     let success_msg = format!(
-        "\nUser file is successfully created at {} with a name gitfetch_user\n",
+        "\nUser file is successfully created at {} with a name gitgrab_user\n",
         home_dir.to_str().unwrap()
     );
 
     let flag = get_secret_key().1; // store just the boolean value.
-    let mut flag_msg = "You can now run `gitfetch` to see your Github information.";
+    let mut flag_msg = "You can now run `gitgrab` to see your Github information.";
 
     if !flag {
-        flag_msg = "API key is not available. Please create an API key at https://github.com/settings/tokens with 'repo' and 'user' scopes and store it in your home directory in a file named 'gitfetch_api.txt'.";
+        flag_msg = "API key is not available. Please create an API key at https://github.com/settings/tokens with 'repo' and 'user' scopes and store it in your home directory in a file named 'gitgrab_api.txt'.";
     }
 
     eprintln!("{0} {1}", success_msg, flag_msg);
@@ -80,7 +80,7 @@ fn create_api_file() {
     let api_input = std::io::stdin();
     api_input.read_line(&mut api_key);
     let home_dir = std::env::var_os("HOME").expect("Cannot get home directory!");
-    let file_path = home_dir.into_string().unwrap() + "/gitfetch_api.txt";
+    let file_path = home_dir.into_string().unwrap() + "/gitgrab_api.txt";
     let mut file = match std::fs::OpenOptions::new()
         .create(true)
         .write(true)
@@ -109,7 +109,7 @@ pub fn get_secret_key() -> (String, bool) {
             std::process::exit(0);
         }
     };
-    let file_path = home_dir.join("gitfetch_api.txt");
+    let file_path = home_dir.join("gitgrab_api.txt");
     let secret_key = match std::fs::read_to_string(&file_path) {
         Ok(contents) => contents,
         Err(e) => {
