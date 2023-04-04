@@ -132,7 +132,7 @@ pub fn main_view_start() {
     match graph {
         Ok(()) => print!(""),
         Err(error) => {
-            eprintln!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/gitfetch/issues/17");
+            eprintln!("You should change you API key, it got expires for graph contribution\nits an issue: https://github.com/ArshErgon/fetchquest/issues/17");
             std::process::exit(0)
         }
     }
