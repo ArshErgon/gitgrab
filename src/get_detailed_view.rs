@@ -24,7 +24,7 @@ fn rainbow() {
 }
 
 // progress bar for languages bars.
-fn progress_bar(data_map: HashMap<String, i32>) {
+fn progress_bar(data_map: HashMap<String, u32>) {
     let mut values = Vec::new();
     let mut languages = Vec::new();
 

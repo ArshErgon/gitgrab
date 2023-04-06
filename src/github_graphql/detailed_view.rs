@@ -19,7 +19,7 @@ type DateTime = String;
 pub fn get_graphql_info(
     username: String,
     secret_key: &str,
-) -> (HashMap<String, String>, HashMap<String, i32>) {
+) -> (HashMap<String, String>, HashMap<String, u32>) {
     let data = user_authentication(username, secret_key);
     let error_msg = format!("
     {0}
@@ -57,10 +57,10 @@ fn user_authentication(user_name: String, secret_key: &str) -> Result<kusa::Resp
 
 fn filter_out_data(
     response_data: kusa::ResponseData,
-) -> (HashMap<String, String>, HashMap<String, i32>) {
+) -> (HashMap<String, String>, HashMap<String, u32>) {
     const EMPTY: &str = "NA";
     let mut filter_data_map: HashMap<String, String> = HashMap::new();
-    let mut languages: HashMap<String, i32> = HashMap::new();
+    let mut languages: HashMap<String, u32> = HashMap::new();
     let mut fork_count = 0;
     match response_data.user {
         Some(user) => {
@@ -177,9 +177,9 @@ This error can happened because of the following
         }
     }
     filter_data_map.insert("fork".to_string(), fork_count.to_string());
-    let total_value: i32 = languages.values().sum();
+    let total_value: u32 = languages.values().sum();
     for (key, val) in languages.clone() {
-        let mut percentage = (((val + 10) as f32 / total_value as f32) * 100.0) as i32;
+        let mut percentage = (((val + 10) as f32 / total_value as f32) * 100.0) as u32;
         if percentage > 100 {
             percentage = 100
         }

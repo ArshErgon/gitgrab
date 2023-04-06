@@ -91,19 +91,19 @@ fn print_logo(data_map: HashMap<String, String>) {
     println!("{:^width$}", table.render(), width = 40);
 }
 
-pub fn print_formatter(mut git_data: HashMap<String, String>, language_map: HashMap<String, i32>) {
-    let repo = add_k(git_data[&"repo".to_string()].parse::<i32>().unwrap());
+pub fn print_formatter(mut git_data: HashMap<String, String>, language_map: HashMap<String, u32>) {
+    let repo = add_k(git_data[&"repo".to_string()].parse::<u32>().unwrap());
     git_data.entry("repo".to_string()).or_insert(repo);
 
-    let followers = add_k(git_data[&"followers".to_string()].parse::<i32>().unwrap());
-    let following = add_k(git_data[&"following".to_string()].parse::<i32>().unwrap());
+    let followers = add_k(git_data[&"followers".to_string()].parse::<u32>().unwrap());
+    let following = add_k(git_data[&"following".to_string()].parse::<u32>().unwrap());
     git_data.entry("followers".to_string()).or_insert(followers);
     git_data.entry("following".to_string()).or_insert(following);
 
-    let stars = add_k(git_data[&"stars".to_string()].parse::<i32>().unwrap());
-    let forks = add_k(git_data[&"fork".to_string()].parse::<i32>().unwrap());
-    let issue = add_k(git_data[&"issues".to_string()].parse::<i32>().unwrap());
-    let watcher = add_k(git_data[&"watcher".to_string()].parse::<i32>().unwrap());
+    let stars = add_k(git_data[&"stars".to_string()].parse::<u32>().unwrap());
+    let forks = add_k(git_data[&"fork".to_string()].parse::<u32>().unwrap());
+    let issue = add_k(git_data[&"issues".to_string()].parse::<u32>().unwrap());
+    let watcher = add_k(git_data[&"watcher".to_string()].parse::<u32>().unwrap());
     git_data.insert("stars".to_string(), stars);
     git_data.insert("fork".to_string(), forks);
     git_data.insert("issue".to_string(), issue);
@@ -121,7 +121,7 @@ pub fn print_formatter(mut git_data: HashMap<String, String>, language_map: Hash
 
 // add a k to the number
 // like 1000 will become 1k
-fn add_k(num: i32) -> String {
+fn add_k(num: u32) -> String {
     let ans = if num >= 1000 {
         let decimal_star = num as f32 / 1000.0;
         let num = format!("{:.1}k", decimal_star);
