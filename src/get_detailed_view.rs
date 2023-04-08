@@ -98,7 +98,7 @@ fn top_repositories_display(repo_data: HashMap<String, (String, String, String, 
     let mut table = term_table::Table::new();
     table.max_column_width = 90;
     table.style = term_table::TableStyle::elegant();
-   
+
     let mut change: u32 = 1;
     for data in repo_data.values() {
         let (name, star_count, description, lang, fork_count) = (
@@ -108,20 +108,26 @@ fn top_repositories_display(repo_data: HashMap<String, (String, String, String, 
             data.3.as_str(),
             data.4.as_str(),
         );
-        
-        let formatted_data = format!("
+
+        let formatted_data = format!(
+            "
         {name}
         {star_count}
         {description}
         {lang}
         {fork_count}
-        ");
+        "
+        );
         table.add_row(Row::new(vec![
             // TableCell::new(formatted_data),
-            TableCell::new_with_alignment(formatted_data, 2, term_table::table_cell::Alignment::Center),
+            TableCell::new_with_alignment(
+                formatted_data,
+                2,
+                term_table::table_cell::Alignment::Center,
+            ),
         ]));
     }
-    
+
     print!("{}", table.render());
     std::process::exit(1);
 }
