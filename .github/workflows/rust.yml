@@ -43,7 +43,7 @@ jobs:
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
           asset_path: ./target/x86_64-pc-windows-gnu/release/<your-binary-filename>.exe
-          asset_name: gitfetch-windows-x86_64.exe
+          asset_name: gitgrab-windows-x86_64.exe
           asset_content_type: application/octet-stream
 
       - name: Upload Linux binary
@@ -53,8 +53,8 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/x86_64-unknown-linux-gnu/release/gitfetch
-          asset_name: gitfetch-linux-x86_64
+          asset_path: ./target/x86_64-unknown-linux-gnu/release/gitgrab
+          asset_name: gitgrab-linux-x86_64
           asset_content_type: application/octet-stream
 
       - name: Upload macOS binary
@@ -64,6 +64,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./target/x86_64-apple-darwin/release/gitfetch
-          asset_name: gitfetch-macos-x86_64
+          asset_path: ./target/x86_64-apple-darwin/release/gitgrab
+          asset_name: gitgrab-macos-x86_64
           asset_content_type: application/octet-stream

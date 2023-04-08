@@ -1,6 +1,6 @@
 [package]
-name = "gitfetch"
-version = "0.2.0"
+name = "gitgrab"
+version = "0.2.3"
 edition = "2021"
 authors = ["ArshErgon", "arshergon@gmail.com", "https://www.linkedin.com/in/arsh-ergon/"]
 
