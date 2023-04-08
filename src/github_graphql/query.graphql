@@ -35,21 +35,43 @@ query Kusa($userName: String!) {
     watching {
       totalCount
     }
-    topRepositories(orderBy: {field: STARGAZERS, direction: ASC}, first: 3) {
+    topRepositories(orderBy: {field: STARGAZERS, direction: ASC}, first: 5) {
       edges {
         node {
-          name
           primaryLanguage {
             name
           }
           description
           stargazerCount
+          forkCount
+          createdAt
+          updatedAt
+          commitComments {
+            totalCount
+          }
+          pullRequests {
+            totalCount
+          }
+          mentionableUsers(first: 10) {
+            edges {
+              node {
+                name
+                login
+              }
+            }
+          }
         }
       }
     }
     issues {
       totalCount
     }
+    contributionsCollection {
+      contributionCalendar {
+        totalContributions
+      }
+      contributionYears
+      hasAnyContributions
+    }
   }
-  
 }

@@ -1,9 +1,8 @@
-use std::collections::HashMap;
-
 use ::reqwest::blocking::Client;
 use anyhow::{Context, Result};
 use colorful::{Color, Colorful};
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery};
+use std::collections::HashMap;
 
 #[derive(GraphQLQuery)]
 #[graphql(
@@ -19,7 +18,12 @@ type DateTime = String;
 pub fn get_graphql_info(
     username: String,
     secret_key: &str,
-) -> (HashMap<String, String>, HashMap<String, u32>) {
+) -> (
+    HashMap<String, String>,
+    HashMap<String, u32>,
+    HashMap<String, (String, String, String, String, String)>,
+    String,
+) {
     let data = user_authentication(username, secret_key);
     let error_msg = format!("
     {0}
@@ -55,13 +59,23 @@ fn user_authentication(user_name: String, secret_key: &str) -> Result<kusa::Resp
     response_body.data.context("failed to fetch data")
 }
 
+// getting the data out in hashmaps for easy retrival
 fn filter_out_data(
     response_data: kusa::ResponseData,
-) -> (HashMap<String, String>, HashMap<String, u32>) {
+) -> (
+    HashMap<String, String>,
+    HashMap<String, u32>,
+    HashMap<String, (String, String, String, String, String)>,
+    String,
+) {
     const EMPTY: &str = "NA";
     let mut filter_data_map: HashMap<String, String> = HashMap::new();
     let mut languages: HashMap<String, u32> = HashMap::new();
     let mut fork_count = 0;
+    let mut top_repositories: HashMap<String, (String, String, String, String, String)> =
+        HashMap::new();
+    let mut string_year = String::new();
+
     match response_data.user {
         Some(user) => {
             filter_data_map.insert(
@@ -138,6 +152,55 @@ fn filter_out_data(
                 }
             }
 
+            match user.contributions_collection {
+                mut contribution => {
+                    let years = contribution.contribution_years;
+                    if years.len() > 1 {
+                        string_year = years[years.len() - 1].to_string();
+                    } else {
+                        string_year = years[0].to_string();
+                    }
+                    // contribution_years.append(&mut contribution.contribution_years);
+                    filter_data_map.insert(
+                        "hasAnyContribution".to_string(),
+                        contribution.has_any_contributions.to_string(),
+                    );
+                }
+            }
+
+            if let Some(edges) = user.top_repositories.edges.as_ref() {
+                for node in edges
+                    .iter()
+                    .filter_map(|edge| edge.as_ref().map(|e| e.node.as_ref()).flatten())
+                {
+                    if node.is_fork {
+                        continue;
+                    }
+                    let key = node.name.clone();
+                    let description = node
+                        .description
+                        .clone()
+                        .unwrap_or_else(|| "No description given".to_string());
+                    let stargazer_count = node.stargazer_count;
+                    let fork_count = node.fork_count;
+
+                    if let Some(lang) = &node.primary_language {
+                        let lang = lang.name.clone();
+                        top_repositories.insert(
+                            key.clone(),
+                            (
+                                key,
+                                stargazer_count.to_string(),
+                                description,
+                                lang,
+                                fork_count.to_string(),
+                            ),
+                        );
+                    }
+                }
+            } else {
+                println!("No repos found");
+            }
             match user.repositories {
                 repo => {
                     filter_data_map.insert("repo".to_string(), repo.total_count.to_string());
@@ -185,5 +248,5 @@ This error can happened because of the following
         }
         languages.insert(key.to_string(), percentage);
     }
-    (filter_data_map, languages)
+    (filter_data_map, languages, top_repositories, string_year)
 }
