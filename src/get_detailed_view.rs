@@ -142,7 +142,7 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
             term_table::table_cell::Alignment::Left,
         )]));
     }
-    
+
     print!("{}", table.render());
 }
 
