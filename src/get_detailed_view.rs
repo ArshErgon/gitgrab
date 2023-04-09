@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 extern crate colorful;
-use colorful::{Colorful, HSL, Color};
+use colorful::{Color, Colorful, HSL};
 extern crate cfonts;
 use cfonts::{say, Colors, Fonts, Options};
 use crossterm::{
@@ -100,7 +100,17 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
     table.style = term_table::TableStyle::elegant();
 
     for data in repo_data.values() {
-        let (name, star_count, description, lang, fork_count, project_url, created_at, updated_at, request) = (
+        let (
+            name,
+            star_count,
+            description,
+            lang,
+            fork_count,
+            project_url,
+            created_at,
+            updated_at,
+            request,
+        ) = (
             data.key.as_str(),
             data.stargazer_count.as_str(),
             data.description.as_str(),
@@ -121,7 +131,8 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
     Forks: {fork_count}
     PullRequests: {request}
         ",
-        project_url = project_url.color(Color::Aquamarine1a));
+            project_url = project_url.color(Color::Aquamarine1a)
+        );
         table.add_row(Row::new(vec![TableCell::new_with_alignment(
             formatted_data,
             2,
