@@ -126,13 +126,13 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
 
         let formatted_data = format!(
             r"
-    Project: {name} ({project_url})
-    Description: {description}
-    language: {lang}
-    Stars: {star_count}
-    Forks: {fork_count}
-    Open PR: {request}
-    Open Issues: {open_issues}
+    Project     : {name} ({project_url})
+    Description : {description}
+    language    : {lang}
+    Stars       : {star_count}
+    Forks       : {fork_count}
+    Open PR     : {request}
+    Open Issues : {open_issues}
         ",
             project_url = project_url.color(Color::Aquamarine1a)
         );
