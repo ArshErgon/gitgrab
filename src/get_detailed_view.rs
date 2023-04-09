@@ -110,6 +110,7 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
             created_at,
             updated_at,
             request,
+            open_issues,
         ) = (
             data.key.as_str(),
             data.stargazer_count.as_str(),
@@ -120,6 +121,7 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
             data.created_at.as_str(),
             data.updated_at.as_str(),
             data.request.as_str(),
+            data.open_issue.as_str(),
         );
 
         let formatted_data = format!(
@@ -129,7 +131,8 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
     language: {lang}
     Stars: {star_count}
     Forks: {fork_count}
-    PullRequests: {request}
+    Open PR: {request}
+    Open Issues: {open_issues}
         ",
             project_url = project_url.color(Color::Aquamarine1a)
         );
@@ -147,13 +150,11 @@ fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>)
 // the two username and secret_key grab the github username, and the API key
 // API key always saved in a .txt file inside the `home_dir`
 // same goes for the permanent user, the only time the username file will not be read when the command is starts with -t
-
 // the header_git_data: takes a vector of string which is fetching the basic information like username, repo counts etc from the file `start_header_info`
-
 // the repo_data is holding the repo details, like total stars counts etc (graphql will help me alot here, need an improment)
 pub fn main_view_start() {
     let (username, secret_key) = input::cli_input();
-    let (profile_data, language_data, top_repo, years) =
+    let (profile_data, language_data, top_repo) =
         detailed_view::get_graphql_info(username.clone(), secret_key.trim());
 
     // change the size so that it can show bars and all that.
