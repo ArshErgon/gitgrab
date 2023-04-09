@@ -1,7 +1,7 @@
 <p align="center"><a href="https://www.rust-lang.org" target="_blank"><img src="https://img.shields.io/badge/Made%20With-Rust-000000?style=for-the-badge" alt="made with rust" /></a></a>
 </p>
 <div align="center">
-<img src="https://github.com/ArshErgon/gitfetch/blob/fc2a521c3b3b3536fadaa18497b4fd29b25b1270/gitfetch.gif">
+<img src="https://github.com/ArshErgon/gitgrab/blob/fc2a521c3b3b3536fadaa18497b4fd29b25b1270/gitgrab.gif">
 </div>
 <div align="center">
 
@@ -49,11 +49,11 @@ $ gitgrab -h
 
 # Installation
 
-Remember you need to add github token also: [your safety](https://github.com/ArshErgon/gitfetch#api-key-security), What are [token?](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and where it will be [created](https://github.com/settings/tokens). Give every permission except **creating and deleting**
+Remember you need to add github token also: [your safety](https://github.com/ArshErgon/gitgrab#api-key-security), What are [token?](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and where it will be [created](https://github.com/settings/tokens). Give every permission except **creating and deleting**
 
 ## Linux
 
-Download the binary from [here](https://github.com/ArshErgon/gitfetch/releases/download/v1.0.0/gitfetch), after downloading go to the place where its download (mostly on Desktop) and enter the command below.
+Download the binary from [here](https://github.com/ArshErgon/gitgrab/releases/download/v1.0.0/gitgrab), after downloading go to the place where its download (mostly on Desktop) and enter the command below.
 
 ```rust
 $ sudo install -c gitgrab /usr/local/bin
@@ -61,7 +61,7 @@ $ sudo install -c gitgrab /usr/local/bin
 
 ## Windows
 
-Download the binary from [here](https://github.com/ArshErgon/gitfetch/releases/download/v1.0.0/gitfetch.exe),
+Download the binary from [here](https://github.com/ArshErgon/gitgrab/releases/download/v1.0.0/gitgrab.exe),
 There are two ways to run in windows.
 
 1. Add to the path
@@ -85,8 +85,8 @@ its in alpha stage.
 # Development
 
 ```git
-$ git clone https://github.com/USERNAME/gitfetch.git
-$ cd gitfetch
+$ git clone https://github.com/USERNAME/gitgrab.git
+$ cd gitgrab
 $ cargo run -- -t USERNAME
 OR
 $ cargo run -- -o

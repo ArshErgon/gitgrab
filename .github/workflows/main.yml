@@ -28,8 +28,8 @@ jobs:
     - name: Archive Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: gitfetch-${{ matrix.os }}
-        path: target/release/gitfetch
+        name: gitgrab-${{ matrix.os }}
+        path: target/release/gitgrab
         if: success()
         working-directory: release/${{ matrix.os }}
   release:
@@ -42,19 +42,19 @@ jobs:
     - name: Download Windows Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-windows-latest
+        name: gitgrab-windows-latest
         path: release/windows-latest
       if: matrix.os == 'windows-latest'
     - name: Download macOS Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-macos-latest
+        name: gitgrab-macos-latest
         path: release/macos-latest
       if: matrix.os == 'macos-latest'
     - name: Download Linux Artifact
       uses: actions/download-artifact@v2
       with:
-        name: gitfetch-ubuntu-latest
+        name: gitgrab-ubuntu-latest
         path: release/ubuntu-latest
       if: matrix.os == 'ubuntu-latest'
     - name: Create Release
@@ -66,7 +66,7 @@ jobs:
         tag_name: v1.0.0
         release_name: Release 1.0.0
         body: |
-          This is the first release of gitfetch.
+          This is the first release of gitgrab.
         draft: false
         prerelease: false
     - name: Upload Windows Asset
@@ -75,8 +75,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: release/windows-latest/gitfetch.exe
-        asset_name: gitfetch.exe
+        asset_path: release/windows-latest/gitgrab.exe
+        asset_name: gitgrab.exe
         asset_content_type: application/octet-stream
       if: matrix.os == 'windows-latest'
     - name: Upload macOS Asset
@@ -85,8 +85,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: release/macos-latest/gitfetch
-        asset_name: gitfetch
+        asset_path: release/macos-latest/gitgrab
+        asset_name: gitgrab
         asset_content_type: application/octet-stream
       if: matrix.os == 'macos-latest'
     - name: Upload Linux Asset
@@ -95,8 +95,8 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./gitfetch
-        asset_name: gitfetch
+        asset_path: ./gitgrab
+        asset_name: gitgrab
         asset_content_type: application/octet-stream
 
 

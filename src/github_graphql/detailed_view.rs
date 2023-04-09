@@ -1,9 +1,8 @@
-use std::collections::HashMap;
-
 use ::reqwest::blocking::Client;
 use anyhow::{Context, Result};
 use colorful::{Color, Colorful};
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery};
+use std::collections::HashMap;
 
 #[derive(GraphQLQuery)]
 #[graphql(
@@ -16,10 +15,28 @@ struct Kusa;
 type URI = String;
 type DateTime = String;
 
+#[derive(Debug)]
+pub struct RepositoriesInformation {
+    pub key: String,
+    pub stargazer_count: String,
+    pub description: String,
+    pub lang: String,
+    pub fork_count: String,
+    pub repo_url: String,
+    pub updated_at: String,
+    pub created_at: String,
+    pub request: String,
+    pub open_issue: String,
+}
+
 pub fn get_graphql_info(
     username: String,
     secret_key: &str,
-) -> (HashMap<String, String>, HashMap<String, u32>) {
+) -> (
+    HashMap<String, String>,
+    HashMap<String, u32>,
+    HashMap<String, RepositoriesInformation>,
+) {
     let data = user_authentication(username, secret_key);
     let error_msg = format!("
     {0}
@@ -55,13 +72,21 @@ fn user_authentication(user_name: String, secret_key: &str) -> Result<kusa::Resp
     response_body.data.context("failed to fetch data")
 }
 
+// getting the data out in hashmaps for easy retrival
 fn filter_out_data(
     response_data: kusa::ResponseData,
-) -> (HashMap<String, String>, HashMap<String, u32>) {
+) -> (
+    HashMap<String, String>,
+    HashMap<String, u32>,
+    HashMap<String, RepositoriesInformation>,
+) {
     const EMPTY: &str = "NA";
     let mut filter_data_map: HashMap<String, String> = HashMap::new();
     let mut languages: HashMap<String, u32> = HashMap::new();
     let mut fork_count = 0;
+    let mut top_repositories: HashMap<String, RepositoriesInformation> = HashMap::new();
+    let mut string_year = String::new();
+
     match response_data.user {
         Some(user) => {
             filter_data_map.insert(
@@ -138,6 +163,63 @@ fn filter_out_data(
                 }
             }
 
+            match user.contributions_collection {
+                mut contribution => {
+                    let years = contribution.contribution_years;
+                    if years.len() > 1 {
+                        string_year = years[years.len() - 1].to_string();
+                    } else {
+                        string_year = years[0].to_string();
+                    }
+                    filter_data_map.insert("contribution".to_string(), string_year);
+                }
+            }
+
+            if let Some(edges) = user.top_repositories.edges.as_ref() {
+                for node in edges
+                    .iter()
+                    .filter_map(|edge| edge.as_ref().map(|e| e.node.as_ref()).flatten())
+                {
+                    if node.is_fork {
+                        continue;
+                    }
+                    let mut request_count = String::new();
+                    let key = node.name.clone();
+                    let description = node
+                        .description
+                        .clone()
+                        .unwrap_or_else(|| "No description given".to_string());
+                    let stargazer_count = node.stargazer_count;
+                    let fork_count = node.fork_count;
+                    let repo_url = node
+                        .projects_url
+                        .strip_suffix("/projects")
+                        .unwrap()
+                        .to_string();
+                    let created_at = node.created_at.clone();
+                    let updated_at = node.updated_at.clone();
+                    let request = node.clone().pull_requests.total_count.to_string();
+                    let open_issue = node.clone().issues.total_count.to_string();
+                    if let Some(lang) = &node.primary_language {
+                        let lang = lang.name.clone();
+                        let data = RepositoriesInformation {
+                            key: key.clone(),
+                            stargazer_count: stargazer_count.to_string(),
+                            description,
+                            lang,
+                            fork_count: fork_count.to_string(),
+                            repo_url,
+                            created_at,
+                            updated_at,
+                            request,
+                            open_issue,
+                        };
+                        top_repositories.insert(key, (data));
+                    }
+                }
+            } else {
+                println!("No repos found");
+            }
             match user.repositories {
                 repo => {
                     filter_data_map.insert("repo".to_string(), repo.total_count.to_string());
@@ -165,11 +247,11 @@ fn filter_out_data(
         None => {
             let error_msg = format!(
                 r"
-Error, could not find information about the user
-This error can happened because of the following
-1. User doesn't exists (recheck your username).
-2. Organization support is not available right now
-3. The token request is exceed (https://docs.github.com/en/apps/creating-github-apps/creating-github-apps/rate-limits-for-github-apps)"
+    Error, could not find information about the user
+    This error can happened because of the following
+    1. User doesn't exists (recheck your username).
+    2. Organization support is not available right now
+    3. The token request is exceed (https://docs.github.com/en/apps/creating-github-apps/creating-github-apps/rate-limits-for-github-apps)"
             );
             eprintln!("{error_msg}");
 
@@ -185,5 +267,5 @@ This error can happened because of the following
         }
         languages.insert(key.to_string(), percentage);
     }
-    (filter_data_map, languages)
+    (filter_data_map, languages, top_repositories)
 }

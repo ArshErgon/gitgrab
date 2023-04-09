@@ -1,16 +1,19 @@
 use std::collections::HashMap;
 extern crate colorful;
-use colorful::{Colorful, HSL};
+use colorful::{Color, Colorful, HSL};
 extern crate cfonts;
 use cfonts::{say, Colors, Fonts, Options};
-
 use crossterm::{
     execute,
     terminal::{self, SetSize},
 };
+use term_table::{
+    row::Row,
+    table_cell::{Alignment, TableCell},
+};
 
 // Contribution Graph Maker
-use crate::{graph::graph_maker, input};
+use crate::{github_graphql::detailed_view::RepositoriesInformation, graph::graph_maker, input};
 
 use crate::github_graphql::detailed_view;
 
@@ -91,17 +94,67 @@ fn show_contribution_graph(user_name: String, secret_key: String) -> Result<(), 
     graph_maker::generate_graph(user_name, secret_key)
 }
 
+fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>) {
+    let mut table = term_table::Table::new();
+    table.max_column_width = 50;
+    table.style = term_table::TableStyle::elegant();
+
+    for data in repo_data.values() {
+        let (
+            name,
+            star_count,
+            description,
+            lang,
+            fork_count,
+            project_url,
+            created_at,
+            updated_at,
+            request,
+            open_issues,
+        ) = (
+            data.key.as_str(),
+            data.stargazer_count.as_str(),
+            data.description.as_str(),
+            data.lang.as_str(),
+            data.fork_count.as_str(),
+            data.repo_url.as_str(),
+            data.created_at.as_str(),
+            data.updated_at.as_str(),
+            data.request.as_str(),
+            data.open_issue.as_str(),
+        );
+
+        let formatted_data = format!(
+            r"
+    Project     : {name} ({project_url})
+    Description : {description}
+    language    : {lang}
+    Stars       : {star_count}
+    Forks       : {fork_count}
+    Open PR     : {request}
+    Open Issues : {open_issues}
+        ",
+            project_url = project_url.color(Color::Aquamarine1a)
+        );
+        table.add_row(Row::new(vec![TableCell::new_with_alignment(
+            formatted_data,
+            2,
+            term_table::table_cell::Alignment::Left,
+        )]));
+    }
+
+    print!("{}", table.render());
+}
+
 // the main_view_start is the backbone of our tool.
 // the two username and secret_key grab the github username, and the API key
 // API key always saved in a .txt file inside the `home_dir`
 // same goes for the permanent user, the only time the username file will not be read when the command is starts with -t
-
 // the header_git_data: takes a vector of string which is fetching the basic information like username, repo counts etc from the file `start_header_info`
-
 // the repo_data is holding the repo details, like total stars counts etc (graphql will help me alot here, need an improment)
 pub fn main_view_start() {
     let (username, secret_key) = input::cli_input();
-    let (profile_data, language_data) =
+    let (profile_data, language_data, top_repo) =
         detailed_view::get_graphql_info(username.clone(), secret_key.trim());
 
     // change the size so that it can show bars and all that.
@@ -115,7 +168,6 @@ pub fn main_view_start() {
 
     // profile header bar, showing information about the user
     // prints the github logo and the basic information
-
     profile_header(username.clone());
     crate::github_logo_ascii::print_formatter(profile_data, language_data.clone());
 
@@ -126,6 +178,9 @@ pub fn main_view_start() {
 
     // starting of the contribution graph
     // ascii_text converts text to ascii art for heading
+
+    ascii_text("Top Repositories".to_string());
+    top_repositories_display(top_repo);
 
     ascii_text("Contribution Graph".to_string());
     let graph = show_contribution_graph(username, secret_key);
