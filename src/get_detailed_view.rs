@@ -65,7 +65,7 @@ fn clean_terminal() {
 }
 
 // prints the ascii text to the terminal, colorful
-fn ascii_text(txt: String) {
+pub(crate) fn ascii_text(txt: String) {
     say(Options {
         text: txt,
         font: Fonts::FontTiny,

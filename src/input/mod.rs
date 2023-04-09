@@ -29,7 +29,23 @@ pub fn cli_input() -> (String, String) {
             .long("author")
             .action(ArgAction::SetTrue)
         )
+        .arg(
+            Arg::new("LOC")
+            // .short("loc")
+            .long("loc")
+            .help("Shows line of code"),
+        )
         .get_matches();
+
+    let repo_url = match matches.get_one::<String>("LOC") {
+        None => "None",
+        Some(val) => val,
+    };
+
+    if repo_url != "None" {
+        crate::lines_of_codes::start_lines(repo_url.to_string());
+        std::process::exit(0);
+    }
 
     // for menu bar
     match matches.get_flag("o") {
