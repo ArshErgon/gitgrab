@@ -9,6 +9,8 @@ mod input;
 mod github_graphql {
     pub mod detailed_view;
 }
+
+mod lines_of_codes;
 mod graph {
     pub mod graph_maker;
 }
