@@ -1,7 +1,7 @@
 use anyhow::Error;
 use reqwest::Url;
 use std::collections::HashMap;
-use term_table::{Table, row::Row, table_cell::TableCell};
+use term_table::{row::Row, table_cell::TableCell, Table};
 
 #[derive(Debug)]
 struct LocStruct {
@@ -39,18 +39,12 @@ fn find_lines(pair: (&str, &str)) -> Result<(HashMap<String, LocStruct>), Error>
             .get("linesOfCode")
             .and_then(|v| v.as_u64())
             .unwrap_or(0);
-        let blanks = loc_data
-        .get("blanks")
-        .and_then(|v| v.as_u64())
-        .unwrap_or(0);
+        let blanks = loc_data.get("blanks").and_then(|v| v.as_u64()).unwrap_or(0);
         let comments = loc_data
-        .get("comments")
-        .and_then(|v| v.as_u64())
-        .unwrap_or(0);
-        let lines = loc_data
-        .get("lines")
-        .and_then(|v| v.as_u64())
-        .unwrap_or(0);;
+            .get("comments")
+            .and_then(|v| v.as_u64())
+            .unwrap_or(0);
+        let lines = loc_data.get("lines").and_then(|v| v.as_u64()).unwrap_or(0);
 
         loc_map.insert(
             language.clone(),
@@ -65,11 +59,8 @@ fn find_lines(pair: (&str, &str)) -> Result<(HashMap<String, LocStruct>), Error>
         );
     }
 
-    
-
     Ok((loc_map))
 }
-
 
 fn create_loc_table(data: HashMap<String, LocStruct>, url: String) {
     let mut table = Table::new();
@@ -82,7 +73,6 @@ fn create_loc_table(data: HashMap<String, LocStruct>, url: String) {
         TableCell::new_with_alignment("Blanks", 3, term_table::table_cell::Alignment::Right),
         TableCell::new_with_alignment("Comments", 4, term_table::table_cell::Alignment::Right),
         TableCell::new_with_alignment("Lines Of Code", 5, term_table::table_cell::Alignment::Right),
-
     ]));
 
     for (_, loc_data) in data {
@@ -95,16 +85,19 @@ fn create_loc_table(data: HashMap<String, LocStruct>, url: String) {
         table.add_row(Row::new(vec![
             TableCell::new(lang),
             TableCell::new_with_alignment(file, 1, term_table::table_cell::Alignment::Right),
-        TableCell::new_with_alignment(lines, 2, term_table::table_cell::Alignment::Right),
-        TableCell::new_with_alignment(blanks, 3, term_table::table_cell::Alignment::Right),
-        TableCell::new_with_alignment(comments, 4, term_table::table_cell::Alignment::Right),
-        TableCell::new_with_alignment(lines_of_code, 5, term_table::table_cell::Alignment::Right),
+            TableCell::new_with_alignment(lines, 2, term_table::table_cell::Alignment::Right),
+            TableCell::new_with_alignment(blanks, 3, term_table::table_cell::Alignment::Right),
+            TableCell::new_with_alignment(comments, 4, term_table::table_cell::Alignment::Right),
+            TableCell::new_with_alignment(
+                lines_of_code,
+                5,
+                term_table::table_cell::Alignment::Right,
+            ),
         ]));
     }
     println!("The details of the repo: {url}\n");
     print!("{}", table.render());
 }
-
 
 pub fn start_lines(para_url: String) {
     let url: Vec<&str> = para_url
@@ -115,7 +108,7 @@ pub fn start_lines(para_url: String) {
         eprintln!("invalid url");
         std::process::exit(0);
     }
-    
+
     let username = url[url.len() - 2];
     let project = url[url.len() - 1];
     match find_lines((username, project)) {
