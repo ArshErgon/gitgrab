@@ -49,7 +49,10 @@ query Kusa($userName: String!) {
           forkCount
           createdAt
           updatedAt
-          pullRequests {
+          pullRequests(states: OPEN) {
+            totalCount
+          }
+          issues(states: OPEN) {
             totalCount
           }
           mentionableUsers(first: 5) {
@@ -63,8 +66,8 @@ query Kusa($userName: String!) {
         }
       }
     }
-    issues {
-      totalCount
+    issues(states: OPEN) {
+            totalCount
     }
     contributionsCollection {
       contributionCalendar {
