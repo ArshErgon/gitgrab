@@ -38,21 +38,21 @@ query Kusa($userName: String!) {
     topRepositories(orderBy: {field: STARGAZERS, direction: ASC}, first: 5) {
       edges {
         node {
+          name
+          isFork
           primaryLanguage {
             name
           }
+          projectsUrl
           description
           stargazerCount
           forkCount
           createdAt
           updatedAt
-          commitComments {
-            totalCount
-          }
           pullRequests {
             totalCount
           }
-          mentionableUsers(first: 10) {
+          mentionableUsers(first: 5) {
             edges {
               node {
                 name
