@@ -1,7 +1,7 @@
 <p align="center"><a href="https://www.rust-lang.org" target="_blank"><img src="https://img.shields.io/badge/Made%20With-Rust-000000?style=for-the-badge" alt="made with rust" /></a></a>
 </p>
 <div align="center">
-<img src="https://github.com/ArshErgon/gitgrab/blob/fc2a521c3b3b3536fadaa18497b4fd29b25b1270/gitgrab.gif">
+<img src="https://github.com/ArshErgon/gitfetch/blob/21d74230652cd13d2babe8a438abbcca475dba45/gitgrab.gif">
 </div>
 <div align="center">
 
