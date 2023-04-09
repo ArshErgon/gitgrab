@@ -15,13 +15,26 @@ struct Kusa;
 type URI = String;
 type DateTime = String;
 
+#[derive(Debug)]
+pub struct RepositoriesInformation {
+    pub key: String,
+    pub stargazer_count: String,
+    pub description: String,
+    pub lang: String,
+    pub fork_count: String,
+    pub repo_url: String,
+    pub updated_at: String,
+    pub created_at: String,
+    pub request: String,
+}
+
 pub fn get_graphql_info(
     username: String,
     secret_key: &str,
 ) -> (
     HashMap<String, String>,
     HashMap<String, u32>,
-    HashMap<String, (String, String, String, String, String)>,
+    HashMap<String, RepositoriesInformation>,
     String,
 ) {
     let data = user_authentication(username, secret_key);
@@ -65,15 +78,14 @@ fn filter_out_data(
 ) -> (
     HashMap<String, String>,
     HashMap<String, u32>,
-    HashMap<String, (String, String, String, String, String)>,
+    HashMap<String, RepositoriesInformation>,
     String,
 ) {
     const EMPTY: &str = "NA";
     let mut filter_data_map: HashMap<String, String> = HashMap::new();
     let mut languages: HashMap<String, u32> = HashMap::new();
     let mut fork_count = 0;
-    let mut top_repositories: HashMap<String, (String, String, String, String, String)> =
-        HashMap::new();
+    let mut top_repositories: HashMap<String, RepositoriesInformation> = HashMap::new();
     let mut string_year = String::new();
 
     match response_data.user {
@@ -176,6 +188,7 @@ fn filter_out_data(
                     if node.is_fork {
                         continue;
                     }
+                    let mut request_count = String::new();
                     let key = node.name.clone();
                     let description = node
                         .description
@@ -183,19 +196,24 @@ fn filter_out_data(
                         .unwrap_or_else(|| "No description given".to_string());
                     let stargazer_count = node.stargazer_count;
                     let fork_count = node.fork_count;
-
+                    let repo_url = node.projects_url.clone();
+                    let created_at = node.created_at.clone();
+                    let updated_at = node.updated_at.clone();
+                    let request = node.clone().pull_requests.total_count.to_string();
                     if let Some(lang) = &node.primary_language {
                         let lang = lang.name.clone();
-                        top_repositories.insert(
-                            key.clone(),
-                            (
-                                key,
-                                stargazer_count.to_string(),
-                                description,
-                                lang,
-                                fork_count.to_string(),
-                            ),
-                        );
+                        let data = RepositoriesInformation {
+                            key: key.clone(),
+                            stargazer_count: stargazer_count.to_string(),
+                            description,
+                            lang,
+                            fork_count: fork_count.to_string(),
+                            repo_url,
+                            created_at,
+                            updated_at,
+                            request,
+                        };
+                        top_repositories.insert(key, (data));
                     }
                 }
             } else {

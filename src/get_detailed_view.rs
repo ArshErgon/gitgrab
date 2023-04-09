@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 extern crate colorful;
-use colorful::{Colorful, HSL};
+use colorful::{Colorful, HSL, Color};
 extern crate cfonts;
 use cfonts::{say, Colors, Fonts, Options};
 use crossterm::{
@@ -13,7 +13,7 @@ use term_table::{
 };
 
 // Contribution Graph Maker
-use crate::{graph::graph_maker, input};
+use crate::{github_graphql::detailed_view::RepositoriesInformation, graph::graph_maker, input};
 
 use crate::github_graphql::detailed_view;
 
@@ -81,7 +81,7 @@ fn set_new_terminal_size() -> Result<(), Box<dyn std::error::Error>> {
     // bar size is increasing and doing a text wrapping
     // decreasing the length of the bar is decreasing all the other bars also.
     // at now setting a new terminal height is a solution
-    let new_width = 100;
+    let new_width = 110;
     let new_height = 30;
     let size = SetSize(new_width, new_height);
     execute!(std::io::stdout(), size)?;
@@ -94,36 +94,42 @@ fn show_contribution_graph(user_name: String, secret_key: String) -> Result<(), 
     graph_maker::generate_graph(user_name, secret_key)
 }
 
-fn top_repositories_display(repo_data: HashMap<String, (String, String, String, String, String)>) {
+fn top_repositories_display(repo_data: HashMap<String, RepositoriesInformation>) {
     let mut table = term_table::Table::new();
-    table.max_column_width = 90;
+    table.max_column_width = 50;
     table.style = term_table::TableStyle::elegant();
-   
-    let mut change: u32 = 1;
+
     for data in repo_data.values() {
-        let (name, star_count, description, lang, fork_count) = (
-            data.0.as_str(),
-            data.1.as_str(),
-            data.2.as_str(),
-            data.3.as_str(),
-            data.4.as_str(),
+        let (name, star_count, description, lang, fork_count, project_url, created_at, updated_at, request) = (
+            data.key.as_str(),
+            data.stargazer_count.as_str(),
+            data.description.as_str(),
+            data.lang.as_str(),
+            data.fork_count.as_str(),
+            data.repo_url.as_str(),
+            data.created_at.as_str(),
+            data.updated_at.as_str(),
+            data.request.as_str(),
         );
-        
-        let formatted_data = format!("
-        {name}
-        {star_count}
-        {description}
-        {lang}
-        {fork_count}
-        ");
-        table.add_row(Row::new(vec![
-            // TableCell::new(formatted_data),
-            TableCell::new_with_alignment(formatted_data, 2, term_table::table_cell::Alignment::Center),
-        ]));
+
+        let formatted_data = format!(
+            r"
+    Project: {name} ({project_url})
+    Description: {description}
+    language: {lang}
+    Stars: {star_count}
+    Forks: {fork_count}
+    PullRequests: {request}
+        ",
+        project_url = project_url.color(Color::Aquamarine1a));
+        table.add_row(Row::new(vec![TableCell::new_with_alignment(
+            formatted_data,
+            2,
+            term_table::table_cell::Alignment::Left,
+        )]));
     }
-    
+
     print!("{}", table.render());
-    std::process::exit(1);
 }
 
 // the main_view_start is the backbone of our tool.
@@ -163,7 +169,6 @@ pub fn main_view_start() {
 
     ascii_text("Top Repositories".to_string());
     top_repositories_display(top_repo);
-    std::process::exit(0);
 
     ascii_text("Contribution Graph".to_string());
     let graph = show_contribution_graph(username, secret_key);
