@@ -26,6 +26,7 @@ pub struct RepositoriesInformation {
     pub updated_at: String,
     pub created_at: String,
     pub request: String,
+    pub open_issue: String,
 }
 
 pub fn get_graphql_info(
@@ -35,7 +36,6 @@ pub fn get_graphql_info(
     HashMap<String, String>,
     HashMap<String, u32>,
     HashMap<String, RepositoriesInformation>,
-    String,
 ) {
     let data = user_authentication(username, secret_key);
     let error_msg = format!("
@@ -79,7 +79,6 @@ fn filter_out_data(
     HashMap<String, String>,
     HashMap<String, u32>,
     HashMap<String, RepositoriesInformation>,
-    String,
 ) {
     const EMPTY: &str = "NA";
     let mut filter_data_map: HashMap<String, String> = HashMap::new();
@@ -172,11 +171,7 @@ fn filter_out_data(
                     } else {
                         string_year = years[0].to_string();
                     }
-                    // contribution_years.append(&mut contribution.contribution_years);
-                    filter_data_map.insert(
-                        "hasAnyContribution".to_string(),
-                        contribution.has_any_contributions.to_string(),
-                    );
+                    filter_data_map.insert("contribution".to_string(), string_year);
                 }
             }
 
@@ -196,10 +191,15 @@ fn filter_out_data(
                         .unwrap_or_else(|| "No description given".to_string());
                     let stargazer_count = node.stargazer_count;
                     let fork_count = node.fork_count;
-                    let repo_url = node.projects_url.clone();
+                    let repo_url = node
+                        .projects_url
+                        .strip_suffix("/projects")
+                        .unwrap()
+                        .to_string();
                     let created_at = node.created_at.clone();
                     let updated_at = node.updated_at.clone();
                     let request = node.clone().pull_requests.total_count.to_string();
+                    let open_issue = node.clone().issues.total_count.to_string();
                     if let Some(lang) = &node.primary_language {
                         let lang = lang.name.clone();
                         let data = RepositoriesInformation {
@@ -212,6 +212,7 @@ fn filter_out_data(
                             created_at,
                             updated_at,
                             request,
+                            open_issue,
                         };
                         top_repositories.insert(key, (data));
                     }
@@ -246,11 +247,11 @@ fn filter_out_data(
         None => {
             let error_msg = format!(
                 r"
-Error, could not find information about the user
-This error can happened because of the following
-1. User doesn't exists (recheck your username).
-2. Organization support is not available right now
-3. The token request is exceed (https://docs.github.com/en/apps/creating-github-apps/creating-github-apps/rate-limits-for-github-apps)"
+    Error, could not find information about the user
+    This error can happened because of the following
+    1. User doesn't exists (recheck your username).
+    2. Organization support is not available right now
+    3. The token request is exceed (https://docs.github.com/en/apps/creating-github-apps/creating-github-apps/rate-limits-for-github-apps)"
             );
             eprintln!("{error_msg}");
 
@@ -266,5 +267,5 @@ This error can happened because of the following
         }
         languages.insert(key.to_string(), percentage);
     }
-    (filter_data_map, languages, top_repositories, string_year)
+    (filter_data_map, languages, top_repositories)
 }
