@@ -127,9 +127,8 @@ fn creating_table(pair_one: (String, u32, String), pair_two: (String, u32, Strin
     ", winner=winner_name.color(colorful::Color::Aquamarine1a),
     loser=loser_name.color(colorful::Color::Aquamarine1a),
 );
-println!("{winner_message}");
+    println!("{winner_message}");
 }
-
 
 fn add_k(num: u32) -> String {
     let ans = if num >= 1000 {
