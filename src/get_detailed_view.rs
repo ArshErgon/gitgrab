@@ -35,6 +35,8 @@ fn progress_bar(data_map: HashMap<String, u32>) {
         // progress_bar(key, value);
         if value > 100 {
             values.push(100.0);
+        } else if value == 10 {
+            values.push((value + 10) as f64);
         } else {
             values.push(value as f64);
         }

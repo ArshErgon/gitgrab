@@ -30,7 +30,7 @@ fn print_logo(data_map: HashMap<String, String>) {
         r"
         {name} ({username}) has {repos} repos on GitHub, using {top_lang} as a top lang. 
         {followers} followers, {following} following, {star} stars, {fork} forks, and {watcher} watchers. 
-        open {issue} issues and open {pull_request} pull requests and a doing contribution since {contribution}. 
+        open {issue} issues, open {pull_request} pull requests and a doing contribution since {contribution}. 
         Works at {company} in {location}. 
         {bio} 
         Visit blog: {blog}.

@@ -2,7 +2,7 @@ use std::{env, path::Path};
 
 use clap::{Arg, ArgAction, Command};
 
-mod menu_cli;
+pub(crate) mod menu_cli;
 
 pub fn cli_input() -> (String, String) {
     let mut flag = false;
@@ -35,6 +35,12 @@ pub fn cli_input() -> (String, String) {
             .long("loc")
             .help("Shows line of code"),
         )
+        .arg(
+            Arg::new("compare")
+            .short('c')
+            .long("com")
+            .help("Compare two users"),
+        )
         .get_matches();
 
     let repo_url = match matches.get_one::<String>("LOC") {
@@ -42,6 +48,7 @@ pub fn cli_input() -> (String, String) {
         Some(val) => val,
     };
 
+    // repo_url lines of code.
     if repo_url != "None" {
         crate::lines_of_codes::start_lines(repo_url.to_string());
         std::process::exit(0);
@@ -134,8 +141,7 @@ fn about() {
         ╚██████╔╝██║   ██║   ██║     ███████╗   ██║   ╚██████╗██║  ██║
          ╚═════╝ ╚═╝   ╚═╝   ╚═╝     ╚══════╝   ╚═╝    ╚═════╝╚═╝  ╚═╝v.0.2.0
 
-    A CLI application for github users, which shows the information of a particular user in a `neofetch` style
-    Proudly build with the help of Rust.
+    A CLI application which shows your github information on the terminal, started as an inspiration from `neofetch`
     "
     );
     println!("{}", gitgrab_logo);
