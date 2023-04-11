@@ -262,8 +262,10 @@ fn filter_out_data(
     let total_value: u32 = languages.values().sum();
     for (key, val) in languages.clone() {
         let mut percentage = (((val + 10) as f32 / total_value as f32) * 100.0) as u32;
-        if percentage > 100 {
-            percentage = 100
+        if val == 1 {
+            percentage = 10;
+        } else if percentage > 100 {
+            percentage = 100;
         }
         languages.insert(key.to_string(), percentage);
     }

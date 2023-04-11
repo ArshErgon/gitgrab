@@ -3,6 +3,7 @@
 
 use get_detailed_view::main_view_start;
 
+mod compare;
 mod get_detailed_view;
 mod github_logo_ascii;
 mod input;
