@@ -61,7 +61,6 @@ pub fn cli_input() -> (String, String) {
         std::process::exit(0);
     }
 
-
     let repo_url = match matches.get_one::<String>("LOC") {
         None => "None",
         Some(val) => val,
