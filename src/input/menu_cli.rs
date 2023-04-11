@@ -64,7 +64,8 @@ fn create_user_file() {
     let mut flag_msg = "You can now run `gitgrab` to see your Github information.";
 
     if !flag {
-        flag_msg = "API key is not available. Please create an API key at https://github.com/settings/tokens with 'repo' and 'user' scopes and store it in your home directory in a file named 'gitgrab_api.txt'.";
+        flag_msg = "API key is not available. \n
+        Please create an API key at https://github.com/settings/tokens";
     }
 
     eprintln!("{0} {1}", success_msg, flag_msg);
@@ -112,13 +113,12 @@ pub fn get_secret_key() -> (String, bool) {
     let file_path = home_dir.join("gitgrab_api.txt");
     let secret_key = match std::fs::read_to_string(&file_path) {
         Ok(contents) => contents,
-        Err(e) => {
-            eprintln!(
-                "\nAPI key not found at {}; see: https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token and give it all permission (expect: deleting or creating)",
-                file_path.display()
-            );
-            std::process::exit(0)
-        }
+        Err(e) => "NONE".to_string(),
     };
-    (secret_key, true)
+    let flag = if secret_key == "NONE".to_string() {
+        false
+    } else {
+        true
+    };
+    (secret_key, flag)
 }
