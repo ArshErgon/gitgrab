@@ -43,6 +43,24 @@ pub fn cli_input() -> (String, String) {
         )
         .get_matches();
 
+    let compare_names = match matches.get_one::<String>("compare") {
+        None => "None",
+        Some(val) => val,
+    };
+
+    if compare_names != "None" {
+        let username: Vec<&str> = compare_names.split(' ').collect();
+        if username.len() <= 1 {
+            eprint!("One another username is missing as I get only {:#?}", username);
+            std::process::exit(0)
+        }
+        crate::compare::start_comparison((username[0].to_owned(), username[1].to_owned()));
+        std::process::exit(0);
+
+    }
+
+    std::process::exit(0);
+
     let repo_url = match matches.get_one::<String>("LOC") {
         None => "None",
         Some(val) => val,

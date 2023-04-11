@@ -71,8 +71,8 @@ fn create_loc_table(data: HashMap<String, LocStruct>, url: String) {
         TableCell::new_with_alignment("Files", 1, term_table::table_cell::Alignment::Right),
         TableCell::new_with_alignment("Lines", 2, term_table::table_cell::Alignment::Right),
         TableCell::new_with_alignment("Blanks", 3, term_table::table_cell::Alignment::Right),
-        TableCell::new_with_alignment("Comments", 4, term_table::table_cell::Alignment::Right),
-        TableCell::new_with_alignment("Lines Of Code", 5, term_table::table_cell::Alignment::Right),
+        TableCell::new_with_alignment("Comments", 3, term_table::table_cell::Alignment::Right),
+        TableCell::new_with_alignment("LOC", 3, term_table::table_cell::Alignment::Right),
     ]));
 
     for (_, loc_data) in data {
@@ -87,10 +87,10 @@ fn create_loc_table(data: HashMap<String, LocStruct>, url: String) {
             TableCell::new_with_alignment(file, 1, term_table::table_cell::Alignment::Right),
             TableCell::new_with_alignment(lines, 2, term_table::table_cell::Alignment::Right),
             TableCell::new_with_alignment(blanks, 3, term_table::table_cell::Alignment::Right),
-            TableCell::new_with_alignment(comments, 4, term_table::table_cell::Alignment::Right),
+            TableCell::new_with_alignment(comments, 3, term_table::table_cell::Alignment::Right),
             TableCell::new_with_alignment(
                 lines_of_code,
-                5,
+                3,
                 term_table::table_cell::Alignment::Right,
             ),
         ]));
