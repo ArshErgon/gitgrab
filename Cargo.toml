@@ -3,6 +3,14 @@ name = "gitgrab"
 version = "0.2.3"
 edition = "2021"
 authors = ["ArshErgon", "arshergon@gmail.com", "https://www.linkedin.com/in/arsh-ergon/"]
+license = "MIT OR Apache-2.0"
+description = "A tool which shows github information on terminal"
+readme = "README.md"
+homepage = "https://github.com/ArshErgon/"
+repository = "https://github.com/ArshErgon/"
+keywords = ["cli", "search", "github", "open-source", "contributors"]
+categories = ["command-line-utilities"]
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
