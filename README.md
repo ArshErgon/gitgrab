@@ -1,7 +1,7 @@
 <p align="center"><a href="https://www.rust-lang.org" target="_blank"><img src="https://img.shields.io/badge/Made%20With-Rust-000000?style=for-the-badge" alt="made with rust" /></a></a>
 </p>
 <div align="center">
-
+  <img src="https://github.com/ArshErgon/gitfetch/blob/main/main.gif" />
 </div>
 <div align="center">
 
@@ -21,6 +21,8 @@ I was quite active on Open-Source contributions and I needed to track my progres
 - All viewers information
 - Languages Bars
 - Contribution Graph
+- Lines Of Code
+- Compare with 2 users
 
 # Commands
 
