@@ -86,7 +86,7 @@ $ sudo install -c gitgrab /usr/local/bin
 Download the binary from [here](https://github.com/ArshErgon/gitgrab/releases/download/v1.0.0/gitgrab.exe),
 There are two ways to run in windows.
 
-1. Add to the path
+1. On the CMD, add to the path
 
 ```rust
 C:> PATH=%PATH%;C:\path\to\gitgrab.exe
