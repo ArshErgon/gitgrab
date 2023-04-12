@@ -1,69 +1,170 @@
+<!-- 
+  This website is written with the help of DaisyUI 
+  As for now I'm using DaisyUI with the help of CDN, 
+  later in future I will be using SveltKit with backed by vercel. 
+  CONTRIBUTORS: Please don't change this comment.
+-->
+
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@1.*/css/pico.min.css">
-    <link rel="stylesheet" href="index.css">
-    <title>gitgrab</title>
-</head>
-<body>
-    <nav class="navbar">
-..........
-    </nav>
-    <div class="hero">
-        <div class="grid" id="inner-hero">
-            <div>
-                <h2 id="welcome-text">Meet <span style="color:#e8e500;">gitgrab</span> CLI</h2>
-                <h5 style="text-align: center;margin-top: -25px !important;">A small tool for <span style="color:#fe43bb;;">GitHub enthurist</span></h5>
-                <div class="container">
-                    <div style="display:flex;justify-content: center;">
-                        <button style="width: 10pc;margin-right: 10pc;">Docs</button>
-                    <button style="width: 10pc;">Download</button>
-                    </div>
-                </div>
-                <div class="container" style="align-items: center;text-align: center;">
-                    <img id="gitgrab-gif" src="gitgrab.gif" alt="" srcset="">
-                </div>
-                <div class="container" style="margin: 40px auto;background-color: red;">
-                    <div style="display:flex;">
-                        <div><img src="temporary.gif" alt="" srcset=""></div>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="present-goal">
-                        <h2 id="goal-heading">gitgrab goals</h2>
-                        <div class="grid" style="display: justify; align-items: center; text-align: center;">
-                            <h3 id="goal-tab">Open Source<br><small>anyone can use it, can make changes</small></h3>
-                            <h3 id="goal-tab">Plateform independent<br><small>can work on any OS</small></h3>
-                            <h3 id="goal-tab">Customiziable<br><small>themes, text, and text color</small></h3>
-                        </div>
-                    </div>
-                </div>
-                <div id="goal" class="container">
-                    <h1 id="goal-text">The goal is not reached yet. Far from it. But <span style="color: #fe43bb;">gitgrab is slowly getting better, step by step.</span></h1>
-                </div>
-                <div class="github-holder"><a href="https://github.com/ArshErgon/gitgrab" target="_blank" rel="noopener noreferrer"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!-- Font Awesome Pro 5.15.4 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) --><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg></a></div>
-            </div>
-        </div>
-    </div>
-    <div class="footer">
-        <p style="padding-top: 10px;">Help us contributing</a></p>
-    </div> 
-</body>
-<!-- for changing the color of the navbar -->
-<script>
-   const navbar = document.querySelector('nav');
-   console.log(navbar);
 
-    window.addEventListener('scroll', function() {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-    if (scrollTop > 50) {
-        navbar.style.backgroundColor = "1d1b26";
-    } else {
-        navbar.style.backgroundColor = "#1e1c1c";
-    }
-})
-</script>
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@2.51.5/dist/full.css" rel="stylesheet" type="text/css" />
+  <title>gitgrab</title>
+</head>
+
+<body>
+  <div class="navbar bg-base-100">
+    <!-- <div class="navbar-center"> -->
+      <p class="normal-case text-center text-3xl" style="margin: 0px auto;">gitGrab</p>
+    <!-- </div> -->
+  </div>
+  <div id="hero_gap"></div>
+  <div class="hero">
+    <div class="hero-content flex flex-col lg:flex-row-reverse items-center lg:items-stretch justify-center">
+      <img id="gif" src="main.gif" class="max-w-xxl rounded-lg shadow-2xl lg:mr-8 lg:max-w-none lg:w-1/2" />
+      <div class="lg:w-1/2">
+        <h1 class="text-5xl font-bold">Introducing GitGrab</h1>
+        <p class="py-6">an open-source CLI application that displays your GitHub contributions in the terminal. Perfect
+          for GitHub enthusiasts!</p>
+        <a href="https://github.com/ArshErgon/gitfetch#readme" target="_blank"><button
+            class="btn btn-primary">Docs</button></a>
+        <a href="https://github.com/ArshErgon/gitfetch#installation" target="_blank"><button
+            class="btn btn-primary">Download</button></a>
+      </div>
+    </div>
+  </div>
+  </div>
+  </div>
+
+  <div id="hero_gap"></div>
+  <div id="stats_container" class="sm:container sm:mx-auto">
+    <div class="stats shadow flex place-items-center">
+      <div class="stat place-items-center">
+        <div class="stat-title">forks</div>
+        <div class="stat-value">3</div>
+      </div>
+      <div class="stat place-items-center">
+        <div class="stat-title">stars</div>
+        <div class="stat-value text-secondary">10</div>
+      </div>
+      <div class="stat place-items-center">
+        <div class="stat-title">Commits</div>
+        <div class="stat-value">255</div>
+      </div>
+    </div>
+  </div>
+  <div id="hero_gap"></div>
+  <div class="container-fluid max-auto">
+    <h1 class="text-3xl text-center mb-2">But why gitgrab?</h1>
+    <div class="sm:container max-auto" style="margin:0px auto;" id="txt_container">
+      <code>Gitgrab</code> started as a side project with the goal of creating a tool similar to <code>Neofetch</code>.
+      Its early release received a positive response from users who found it more convenient than switching back and
+      forth to their GitHub account or writing queries. Encouraged by this feedback, I decided to continue working on
+      <code>Gitgrab</code> and further improve its features. Today, it has evolved into a more refined and robust tool.
+    </div>
+  </div>
+  <div id="hero_gap"></div>
+  
+  <div class="bg-neutral">
+    <div class="xl:container mx-auto ">
+      <h1 class="text-center text-3xl">Features</h1>
+
+      <!-- add loc, compare, and temparary user -->
+      <div class="hero">
+        <div class="hero-content flex-col lg:flex-row">
+          <img id="gif" src="loc.gif" class="max-w-xl rounded-lg shadow-2xl" />
+          <div>
+            <h1 class="text-5xl font-bold">LOC</h1>
+            <p class="py-6">LOC (lines of code) a command which can show the total number of lines of code of different
+              languages</p>
+            <div class="mockup-code">
+              <pre data-prefix="$"><code>gitgrab --loc URL</code></pre>
+              <pre data-prefix="$"><code>gitgrab --loc https://github.com/ArshErgon/gitfetch</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="hero_gap"></div>
+      <div class="hero">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+          <img id="gif" src="compare.gif" class="max-w-xl rounded-lg shadow-2xl" />
+          <div>
+            <h1 class="text-5xl font-bold">Compare</h1>
+            <p class="py-6">It can compare 2 users and tells the winner by calculating total contribution.</p>
+            <div class="mockup-code">
+              <pre data-prefix="$"><code>gitgrab --com "UserOne UserTwo"</code></pre>
+              <pre data-prefix="$"><code>gitgrab --com "ArshErgon torvalds"</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="contri_container" class="container sm:max-auto; pb-20 pt-10" style="margin: 0px auto;">
+      <h1 class="text-center text-3xl mb-2">Contribution</h1>
+      <p>As <code>GitGrab</code> is a new tool, regular updates and new features will greatly benefit the community. We welcome even the smallest pull requests, as we highly value our contributors and their contributions to our tool.</p>
+      <p class="text-3xl">The goal is not reached yet. Far from it. <span class="text-[#fe43bb]">But gitgrab is slowly getting better, step by step.</span></p>
+    </div>
+  </div>
+
+
+
+
+  <footer class="footer items-center p-4 bg-base-100\/50 text-neutral-content">
+    <div class="items-center grid-flow-col">
+      <p>Copyright © 2023 - All right reserved</p>
+    </div>
+  </footer>
+</body>
+<script src="https://cdn.tailwindcss.com"></script>
+
 </html>
+
+
+<style>
+  #hero_gap {
+    padding-top: 10pc;
+  }
+
+  #txt_container {
+    width: 40%;
+  }
+
+  #stats_container {
+    width: 40%;
+  }
+
+  #contri_container {
+    width: 60%;
+  }
+
+  @media only screen and (max-width: 600px) {
+    #gif {
+      width: 350px !important;
+    }
+
+    #hero_gap {
+      padding-top: 2.5pc;
+    }
+
+    #txt_container {
+      width: 80%
+    }
+
+    #stats_container {
+      width: 100%;
+    }
+
+    #contri_container {
+      width: 90%;
+    }
+
+    .mockup-code {
+      width: 350px !important;
+    }
+  }
+</style>

@@ -73,6 +73,7 @@ $ gitgrab -h
 
 Remember you need to add github token also: [your safety](https://github.com/ArshErgon/gitgrab#api-key-security), What are [token?](https://docs.github.com/en/authentication/keeping-your-account-and-data-secure/creating-a-personal-access-token) and where it will be [created](https://github.com/settings/tokens). Give every permission except **creating and deleting**
 
+# Downloads
 ## Linux
 
 Download the binary from [here](https://github.com/ArshErgon/gitgrab/releases/download/v0.2.3/gitgrab), after downloading go to the place where its download (mostly on Desktop) and enter the command below.
