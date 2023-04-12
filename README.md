@@ -7,13 +7,13 @@
 
 # **gitGrab**
 
-An Open-Source tool for Open-Source Enthusiast that shows your GitHub information, languages bars, and contribution graph on terminal.
+An Open-Source tool for Open-Source Enthusiast that shows your GitHub Contribution on the terminal
 
 </div>
 
 # Why its created?
 
-I was quite active on Open-Source contributions and I needed to track my progress across multiple repositories. I was constantly going back and forth between different tools to check my issues, followers, and pull requests. In the mean time I got to know about neofetch an awesome CLI program which tells the basic information of OS, so I thought why not create something similar to it? The starting phase of the gitgrab was quite similar to neofetch later I have added language bars and contribution graph to it.
+I was quite active on open source contributions and needed to track my progress across multiple repositories. I was constantly going back and forth between different tools to check my issues, followers, and pull requests. In the meantime, I discovered neofetch, an awesome command-line interface program that displays basic information about the operating system. I thought, why not create something similar to it? The starting phase of GitGrab was quite similar to neofetch, but later I added language bars and a contribution graph etc to it. For those unfamiliar with these terms, language bars display the percentage of code contributed in each programming language, and a contribution graph shows the frequency of contributions over time.
 
 # Features
 
@@ -23,6 +23,16 @@ I was quite active on Open-Source contributions and I needed to track my progres
 - Contribution Graph
 - Lines Of Code
 - Compare with 2 users
+
+## LOC (lines of code)
+<div align="center">
+<img src="https://github.com/ArshErgon/gitfetch/blob/2821d4719bd7aaf6d28adb08eb85b2f200f51ed1/loc.gif">
+</div>
+
+## Compare two users
+<div align="center">
+<img src="https://github.com/ArshErgon/gitfetch/blob/2821d4719bd7aaf6d28adb08eb85b2f200f51ed1/compare.gif">
+</div>
 
 # Commands
 
@@ -39,6 +49,16 @@ $ gitgrab -o
 
 ```rust
 $ gitgrab -t <USERNAME>
+```
+
+### For LOC (lines of code)
+```rust
+$ gitgrab --loc <URL>
+```
+
+### For comparing users
+```rust
+$ gitgrab --com "<UserOne> <UserTwo>"
 ```
 
 ### More commands
