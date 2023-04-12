@@ -75,7 +75,7 @@ Remember you need to add github token also: [your safety](https://github.com/Ars
 
 ## Linux
 
-Download the binary from [here](https://github.com/ArshErgon/gitgrab/releases/download/v1.0.0/gitgrab), after downloading go to the place where its download (mostly on Desktop) and enter the command below.
+Download the binary from [here](https://github.com/ArshErgon/gitgrab/releases/download/v0.2.3/gitgrab), after downloading go to the place where its download (mostly on Desktop) and enter the command below.
 
 ```rust
 $ sudo install -c gitgrab /usr/local/bin
@@ -83,7 +83,7 @@ $ sudo install -c gitgrab /usr/local/bin
 
 ## Windows
 
-Download the binary from [here](https://github.com/ArshErgon/gitgrab/releases/download/v1.0.0/gitgrab.exe),
+Download the binary from [here](https://github.com/ArshErgon/gitfetch/releases/download/v0.2.3/gitgrab.exe),
 There are two ways to run in windows.
 
 1. On the CMD, add to the path
