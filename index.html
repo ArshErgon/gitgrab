@@ -20,7 +20,7 @@
 <body>
   <div class="navbar bg-base-100">
     <!-- <div class="navbar-center"> -->
-      <p class="normal-case text-center text-3xl" style="margin: 0px auto;">gitGrab</p>
+      <p class="normal-case text-center text-3xl" style="margin: 0px auto;"><a href="/">gitGrab</a></p>
     <!-- </div> -->
   </div>
   <div id="hero_gap"></div>
@@ -50,7 +50,7 @@
       </div>
       <div class="stat place-items-center">
         <div class="stat-title">stars</div>
-        <div class="stat-value text-secondary">10</div>
+        <div class="stat-value text-secondary">11</div>
       </div>
       <div class="stat place-items-center">
         <div class="stat-title">Commits</div>
@@ -81,7 +81,7 @@
           <div>
             <h1 class="text-5xl font-bold">LOC</h1>
             <p class="py-6">LOC (lines of code) a command which can show the total number of lines of code of different
-              languages</p>
+              languages in tabular form</p>
             <div class="mockup-code">
               <pre data-prefix="$"><code>gitgrab --loc URL</code></pre>
               <pre data-prefix="$"><code>gitgrab --loc https://github.com/ArshErgon/gitfetch</code></pre>
@@ -95,7 +95,7 @@
           <img id="gif" src="compare.gif" class="max-w-xl rounded-lg shadow-2xl" />
           <div>
             <h1 class="text-5xl font-bold">Compare</h1>
-            <p class="py-6">It can compare 2 users and tells the winner by calculating total contribution.</p>
+            <p class="py-6">It can compare 2 users and tells the winner by calculating total contribution made by an individual.</p>
             <div class="mockup-code">
               <pre data-prefix="$"><code>gitgrab --com "UserOne UserTwo"</code></pre>
               <pre data-prefix="$"><code>gitgrab --com "ArshErgon torvalds"</code></pre>
@@ -106,7 +106,7 @@
     </div>
     <div id="contri_container" class="container sm:max-auto; pb-20 pt-10" style="margin: 0px auto;">
       <h1 class="text-center text-3xl mb-2">Contribution</h1>
-      <p>As <code>GitGrab</code> is a new tool, regular updates and new features will greatly benefit the community. We welcome even the smallest pull requests, as we highly value our contributors and their contributions to our tool.</p>
+      <p id="contri_txt">As <code>GitGrab</code> is a new tool, regular updates and new features will greatly benefit the community. We welcome even the smallest pull requests, as we highly value our contributors and their contributions to our tool. <a href="https://github.com/ArshErgon/gitfetch" target="_blank"><button class="btn btn-secondary">Contribute now</button></a></p>
       <p class="text-3xl">The goal is not reached yet. Far from it. <span class="text-[#fe43bb]">But gitgrab is slowly getting better, step by step.</span></p>
     </div>
   </div>
@@ -114,10 +114,8 @@
 
 
 
-  <footer class="footer items-center p-4 bg-base-100\/50 text-neutral-content">
-    <div class="items-center grid-flow-col">
-      <p>Copyright © 2023 - All right reserved</p>
-    </div>
+  <footer class="footer p-4 bg-base-100\/50 text-neutral-content text-center">
+      <p class="text-center text-sm">Copyright © 2023 - All right reserved</p>
   </footer>
 </body>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -142,6 +140,10 @@
     width: 60%;
   }
 
+  #contri_txt {
+    margin: 4px 10pc 5pc 10pc;
+  }
+
   @media only screen and (max-width: 600px) {
     #gif {
       width: 350px !important;
@@ -161,6 +163,10 @@
 
     #contri_container {
       width: 90%;
+    }
+
+    #contri_txt {
+      margin: 0px 10px 15pt 10px;
     }
 
     .mockup-code {

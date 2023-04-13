@@ -101,8 +101,10 @@ C/Downloads>./gitgrab #or add gitgrab.exe if gets an error.
 
 ## MacOS
 
-```
-its in alpha stage.
+Some builds gets failed as a result the installer wouldn't be made but you can still install it if you have `cargo` installed
+
+```rust
+$ cargo install path/to/project/gitfetch
 ```
 
 # Development
