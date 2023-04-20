@@ -59,7 +59,7 @@ fn find_lines(pair: (&str, &str)) -> Result<(HashMap<String, LocStruct>), Error>
         );
     }
 
-    Ok((loc_map))
+    Ok(loc_map)
 }
 
 fn create_loc_table(data: HashMap<String, LocStruct>, url: String) {
