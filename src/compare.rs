@@ -12,10 +12,7 @@ struct GithubData {
     top_repo: HashMap<String, RepositoriesInformation>,
 }
 
-fn comparison() {
-    let user_one = "ArshErgon".to_string();
-    let user_two = "torvalds".to_string();
-
+fn comparison(user_one: String, user_two: String) {
     ascii_text("Comparison".to_string());
     let userone_data = helper(user_one);
     let usertwo_data = helper(user_two.clone());
@@ -143,5 +140,5 @@ fn add_k(num: u32) -> String {
 
 pub fn start_comparison(pair: (String, String)) {
     let (userone, usertwo) = pair;
-    comparison();
+    comparison(userone, usertwo);
 }
