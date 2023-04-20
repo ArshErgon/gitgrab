@@ -1,7 +1,7 @@
-use ::reqwest::blocking::Client;
 use anyhow::{Context, Result};
 use colorful::{Color, Colorful};
 use graphql_client::{reqwest::post_graphql_blocking as post_graphql, GraphQLQuery};
+use reqwest::blocking::Client;
 use std::collections::HashMap;
 
 #[derive(GraphQLQuery)]
@@ -38,16 +38,17 @@ pub fn get_graphql_info(
     HashMap<String, RepositoriesInformation>,
 ) {
     let data = user_authentication(username, secret_key);
-    let error_msg = format!("
+    let return_data = match data {
+        Ok(raw_data) => filter_out_data(raw_data),
+        Err(error) => {
+            let error_msg = format!("
     {0}
+    Error: {error}
     This error can happened because of the following
     1. User doesn't exists (recheck your username).
     2. Organization support is not available right now
     3. The token request is exceed (https://docs.github.com/en/apps/creating-github-apps/creating-github-apps/rate-limits-for-github-apps)
     ", "An Error Occuried".color(Color::Red));
-    let return_data = match data {
-        Ok(raw_data) => filter_out_data(raw_data),
-        Err(_) => {
             eprint!("{error_msg}");
             std::process::exit(0);
         }

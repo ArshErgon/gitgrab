@@ -13,7 +13,7 @@ struct GithubData {
 }
 
 fn comparison(user_one: String, user_two: String) {
-    ascii_text("Comparison".to_string());
+    ascii_text("Comparison".to_owned());
     let userone_data = helper(user_one);
     let usertwo_data = helper(user_two.clone());
     let (userone_helper, userone_sum, username_one) = hardcode_function(userone_data);
