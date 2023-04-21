@@ -86,7 +86,7 @@ $ rustup default nightly
 Then
 
 ```
-$ cargo install gitgrab --git https://github.com/carghai/gitgrab
+$ cargo install gitgrab --git https://github.com/ArshErgon/gitgrab
 ```
 
 if you need to update you now just need to run
