@@ -1,7 +1,7 @@
 <p align="center"><a href="https://www.rust-lang.org" target="_blank"><img src="https://img.shields.io/badge/Made%20With-Rust-000000?style=for-the-badge" alt="made with rust" /></a></a>
 </p>
 <div align="center">
-  <img src="https://github.com/ArshErgon/gitfetch/blob/main/main.gif" />
+  <img src="https://github.com/ArshErgon/gitgrab/assets/40994679/d692da06-e8b1-401c-bc4f-d5b2b7e527f0" />
 </div>
 <div align="center">
 
@@ -26,13 +26,24 @@ I was quite active on open source contributions and needed to track my progress 
 
 ## LOC (lines of code)
 <div align="center">
-<img src="https://github.com/ArshErgon/gitfetch/blob/2821d4719bd7aaf6d28adb08eb85b2f200f51ed1/loc.gif">
+<img src="https://github.com/ArshErgon/gitgrab/assets/40994679/25347c13-bb1f-46e3-87d5-f5f33ea4b4bc">
 </div>
 
 ## Compare two users
 <div align="center">
-<img src="https://github.com/ArshErgon/gitfetch/blob/2821d4719bd7aaf6d28adb08eb85b2f200f51ed1/compare.gif">
+<img src="https://github.com/ArshErgon/gitgrab/assets/40994679/25a9aa29-d508-492a-93f8-488cdb001a77">
 </div>
+
+## Top Languages
+<div align="center">
+<img src="https://github.com/ArshErgon/gitgrab/assets/40994679/7b08b527-734f-4b8f-b4af-536029ad30c0">
+</div>
+
+## Contribution Graph
+<div align="center">
+<img src="https://github.com/ArshErgon/gitgrab/assets/40994679/9173d740-9f11-4cde-a8a2-f5ed000c6170">
+</div>
+
 
 # Commands
 
