@@ -18,22 +18,22 @@
 </head>
 
 <body>
-  <div class="navbar bg-base-100">
+  <div class="navbar bg-base-100" style="border-bottom: 1px solid rgb(21, 42, 235);">
     <!-- <div class="navbar-center"> -->
-      <p class="normal-case text-center text-3xl" style="margin: 0px auto;"><a href="/">gitGrab</a></p>
+      <p class="normal-case text-center text-3xl font-bold" style="margin: 0px auto;"><a href="/">GitGrab</a></p>
     <!-- </div> -->
   </div>
   <div id="hero_gap"></div>
   <div class="hero">
     <div class="hero-content flex flex-col lg:flex-row-reverse items-center lg:items-stretch justify-center">
-      <img id="gif" src="main.gif" class="max-w-xxl rounded-lg shadow-2xl lg:mr-8 lg:max-w-none lg:w-1/2" />
+      <img id="gif" src="https://github.com/ArshErgon/gitgrab/assets/40994679/d692da06-e8b1-401c-bc4f-d5b2b7e527f0" class="max-w-xxl rounded-lg shadow-2xl lg:mr-8 lg:max-w-none lg:w-1/2" />
       <div class="lg:w-1/2">
-        <h1 class="text-5xl font-bold">Introducing GitGrab</h1>
-        <p class="py-6">an open-source CLI application that displays your GitHub contributions in the terminal. Perfect
+        <h1 class="text-5xl font-bold">Introducing <span class="text-secondary-content">GitGrab</span></h1>
+        <p class="py-6 text-xl">An open-source CLI application that displays your GitHub contributions in the terminal. Perfect
           for GitHub enthusiasts!</p>
-        <a href="https://github.com/ArshErgon/gitfetch#readme" target="_blank"><button
+        <a href="https://github.com/ArshErgon/gitgrab#readme" target="_blank"><button
             class="btn btn-primary">Docs</button></a>
-        <a href="https://github.com/ArshErgon/gitfetch#installation" target="_blank"><button
+        <a href="https://github.com/ArshErgon/gitgrab#installation" target="_blank"><button
             class="btn btn-primary">Download</button></a>
       </div>
     </div>
@@ -46,22 +46,22 @@
     <div class="stats shadow flex place-items-center">
       <div class="stat place-items-center">
         <div class="stat-title">forks</div>
-        <div class="stat-value">3</div>
+        <div class="stat-value">4</div>
       </div>
       <div class="stat place-items-center">
         <div class="stat-title">stars</div>
-        <div class="stat-value text-secondary">17</div>
+        <div class="stat-value text-secondary">24</div>
       </div>
       <div class="stat place-items-center">
         <div class="stat-title">Commits</div>
-        <div class="stat-value">255</div>
+        <div class="stat-value">276</div>
       </div>
     </div>
   </div>
   <div id="hero_gap"></div>
   <div class="container-fluid max-auto">
-    <h1 class="text-3xl text-center mb-2">But why gitgrab?</h1>
-    <div class="sm:container max-auto" style="margin:0px auto;" id="txt_container">
+    <h1 class="text-5xl text-center mb-2 font-bold">But why gitgrab?</h1>
+    <div class="sm:container max-auto text-md" style="margin:0px auto;" id="txt_container">
       <code>Gitgrab</code> started as a side project with the goal of creating a tool similar to <code>Neofetch</code>.
       Its early release received a positive response from users who found it more convenient than switching back and
       forth to their GitHub account or writing queries. Encouraged by this feedback, I decided to continue working on
@@ -72,19 +72,19 @@
   
   <div class="bg-neutral">
     <div class="xl:container mx-auto ">
-      <h1 class="text-center text-3xl pt-10">Features</h1>
+      <h1 class="text-center text-5xl pt-10 pb-10 font-bold">Features</h1>
 
       <!-- add loc, compare, and temparary user -->
       <div class="hero">
         <div class="hero-content flex-col lg:flex-row">
-          <img id="gif" src="loc.gif" class="max-w-xl rounded-lg shadow-2xl" />
+          <img id="gif" src="https://github.com/ArshErgon/gitgrab/assets/40994679/25347c13-bb1f-46e3-87d5-f5f33ea4b4bc" class="max-w-xl rounded-lg shadow-2xl" />
           <div>
-            <h1 class="text-5xl font-bold">LOC</h1>
+            <h1 class="text-3xl font-bold">LOC</h1>
             <p class="py-6">LOC (lines of code) a command which can show the total number of lines of code of different
-              languages in tabular form</p>
+              languages in tabular form. To use this feature, simply enter the URL of your GitHub repository into the Gitgrab search bar. Gitgrab will then scan your repository and generate a report that includes a table of lines of code, broken down by language, comment, blank space, and written line.</p>
             <div class="mockup-code">
               <pre data-prefix="$"><code>gitgrab --loc URL</code></pre>
-              <pre data-prefix="$"><code>gitgrab --loc https://github.com/ArshErgon/gitfetch</code></pre>
+              <pre data-prefix="$"><code>gitgrab --loc https://github.com/ArshErgon/gitgrab</code></pre>
             </div>
           </div>
         </div>
@@ -92,9 +92,9 @@
       <div id="hero_gap"></div>
       <div class="hero">
         <div class="hero-content flex-col lg:flex-row-reverse">
-          <img id="gif" src="compare.gif" class="max-w-xl rounded-lg shadow-2xl" />
+          <img id="gif" src="https://github.com/ArshErgon/gitgrab/assets/40994679/25a9aa29-d508-492a-93f8-488cdb001a77" class="max-w-xl rounded-lg shadow-2xl" />
           <div>
-            <h1 class="text-5xl font-bold">Compare</h1>
+            <h1 class="text-3xl font-bold">Compare</h1>
             <p class="py-6">It can compare 2 users and tells the winner by calculating total contribution made by an individual.</p>
             <div class="mockup-code">
               <pre data-prefix="$"><code>gitgrab --com "UserOne UserTwo"</code></pre>
@@ -103,11 +103,40 @@
           </div>
         </div>
       </div>
+      <div id="hero_gap"></div>
+      <div class="hero">
+        <div class="hero-content flex-col lg:flex-row">
+          <img id="gif" src="https://github.com/ArshErgon/gitgrab/assets/40994679/7b08b527-734f-4b8f-b4af-536029ad30c0" class="max-w-xl rounded-lg shadow-2xl" />
+          <div>
+            <h1 class="text-3xl font-bold">Top languages</h1>
+            <p class="py-6">Quickly identify the primary programming languages used in your GitHub repository. Gain valuable insights into the distribution of languages with ease.</p>
+            <div class="mockup-code">
+              <pre data-prefix="$"><code>gitgrab</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="hero_gap"></div>
+      <div class="hero">
+        <div class="hero-content flex-col lg:flex-row-reverse">
+          <img id="gif" src="https://github.com/ArshErgon/gitgrab/assets/40994679/9173d740-9f11-4cde-a8a2-f5ed000c6170" class="max-w-xl rounded-lg shadow-2xl" />
+          <div>
+            <h1 class="text-3xl font-bold">Contribution Graph</h1>
+            <p class="py-6">Dive into your GitHub contributions with our interactive graph. Visualize your coding activity over time, displaying a comprehensive overview of your commits, pull requests, and more. Gain insights into your coding patterns, track your progress, and celebrate your accomplishments.</p>
+            <div class="mockup-code">
+              <pre data-prefix="$"><code>gitgrab</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div id="contri_container" class="container sm:max-auto; pb-20 pt-10" style="margin: 0px auto;">
-      <h1 class="text-center text-3xl mb-2">Contribution</h1>
-      <p id="contri_txt">As <code>GitGrab</code> is a new tool, regular updates and new features will greatly benefit the community. We welcome even the smallest pull requests, as we highly value our contributors and their contributions to our tool. <a href="https://github.com/ArshErgon/gitfetch" target="_blank"><button class="btn btn-secondary">Contribute now</button></a></p>
-      <p class="text-3xl">The goal is not reached yet. Far from it. <span class="text-[#fe43bb]">But gitgrab is slowly getting better, step by step.</span></p>
+      <h1 class="text-center text-5xl mb-2 font-bold">Contribution</h1>
+      <p id="contri_txt">As <code>GitGrab</code> is a new tool, regular updates and new features will greatly benefit the community. We welcome even the smallest pull requests, as we highly value our contributors and their contributions to our tool.</p>
+      <div class="text-center">
+        <a href="https://github.com/ArshErgon/gitgrab" target="_blank"><button class="btn btn-secondary">Contribute now</button></a>
+      </div><br>
+      <p class="text-3xl">The goal is not reached yet. Far from it. <span class="text-[#fe43bb] font-bold">But gitgrab is slowly getting better, step by step.</span></p>
     </div>
   </div>
 
@@ -115,7 +144,7 @@
 
 
   <footer class="footer p-4 bg-base-100\/50 text-neutral-content text-center">
-      <p class="text-center text-sm">Copyright © 2023 - All right reserved</p>
+      <p class="text-center text-sm" style="margin: 0px auto;">Copyright © 2023 - All right reserved</p>
   </footer>
 </body>
 <script src="https://cdn.tailwindcss.com"></script>
@@ -138,10 +167,6 @@
 
   #contri_container {
     width: 60%;
-  }
-
-  #contri_txt {
-    margin: 4px 10pc 5pc 10pc;
   }
 
   @media only screen and (max-width: 600px) {
