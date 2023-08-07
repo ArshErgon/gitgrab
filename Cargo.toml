@@ -20,7 +20,7 @@ anyhow = "1.0.69"
 cfonts = "1.1.0"
 clap = "4.1.8"
 colorful = "0.2.2"
-crossterm = "0.26.1"
+crossterm = "0.27.0"
 dialoguer = "0.10.3"
 dirs = "5.0.0"
 graphql_client = { version = "0.13.0", features = ["reqwest-blocking"] }
